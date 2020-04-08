@@ -1,0 +1,8 @@
+name: SpigotBlankPlugin
+author: Johnytech6
+description: This plugin is test of Jeanla6
+main: com.DjembeInc.Johnytech6Plugin
+version: 1.0
+api-version: 1.15
+website: https://github.com/Johnytech6/Johnytech6s_Plugin
+commands:
