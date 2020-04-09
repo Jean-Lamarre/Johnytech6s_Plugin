@@ -1,8 +1,15 @@
-name: SpigotBlankPlugin
-author: Johnytech6
+main: com.DjembeInc.johnytechPlugin.JohnytechPlugin
+name: JohnytechPlugin
+version: 1.1
 description: This plugin is test of Jeanla6
-main: com.DjembeInc.Johnytech6Plugin
-version: 1.0
-api-version: 1.15
+author: Johnytech6
 website: https://github.com/Johnytech6/Johnytech6s_Plugin
+api-version: 1.15
+depend:
+ - ProtocolLib
+ - LibsDisguises
+ - Morphy
 commands:
+  see_puppeters:
+    description: See all puppeters
+    usage: /see_puppeters
