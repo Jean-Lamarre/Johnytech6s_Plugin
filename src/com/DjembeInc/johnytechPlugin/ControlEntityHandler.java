@@ -2,6 +2,8 @@ package com.DjembeInc.johnytechPlugin;
 
 import java.util.ArrayList;
 
+import org.bukkit.Location;
+
 public class ControlEntityHandler {
 
 	// static variable single_instance of type Singleton
@@ -19,17 +21,18 @@ public class ControlEntityHandler {
 	}
 
 	private ArrayList<ControllingPlayer> controllingPlayers = new ArrayList<ControllingPlayer>();
+	private ArrayList<ControllingPlayer> puppeters = new ArrayList<ControllingPlayer>();
 
-	public void AddController(ControllingPlayer cp) {
+	private static Location trueEntityLocation;
+	
+	public void AddMorphPlayer(ControllingPlayer cp) {
 		controllingPlayers.add(cp);
 		cp.setIndex(controllingPlayers.size() - 1);
 	}
-
-	public void RemoveController(ControllingPlayer cp) {
+	public void RemoveMorphPlayer(ControllingPlayer cp) {
 		controllingPlayers.remove(cp);
 	}
-
-	public boolean isPlayerPuppeter(String name) {
+	public boolean isPlayerMorph(String name) {
 		if (controllingPlayers.size() > 0) {
 			for (ControllingPlayer cp : controllingPlayers) {
 				if (cp.getName() == name) {
@@ -39,8 +42,7 @@ public class ControlEntityHandler {
 		}
 		return false;
 	}
-
-	public ControllingPlayer GetController(String name) {
+	public ControllingPlayer GetMorphPlayer(String name) {
 		if (controllingPlayers.size() > 0) {
 			for (ControllingPlayer cp : controllingPlayers) {
 				if (cp.getName() == name) {
@@ -51,7 +53,43 @@ public class ControlEntityHandler {
 		return null;
 	}
 
+	public void AddPuppeter(ControllingPlayer cp) {
+		puppeters.add(cp);
+		cp.setIndex(puppeters.size() - 1);
+	}
+	public void RemovePuppeter(ControllingPlayer cp) {
+		puppeters.remove(cp);
+	}
+	public boolean isPlayerPuppeter(String name) {
+		if (puppeters.size() > 0) {
+			for (ControllingPlayer cp : puppeters) {
+				if (cp.getName() == name) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	public ControllingPlayer GetPuppeter(String name) {
+		if (puppeters.size() > 0) {
+			for (ControllingPlayer cp : puppeters) {
+				if (cp.getName() == name) {
+					return puppeters.get(cp.getIndex());
+				}
+			}
+		}
+		return null;
+	}
+	
 	public ArrayList<ControllingPlayer> getPuppeters() {
 		return controllingPlayers;
+	}
+	
+	public static Location getTrueEntityLocation() {
+		return trueEntityLocation;
+	}
+	
+	public static void setTrueEntityLocation(Location l) {
+		trueEntityLocation = l;
 	}
 }

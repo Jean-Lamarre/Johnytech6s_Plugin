@@ -14,7 +14,9 @@ public class ControllingPlayer{
 		this.controlledEntity = e;
 	}
 	
-	public ControllingPlayer() {}
+	public ControllingPlayer(Player p) {
+		this.playerRef = p;
+	}
 	
 	public String getName() {
 		return playerRef.getName();
