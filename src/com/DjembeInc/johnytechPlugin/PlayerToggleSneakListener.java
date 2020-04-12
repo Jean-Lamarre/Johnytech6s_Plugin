@@ -27,7 +27,7 @@ public class PlayerToggleSneakListener implements Listener {
 				Player p = cp.getPlayer();
 				
 				p.chat("/unmorph");
-				p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 10000, 1, false, false, true));
+				p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 1, false, false, true));
 				
 				Entity e = cp.getEntity();
 				p.removePassenger(e);
@@ -35,6 +35,16 @@ public class PlayerToggleSneakListener implements Listener {
 				e.setInvulnerable(false);
 				((LivingEntity)e).removePotionEffect(PotionEffectType.INVISIBILITY);
 				e.setSilent(false);
+				
+				String entityName = e.toString();
+				entityName = entityName.replace("Craft", "");
+				String regex = "([a-z])([A-Z]+)";
+				String replacement = "$1_$2";
+				entityName = entityName.replaceAll(regex, replacement).toLowerCase();
+				
+				if(!(e.getCustomName().contentEquals(entityName))) {
+					e.setCustomNameVisible(false);
+				}
 				
 				ceh.RemoveMorphPlayer(cp);
 				

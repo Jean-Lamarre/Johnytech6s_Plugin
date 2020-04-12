@@ -13,9 +13,6 @@ commands:
   see_puppeters:
     description: See all puppeters
     usage: /see_puppeters
-  set_entity_cage:
-    description: Set where the entity will be when morph into it.
-    usage: /set_entity_cage
   toggle_puppeter_mode:
     description: Toggle the Puppeter mode
     usage: /toggle_puppeter_modes

@@ -2,8 +2,6 @@ package com.DjembeInc.johnytechPlugin;
 
 import java.util.ArrayList;
 
-import org.bukkit.Location;
-
 public class ControlEntityHandler {
 
 	// static variable single_instance of type Singleton
@@ -22,8 +20,6 @@ public class ControlEntityHandler {
 
 	private ArrayList<ControllingPlayer> controllingPlayers = new ArrayList<ControllingPlayer>();
 	private ArrayList<ControllingPlayer> puppeters = new ArrayList<ControllingPlayer>();
-
-	private static Location trueEntityLocation;
 	
 	public void AddMorphPlayer(ControllingPlayer cp) {
 		controllingPlayers.add(cp);
@@ -87,13 +83,5 @@ public class ControlEntityHandler {
 	
 	public ArrayList<ControllingPlayer> getPuppeters() {
 		return puppeters;
-	}
-	
-	public static Location getTrueEntityLocation() {
-		return trueEntityLocation;
-	}
-	
-	public static void setTrueEntityLocation(Location l) {
-		trueEntityLocation = l;
 	}
 }
