@@ -70,7 +70,7 @@ public class ControlEntityHandler {
 		}
 		return false;
 	}
-	public ControllingPlayer GetPuppeter(String name) {
+	public ControllingPlayer getPuppeter(String name) {
 		if (puppeters.size() > 0) {
 			for (ControllingPlayer cp : puppeters) {
 				if (cp.getName() == name) {
@@ -81,8 +81,12 @@ public class ControlEntityHandler {
 		return null;
 	}
 	
-	public ArrayList<ControllingPlayer> getPuppeters() {
+	public ArrayList<ControllingPlayer> getMorphPlayers() {
 		return controllingPlayers;
+	}
+	
+	public ArrayList<ControllingPlayer> getPuppeters() {
+		return puppeters;
 	}
 	
 	public static Location getTrueEntityLocation() {

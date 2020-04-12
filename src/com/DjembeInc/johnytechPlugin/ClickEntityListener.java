@@ -20,7 +20,7 @@ public class ClickEntityListener implements Listener {
 			Player p = event.getPlayer();
 
 			if (ControlEntityHandler.getInstance().isPlayerPuppeter(p.getName())) {
-				
+
 				Entity e = event.getRightClicked();
 
 				ControlEntityHandler.getInstance().AddMorphPlayer(new ControllingPlayer(p, e));
@@ -31,8 +31,9 @@ public class ClickEntityListener implements Listener {
 				// e.teleport(new Location(p.getLocation().getWorld(), p.getLocation().getX(),
 				// 250, p.getLocation().getZ()));
 				e.setInvulnerable(true);
-				((LivingEntity) e)
-						.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 10000, 1, false, false));
+				((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 1, false, false));
+				e.setSilent(true);
+				p.addPassenger(e);
 				p.teleport(eLocation);
 
 				String entityName = e.toString();

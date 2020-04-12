@@ -11,15 +11,24 @@ public class SeePuppeter implements  CommandExecutor{
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		
-		ArrayList<String> names = new ArrayList<String>();
+		ControlEntityHandler ceh = ControlEntityHandler.getInstance();
 		
-		ArrayList<ControllingPlayer> cps = ControlEntityHandler.getInstance().getPuppeters();
+		ArrayList<String> namesP = new ArrayList<String>();
+		ArrayList<String> namesM = new ArrayList<String>();
 		
-		for(ControllingPlayer cp : cps) {
-			names.add(cp.getName());
+		ArrayList<ControllingPlayer> cpPs = ceh.getPuppeters();
+		ArrayList<ControllingPlayer> cpMs = ceh.getMorphPlayers();
+		
+		for(ControllingPlayer cp : cpPs) {
+			namesP.add(cp.getName());
+		}
+		for(ControllingPlayer cp : cpMs) {
+			namesM.add(cp.getName());
 		}
 		
-		sender.sendMessage(names.toString());
+		sender.sendMessage("Puppeters: " + namesP.toString());
+		sender.sendMessage("Morph puppeters: " + namesM.toString());
+		
 		return true;
 	}
 

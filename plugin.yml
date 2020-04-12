@@ -1,7 +1,7 @@
 main: com.DjembeInc.johnytechPlugin.JohnytechPlugin
-name: JohnytechPlugin
-version: 1.1
-description: This plugin is test of Jeanla6
+name: MorphyPuppeter
+version: 1.2
+description: Plugin of Jeanla6 for fun
 author: Johnytech6
 website: https://github.com/Johnytech6/Johnytech6s_Plugin
 api-version: 1.15
@@ -18,4 +18,4 @@ commands:
     usage: /set_entity_cage
   toggle_puppeter_mode:
     description: Toggle the Puppeter mode
-    usage: /toggle_puppeter_mode 
+    usage: /toggle_puppeter_modes

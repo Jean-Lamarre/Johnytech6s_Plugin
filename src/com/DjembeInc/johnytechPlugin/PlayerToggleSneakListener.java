@@ -30,11 +30,13 @@ public class PlayerToggleSneakListener implements Listener {
 				p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 10000, 1, false, false, true));
 				
 				Entity e = cp.getEntity();
-				e.teleport(cp.getPlayer().getLocation());
+				p.removePassenger(e);
+				e.teleport(p.getLocation());
 				e.setInvulnerable(false);
 				((LivingEntity)e).removePotionEffect(PotionEffectType.INVISIBILITY);
+				e.setSilent(false);
 				
-				ControlEntityHandler.getInstance().RemoveMorphPlayer(cp);
+				ceh.RemoveMorphPlayer(cp);
 				
 			}
 		}
