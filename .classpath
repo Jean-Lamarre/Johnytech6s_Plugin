@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/Administrateur/Documents/Java/Spigot/Spigot/Spigot-API/target/spigot-api-1.15.2-R0.1-SNAPSHOT-shaded.jar" sourcepath="C:/Users/Administrateur/Documents/Java/SourceCode/spigot-api"/>
 	<classpathentry kind="lib" path="ProtocolLib.jar" sourcepath="C:/Users/Administrateur/Documents/Java/SourceCode/ProtocolLib/src">
 		<attributes>
 			<attribute name="javadoc_location" value="https://ci.dmulloy2.net/job/ProtocolLib/javadoc/"/>
@@ -10,5 +9,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="LibsDisguises.jar" sourcepath="C:/Users/Administrateur/Documents/Java/SourceCode/LibsDisguises/src"/>
 	<classpathentry kind="lib" path="Morph-2.16.jar" sourcepath="C:/Users/Administrateur/Documents/Java/SourceCode/MOrph/"/>
+	<classpathentry kind="lib" path="C:/Users/Administrateur/Documents/_Perso/Java/Spigot/Spigot/Spigot-API/target/spigot-api-1.15.2-R0.1-SNAPSHOT-shaded.jar" sourcepath="C:/Users/Administrateur/Documents/_Perso/Java/SourceCode/spigot-api"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
