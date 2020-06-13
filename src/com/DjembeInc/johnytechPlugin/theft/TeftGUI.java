@@ -9,6 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryType;
 //import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -17,13 +19,18 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class TeftGUI implements Listener {
 	
 	private final Inventory inv;
+	
+	private Teft teft;
+	private Player victim;
 
-    public TeftGUI() {
+    public TeftGUI(Teft teft, Player victim) {
+    	
+    	this.teft = teft;
+    	this.victim = victim;
+    	
         // Create a new inventory, with no owner (as this isn't a real inventory), a size of nine, called example
-        inv = Bukkit.createInventory(null, 9, "Example");
-
-        // Put the items into the inventory
-        initializeItems();
+        inv = Bukkit.createInventory(teft.getPlayer(), 36, "Inventory of "+ victim.getName());
+    	
     }
 
     // You can call this whenever you want to put the items in
@@ -70,6 +77,10 @@ public class TeftGUI implements Listener {
         // Using slots click is a best option for your inventory click's
         p.sendMessage("You clicked at slot " + e.getRawSlot());
     }
+    
+    public Inventory getInventory() {
+    	return this.inv;
+    }
 
     /*
     // Cancel dragging in our inventory
@@ -80,4 +91,9 @@ public class TeftGUI implements Listener {
         }
     }
     */
+    
+    @EventHandler
+    public void onInventoryClose(final InventoryCloseEvent e) {
+    	inv.clear();
+    }
 }

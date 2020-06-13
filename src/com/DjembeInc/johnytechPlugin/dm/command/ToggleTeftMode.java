@@ -6,21 +6,22 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.DjembeInc.johnytechPlugin.dm.DMHandler;
+import com.DjembeInc.johnytechPlugin.theft.TeftHandler;
 
-public class ToggleDmVision implements CommandExecutor{
-
+public class ToggleTeftMode implements  CommandExecutor{
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		
 		Player p = (Player) sender;
-
-		if(DMHandler.getInstance().isPlayerDm(p.getName()) && sender.hasPermission("dm.mode.vision")) {
-		return DMHandler.getInstance().DmVision(p);
-		}
-		else {
-			p.sendMessage("You need to be DM to toggle night vision.");
+		
+		if(DMHandler.getInstance().isPlayerDm(p.getName()) && sender.hasPermission("dm.mode.teft")) {
+			return TeftHandler.getInstance().ToggleTeftMode(p);
+		}else {
+			p.sendMessage("You need to be DM to toggle teft power.");
 			return true;
 		}
+ 
 	}
-
+	
 }

@@ -18,7 +18,8 @@ public class TogglePuppeterMode implements  CommandExecutor{
 		if(DMHandler.getInstance().isPlayerDm(p.getName()) && sender.hasPermission("dm.mode.puppeter")) {
 			return PuppeterHandler.getInstance().TogglePuppeterMode(p);
 		}else {
-			return true;
+			p.sendMessage("You need to be DM to toggle puppeterMode.");
+			return true;	
 		}
  
 	}

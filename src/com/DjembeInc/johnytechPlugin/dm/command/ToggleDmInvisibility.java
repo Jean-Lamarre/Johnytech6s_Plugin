@@ -18,6 +18,7 @@ public class ToggleDmInvisibility implements CommandExecutor{
 		return DMHandler.getInstance().DmInvisibility(p);
 		}
 		else {
+			p.sendMessage("You need to be DM to toggle invisibility.");
 		return true;
 		}
 	}

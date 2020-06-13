@@ -1,6 +1,6 @@
 main: com.DjembeInc.johnytechPlugin.JohnytechPlugin
 name: Johnyetch6Plugin
-version: 1.5.2
+version: 1.5.3
 description: Plugin of Johnytech6 for fun
 author: Johnytech6
 website: https://github.com/Johnytech6/Johnytech6s_Plugin
@@ -28,8 +28,12 @@ commands:
       permission: dm.mode.invisibility
    dm_vision_toggle:
       description: Toggle the dm night vision
-      usage: /t_dm_vision
-      permission: dm.mode.vision 
+      usage: /dm_vision_toggle
+      permission: dm.mode.vision
+   dm_teft_toggle:
+      description: Toggle the dm teft power
+      usage: /dm_teft_toggle
+      permission: dm.mode.teft 
 permissions:
    dm.mode.*:
       description: Toggle dm powers
@@ -37,6 +41,7 @@ permissions:
          dm.mode.invisibility: true
          dm.mode.vision: true
          dm.mode.puppeter: true
+         dm.mode.teft: true
       default: op
    hero.*:
       description: Hero commands

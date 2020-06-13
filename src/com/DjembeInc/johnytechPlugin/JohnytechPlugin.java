@@ -29,6 +29,8 @@ public class JohnytechPlugin  extends JavaPlugin{
     	getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
     	getServer().getPluginManager().registerEvents(new PlayerInteractArmorStandArmor(), this);
     	getServer().getPluginManager().registerEvents(new PlayerLeaveListener(), this);
+    	//getServer().getPluginManager().registerEvents(new PlayerLeaveBedListener(), this);
+
     	
     	//Set all commands
     	this.getCommand("stat_Johnytech6Plugin").setExecutor(new StatJohnytech());
@@ -36,6 +38,7 @@ public class JohnytechPlugin  extends JavaPlugin{
     	this.getCommand("dm_mode_toggle").setExecutor(new ToggleDmMode());
     	this.getCommand("dm_invisibility_toggle").setExecutor(new ToggleDmInvisibility());
     	this.getCommand("dm_vision_toggle").setExecutor(new ToggleDmVision());
+    	this.getCommand("dm_teft_toggle").setExecutor(new ToggleTeftMode());
     	
     }
     

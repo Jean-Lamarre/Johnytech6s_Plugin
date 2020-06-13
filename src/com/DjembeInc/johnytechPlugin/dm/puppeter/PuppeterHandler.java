@@ -449,7 +449,7 @@ public class PuppeterHandler {
 		if (morphedPuppeters.size() > 0) {
 			for (Puppeter pp : morphedPuppeters) {
 				if (pp.getName() == name) {
-					return morphedPuppeters.get(pp.getIndex());
+					return pp;
 				}
 			}
 		}
@@ -494,7 +494,7 @@ public class PuppeterHandler {
 		if (puppeters.size() > 0) {
 			for (Puppeter pp : puppeters) {
 				if (pp.getName() == name) {
-					return puppeters.get(pp.getIndex());
+					return pp;
 				}
 			}
 		}
