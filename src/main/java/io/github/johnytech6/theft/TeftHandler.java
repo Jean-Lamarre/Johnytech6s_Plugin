@@ -36,9 +36,6 @@ public class TeftHandler {
 		}
 		Victim v = teft.getVictim(victim);
 
-		v.getInventoryGUI().openInventory(teft.getPlayer());
-		// gui.openInventory(teft);
-
 	}
 
 	public boolean ToggleTeftMode(Player player) {
@@ -70,27 +67,16 @@ public class TeftHandler {
 		return true;
 	}
 
-	/**
-	 * Add morphing puppeter
-	 * 
-	 * @param puppeter
-	 */
 	public void AddTeftPlayer(Teft t) {
 		if (!(isPlayerTeft(t.getName()))) {
 			tefts.add(t);
 		}
 	}
 
-	/*
-	 * Remove morphed puppeter
-	 */
 	public void RemoveTeftPlayer(Teft t) {
 		tefts.remove(t);
 	}
 
-	/*
-	 * Check if puppeter already morph
-	 */
 	public boolean isPlayerTeft(String name) {
 		if (tefts.size() > 0) {
 			for (Teft t : tefts) {

@@ -1,5 +1,7 @@
 package io.github.johnytech6.listener;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -33,16 +35,17 @@ public class ClickEntityListener implements Listener {
 				ph.Morph(p, e);
 			}
 			
-			/*
+
 			//----------Right Click for control Inventory--------------
 			else if(e instanceof Player && dmh.isPlayerDm(p.getName()) && th.isPlayerTeft(p.getName())) {
-				try {
-					th.openPlayerInventory(th.getTeft(p.getName()), (Player)e);
-				} catch (Exception e1) {
-					e1.printStackTrace();
+				String playerName = ((Player)e).getName();
+				Player otherPlayer = Bukkit.getServer().getPlayerExact(playerName);
+				if (otherPlayer == null) {
+					p.sendMessage(ChatColor.RED + "Error: Player name (" + playerName + ") is invalid! Is the player online?");
 				}
+				p.openInventory(otherPlayer.getInventory());
 			}
-			*/
+
 			
 			//-------Right click Listener for saddle on player or Villager-------
 			else if (e instanceof Player || e.getName().contentEquals("Villager")) {
