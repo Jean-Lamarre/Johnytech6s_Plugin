@@ -3,6 +3,8 @@ package io.github.johnytech6.dm;
 import java.util.ArrayList;
 
 import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -26,6 +28,8 @@ public class DMHandler {
 	}
 	// --------------------------------------------------------------------------------------------
 
+	private Location dndRoomLocation;
+
 	// list of Dm
 	private ArrayList<Player> dms = new ArrayList<Player>();
 
@@ -35,6 +39,7 @@ public class DMHandler {
 	public boolean ToggleDmMode(Player p) {
 		return setDmMode(p, !(isPlayerDm(p.getName())));
 	}
+
 	public boolean setDmMode(Player p, boolean beDm) {
 
 		if (beDm) {
@@ -147,4 +152,13 @@ public class DMHandler {
 		return dms;
 	}
 
+	public Location getDndRoomLocation(){
+		return dndRoomLocation;
+	}
+
+	public boolean setDndRoomLocation(Location newLocation){
+		if(newLocation == null){return false;}
+		this.dndRoomLocation = newLocation;
+		return true;
+	}
 }
