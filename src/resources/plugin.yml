@@ -14,6 +14,10 @@ commands:
       description: See all puppeters
       usage: /stat_Johnytech6Plugin
       permission: dm.mode
+   dm:
+      description: Set the table room of the game
+      usage: /set_dnd_room
+      permission: dm.mode
    dm_puppeter_toggle:
       description: Toggle the Puppeter mode
       usage: /dm_puppeter_toggle

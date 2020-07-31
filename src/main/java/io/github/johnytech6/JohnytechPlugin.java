@@ -38,7 +38,8 @@ public class JohnytechPlugin  extends JavaPlugin{
     	this.getCommand("dm_invisibility_toggle").setExecutor(new ToggleDmInvisibility());
     	this.getCommand("dm_vision_toggle").setExecutor(new ToggleDmVision());
     	this.getCommand("dm_teft_toggle").setExecutor(new ToggleTeftMode());
-    	
+    	this.getCommand("dm").setExecutor(new DmCommand());
+
     }
     
     // Fired when plugin is disabled
