@@ -35,11 +35,13 @@ public class FreezeHero extends SubCommand {
             if (args.length == 2) {
                 if (hh.isPlayerHero(args[1])) {
                     hh.freezeHero(hh.getHero(args[1]));
+                    p.sendMessage(args[1] + " is frozen.");
                 } else {
                     p.sendMessage("You cant freeze another dm.");
                 }
             } else {
                 hh.freezeAllHeros();
+                p.sendMessage("All heros are frozen.");
             }
         } else {
             p.sendMessage("You need to be DM to freeze hero(s).");
