@@ -86,11 +86,9 @@ public class DMHandler {
         if (beInvisible) {
             p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 1, false, false, true));
             p.sendMessage("You are now invisible");
-        } else if (!beInvisible) {
+        } else {
             p.removePotionEffect(PotionEffectType.INVISIBILITY);
             p.sendMessage("You are not invisible anymore");
-        } else {
-            return false;
         }
 
         return true;
