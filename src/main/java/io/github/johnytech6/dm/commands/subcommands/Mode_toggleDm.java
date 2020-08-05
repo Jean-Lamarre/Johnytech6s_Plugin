@@ -17,7 +17,7 @@ public class Mode_toggleDm extends SubCommand {
 
     @Override
     public String getName() {
-        return "mode_toggleDm";
+        return "mode_toggle";
     }
 
     @Override
@@ -27,7 +27,7 @@ public class Mode_toggleDm extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/dm mode_toggleDm [player]";
+        return "/dm mode_toggle [player]";
     }
 
     @Override

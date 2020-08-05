@@ -14,7 +14,7 @@ public class EndSession extends SubCommand {
 
     @Override
     public String getName() {
-        return "endSession";
+        return "end_session";
     }
 
     @Override
@@ -24,7 +24,7 @@ public class EndSession extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/dm endSession";
+        return "/dm end_session";
     }
 
     @Override

@@ -14,7 +14,7 @@ public class NightVision_toggle extends SubCommand {
 
     @Override
     public String getName() {
-        return "nightVision_toggle";
+        return "night_vision_toggle";
     }
 
     @Override
@@ -24,7 +24,7 @@ public class NightVision_toggle extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/dm nightVision_toggle [player]";
+        return "/dm night_vision_toggle [player]";
     }
 
     @Override

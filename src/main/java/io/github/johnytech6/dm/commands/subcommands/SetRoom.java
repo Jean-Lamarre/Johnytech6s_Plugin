@@ -15,7 +15,7 @@ public class SetRoom extends SubCommand {
 
     @Override
     public String getName() {
-        return "setRoom";
+        return "set_room";
     }
 
     @Override
@@ -25,7 +25,7 @@ public class SetRoom extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/dm setRoom [<x> <y> <z>]";
+        return "/dm set_room [<x> <y> <z>]";
     }
 
     @Override

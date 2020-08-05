@@ -15,7 +15,7 @@ public class FreezeHero extends SubCommand {
 
     @Override
     public String getName() {
-        return "freezeHero";
+        return "freeze_hero";
     }
 
     @Override
@@ -25,7 +25,7 @@ public class FreezeHero extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/dm freezeHero [hero]";
+        return "/dm freeze_hero [hero]";
     }
 
     @Override

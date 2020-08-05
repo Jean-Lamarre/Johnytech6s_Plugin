@@ -15,7 +15,7 @@ public class StartSession extends SubCommand {
 
     @Override
     public String getName() {
-        return "startSession";
+        return "start_session";
     }
 
     @Override
@@ -25,7 +25,7 @@ public class StartSession extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/dm startSession";
+        return "/dm start_session";
     }
 
     @Override

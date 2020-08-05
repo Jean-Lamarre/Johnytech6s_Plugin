@@ -15,7 +15,7 @@ public class TeftMode_toggle extends SubCommand {
 
     @Override
     public String getName() {
-        return "teftMode_toggle";
+        return "teft_mode_toggle";
     }
 
     @Override
@@ -25,7 +25,7 @@ public class TeftMode_toggle extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/dm teftMode_toggle [player]";
+        return "/dm teft_mode_toggle [player]";
     }
 
     @Override

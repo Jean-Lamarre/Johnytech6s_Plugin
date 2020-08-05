@@ -16,7 +16,7 @@ public class PuppeterMode_toggle extends SubCommand {
 
     @Override
     public String getName() {
-        return "puppeterMode_toggle";
+        return "puppeter_mode_toggle";
     }
 
     @Override
@@ -26,7 +26,7 @@ public class PuppeterMode_toggle extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/dm puppeterMode_toggle [player]";
+        return "/dm puppeter_mode_toggle [player]";
     }
 
     @Override
