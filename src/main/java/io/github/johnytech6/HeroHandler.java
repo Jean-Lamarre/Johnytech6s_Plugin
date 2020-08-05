@@ -74,7 +74,7 @@ public class HeroHandler {
     public Player getHero(String name) {
         if (heros.size() > 0) {
             for (Player p : heros) {
-                if (p.getName() == name) {
+                if (p.getName().equalsIgnoreCase(name)) {
                     return p;
                 }
             }

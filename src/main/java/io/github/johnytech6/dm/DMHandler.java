@@ -150,7 +150,7 @@ public class DMHandler {
     public Player getDm(String name) {
         if (dms.size() > 0) {
             for (Player p : dms) {
-                if (p.getName() == name) {
+                if (p.getName().equalsIgnoreCase(name)) {
                     return p;
                 }
             }
@@ -203,10 +203,10 @@ public class DMHandler {
             }
             heros = hh.getHeros();
             for(Player h : heros){
-                h.teleport(dndRoomLocation);
+                h.teleport(checkpoint);
             }
             for(Player dm : dms){
-                dm.teleport(dndRoomLocation);
+                dm.teleport(checkpoint);
             }
         }
         else{
