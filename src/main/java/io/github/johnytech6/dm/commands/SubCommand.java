@@ -1,4 +1,4 @@
-package io.github.johnytech6.dm.command;
+package io.github.johnytech6.dm.commands;
 
 import org.bukkit.entity.Player;
 
@@ -16,5 +16,13 @@ public abstract class SubCommand {
 
     public abstract List<String> getSubcommandArguments(Player player, String args[]);
 
+    protected boolean isDouble(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 }
 

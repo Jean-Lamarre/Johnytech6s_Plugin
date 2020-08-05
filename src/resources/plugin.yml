@@ -1,6 +1,6 @@
 main: io.github.johnytech6.JohnytechPlugin
 name: Johnyetch6Plugin
-version: 1.8.1
+version: 1.9.1
 description: Plugin of Johnytech6 for fun
 author: Johnytech6
 website: https://github.com/Johnytech6/Johnytech6s_Plugin
@@ -18,26 +18,10 @@ commands:
       description: Set the table room of the game
       usage: /set_dnd_room
       permission: dm.mode
-   dm_puppeter_toggle:
-      description: Toggle the Puppeter mode
-      usage: /dm_puppeter_toggle
-      permission: dm.mode.puppeter
-   dm_mode_toggle:
-      description: Toggle the dm mode
-      usage: /dm_mode_toggle
-      permission: dm.mode
-   dm_invisibility_toggle:
-      description: Toggle the dm invisibility
-      usage: /dm_invisibility_toggle
-      permission: dm.mode.invisibility
-   dm_vision_toggle:
-      description: Toggle the dm night vision
-      usage: /dm_vision_toggle
-      permission: dm.mode.vision
-   dm_teft_toggle:
-      description: Toggle the dm teft power
-      usage: /dm_teft_toggle
-      permission: dm.mode.teft 
+   getPlayerPosition:
+      description: Get the player of any player
+      usage: /getPlayerPosition <player>
+      permision: dm.mode
 permissions:
    dm.mode.*:
       description: Toggle dm powers
@@ -49,3 +33,4 @@ permissions:
       default: op
    hero.*:
       description: Hero commands
+      default: true

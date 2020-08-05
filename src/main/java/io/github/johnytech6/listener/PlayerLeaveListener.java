@@ -11,25 +11,24 @@ import io.github.johnytech6.dm.puppeter.PuppeterHandler;
 
 public class PlayerLeaveListener implements Listener {
 
-	DMHandler dmh = DMHandler.getInstance();
-	HeroHandler hh = HeroHandler.getInstance();
-	PuppeterHandler ph = PuppeterHandler.getInstance();
+    DMHandler dmh = DMHandler.getInstance();
+    HeroHandler hh = HeroHandler.getInstance();
+    PuppeterHandler ph = PuppeterHandler.getInstance();
 
-	@EventHandler
-	public void OnPlayerLeave(PlayerQuitEvent event) {
+    @EventHandler
+    public void OnPlayerLeave(PlayerQuitEvent event) {
 
-		Player p = event.getPlayer();
+        Player p = event.getPlayer();
 
-		boolean isDm = dmh.isPlayerDm(p.getName());
-		if (isDm) {
-			
-			dmh.ToggleDmMode(p);
-			
-			dmh.setDmInvisibility(p, !isDm);
-			
-			dmh.setDmVision(p, !isDm);
+        boolean isDm = dmh.isPlayerDm(p.getName());
+        if (isDm) {
+            dmh.ToggleDmMode(p);
 
-			ph.setPuppeterMode(p, !isDm);
-		} 
-	}
+            dmh.setDmInvisibility(p, false);
+
+            dmh.setDmVision(p, false);
+
+            ph.setPuppeterMode(p, false);
+        }
+    }
 }

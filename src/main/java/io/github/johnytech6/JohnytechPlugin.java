@@ -3,7 +3,7 @@ package io.github.johnytech6;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import io.github.johnytech6.dm.command.*;
+import io.github.johnytech6.dm.commands.*;
 import io.github.johnytech6.listener.ClickEntityListener;
 import io.github.johnytech6.listener.PlayerInteractArmorStandArmor;
 import io.github.johnytech6.listener.PlayerJoinListener;
@@ -32,13 +32,9 @@ public class JohnytechPlugin  extends JavaPlugin{
 
     	
     	//Set all commands
+		this.getCommand("dm").setExecutor(new DmCommand());
+		this.getCommand("getPlayerPosition").setExecutor(new GetPlayerPosition());
     	this.getCommand("stat_Johnytech6Plugin").setExecutor(new StatJohnytech());
-    	this.getCommand("dm_puppeter_toggle").setExecutor(new TogglePuppeterMode());
-    	this.getCommand("dm_mode_toggle").setExecutor(new ToggleDmMode());
-    	this.getCommand("dm_invisibility_toggle").setExecutor(new ToggleDmInvisibility());
-    	this.getCommand("dm_vision_toggle").setExecutor(new ToggleDmVision());
-    	this.getCommand("dm_teft_toggle").setExecutor(new ToggleTeftMode());
-    	this.getCommand("dm").setExecutor(new DmCommand());
 
     }
     

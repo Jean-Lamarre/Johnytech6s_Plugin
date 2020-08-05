@@ -1,4 +1,4 @@
-package io.github.johnytech6.dm.command;
+package io.github.johnytech6.dm.commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

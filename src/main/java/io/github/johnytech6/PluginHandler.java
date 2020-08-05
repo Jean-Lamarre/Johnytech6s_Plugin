@@ -62,20 +62,14 @@ public class PluginHandler {
 			namesHero.add(cp.getName());
 		}
 		for (Teft cp : listTeft) {
-			ArrayList<Victim> victims = cp.getVictims();
-			String sVictims = "[";
-			for(Victim v : victims) {
-				sVictims += " "+ v.getName() + ",";
-			}
-			sVictims += "]";
-			namesTeft.add(cp.getName() + "->Victims:" + sVictims);
+			namesTeft.add(cp.getName());
 		}
 
 		p.sendMessage("Puppeters: " + namesPuppeter.toString());
 		p.sendMessage("Morph puppeters: " + namesMorphedPuppeter.toString());
 		p.sendMessage("Dms: " + namesDm.toString());
 		p.sendMessage("Heros: " + namesHero.toString());
-		p.sendMessage("Teft: " + namesTeft.toString());
+		p.sendMessage("Tefts: " + namesTeft.toString());
 
 	}
 }
