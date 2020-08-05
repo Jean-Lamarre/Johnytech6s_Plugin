@@ -22,7 +22,7 @@ public class DmCommand implements TabExecutor {
         subcommands.add(new NightVision_toggle());
         subcommands.add(new PuppeterMode_toggle());
         subcommands.add(new TeftMode_toggle());
-        subcommands.add(new SetRoom());
+        //subcommands.add(new SetRoom());
         subcommands.add(new EndSession());
         subcommands.add(new StartSession());
         subcommands.add(new FreezeHero());

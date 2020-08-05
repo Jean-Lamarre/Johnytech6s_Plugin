@@ -30,7 +30,8 @@ public class SetRoom extends SubCommand {
 
     @Override
     public void perform(Player p, String[] args) {
-        if (dmh.isPlayerDm(p.getName()) /*&& p.hasPermission("dm.********")*/) {
+        /*
+        if (dmh.isPlayerDm(p.getName()) && p.hasPermission("dm.********")) {
             if (args.length == 1) {
                 dmh.setDndRoom(p.getLocation());
                 p.sendMessage("Dnd room set to your location.");
@@ -44,6 +45,8 @@ public class SetRoom extends SubCommand {
         } else {
             p.sendMessage("You need to be DM to set the dnd room.");
         }
+        */
+        p.sendMessage("not functional command");
     }
 
     @Override

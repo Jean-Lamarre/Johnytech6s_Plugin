@@ -17,7 +17,7 @@ public class PlayerLeaveListener implements Listener {
 
     @EventHandler
     public void OnPlayerLeave(PlayerQuitEvent event) {
-
+/*
         Player p = event.getPlayer();
 
         boolean isDm = dmh.isPlayerDm(p.getName());
@@ -30,5 +30,7 @@ public class PlayerLeaveListener implements Listener {
 
             ph.setPuppeterMode(p, false);
         }
+
+ */
     }
 }

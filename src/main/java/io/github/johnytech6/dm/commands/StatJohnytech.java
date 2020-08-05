@@ -7,19 +7,16 @@ import org.bukkit.entity.Player;
 
 import io.github.johnytech6.PluginHandler;
 
-public class StatJohnytech implements  CommandExecutor{
+public class StatJohnytech implements CommandExecutor {
 
-	private PluginHandler ph = PluginHandler.getInstance();
+    private PluginHandler ph = PluginHandler.getInstance();
 
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		
-		Player p = (Player) sender;
-		if(sender.hasPermission("dm.mode")) {
-			ph.johnytech6Stat(p);
-		}		
-		
-		return true;
-		
-	}
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+
+        ph.johnytech6Stat(sender);
+
+        return true;
+
+    }
 
 }

@@ -29,7 +29,6 @@ public class EndSession extends SubCommand {
 
     @Override
     public void perform(Player p, String[] args) {
-        //TODO
         if (DMHandler.getInstance().isPlayerDm(p.getName()) /*&& p.hasPermission("dm.*****")*/) {
             if(!(dmh.isSessionStarted())){
                 p.sendMessage("The session need to be started to end it.");

@@ -2,6 +2,8 @@ package io.github.johnytech6;
 
 import java.util.ArrayList;
 
+import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import io.github.johnytech6.dm.DMHandler;
@@ -35,7 +37,7 @@ public class PluginHandler {
 	private PuppeterHandler pph = PuppeterHandler.getInstance();
 	private TeftHandler th = TeftHandler.getInstance();
 	
-	public void johnytech6Stat(Player p) {
+	public void johnytech6Stat(CommandSender p) {
 		
 		ArrayList<String> namesPuppeter = new ArrayList<String>();
 		ArrayList<String> namesMorphedPuppeter = new ArrayList<String>();
@@ -46,7 +48,9 @@ public class PluginHandler {
 		ArrayList<Puppeter> listPuppeter = pph.getPuppeters();
 		ArrayList<Puppeter> listMorphedPuppeter = pph.getMorphPlayers();
 		ArrayList<Player> listDm = dmh.getDms();
+		ArrayList<OfflinePlayer> listOfflineDm = dmh.getAwaitedDms();
 		ArrayList<Player> listHero = hh.getHeros();
+		ArrayList<OfflinePlayer> listOfflineHero = hh.getAwaitedHeros();
 		ArrayList<Teft> listTeft = th.getTeftPlayers();
 
 		for (Puppeter cp : listPuppeter) {
@@ -58,8 +62,14 @@ public class PluginHandler {
 		for (Player cp : listDm) {
 			namesDm.add(cp.getName());
 		}
+		for (OfflinePlayer op : listOfflineDm){
+			namesDm.add(op.getName());
+		}
 		for (Player cp : listHero) {
 			namesHero.add(cp.getName());
+		}
+		for (OfflinePlayer op : listOfflineHero){
+			namesHero.add(op.getName());
 		}
 		for (Teft cp : listTeft) {
 			namesTeft.add(cp.getName());
