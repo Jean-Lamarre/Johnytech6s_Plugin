@@ -31,16 +31,15 @@ public class SetRoom extends SubCommand {
     @Override
     public void perform(Player p, String[] args) {
         if (dmh.isPlayerDm(p.getName()) /*&& p.hasPermission("dm.********")*/) {
-            if (args.length > 1 || args.length < 4) {
-                p.sendMessage("Missing coordinate arguments.");
-            } else if (args.length == 4 && isDouble(args[2]) && isDouble(args[3]) && isDouble(args[4])) {
-                Location targetLocation = new Location(p.getWorld(), Double.parseDouble(args[2]), Double.parseDouble(args[3]), Double.parseDouble(args[4]));
-                dmh.setDndRoom(targetLocation);
-            }else if(!(isDouble(args[2])) || !(isDouble(args[3])) || !(isDouble(args[4]))){
-                p.sendMessage("Incorrect coordinate arguments.");
-            }
-            else{
+            if (args.length == 1) {
                 dmh.setDndRoom(p.getLocation());
+                p.sendMessage("Dnd room set to your location.");
+            } else if (args.length == 4 && isDouble(args[1]) && isDouble(args[2]) && isDouble(args[3])) {
+                Location targetLocation = new Location(p.getWorld(), Double.parseDouble(args[1]), Double.parseDouble(args[2]), Double.parseDouble(args[3]));
+                dmh.setDndRoom(targetLocation);
+                p.sendMessage("Dnd room set to your " + Integer.parseInt(args[1]) + ", " + Integer.parseInt(args[2]) + ", " + Integer.parseInt(args[3]));
+            } else {
+                p.sendMessage("Incorrect arguments.");
             }
         } else {
             p.sendMessage("You need to be DM to set the dnd room.");
