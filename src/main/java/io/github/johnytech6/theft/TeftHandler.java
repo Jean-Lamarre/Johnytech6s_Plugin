@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
+import io.github.johnytech6.dm.DMHandler;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
@@ -26,6 +27,8 @@ public class TeftHandler {
 		return single_instance;
 	}
 	// ---------------------------------------------
+
+	DMHandler dmh = DMHandler.getInstance();
 
 	private ArrayList<Teft> tefts = new ArrayList<Teft>();
 
@@ -53,7 +56,9 @@ public class TeftHandler {
 	public boolean setTeftMode(Player player, boolean hasTeftPower) {
 		if (hasTeftPower) {
 			AddTeftPlayer(new Teft(player));
-			player.sendMessage("You have teft power.");
+			if(!(dmh.isAwaitedDm(player.getUniqueId()))) {
+				player.sendMessage("You have teft power.");
+			}
 		} else if (!hasTeftPower) {
 			try {
 				RemoveTeftPlayer(getTeft(player.getName()));

@@ -35,6 +35,8 @@ public class PuppeterHandler {
 	}
 	// --------------------------------------------------------------------------------------------
 
+	DMHandler dmh = DMHandler.getInstance();
+
 	// list of morphed puppeter
 	private ArrayList<Puppeter> puppeters = new ArrayList<Puppeter>();
 	// list of puppeter
@@ -221,7 +223,7 @@ public class PuppeterHandler {
 	/**
 	 * Store items of ArmorStand in Puppet
 	 * 
-	 * @param pp
+	 * @param pu
 	 * @param ee
 	 */
 	private void storeArmorStandEquipment(Puppet pu, EntityEquipment ee, EquipmentSlot selectedEquipment,
@@ -291,7 +293,7 @@ public class PuppeterHandler {
 	 * Set the armor selected onto you
 	 * 
 	 * @param p
-	 * @param selectedEquipment
+	 * @param itemInHand
 	 */
 	private void itemInHand(Player p, ItemStack itemInHand) {
 		Bukkit.getConsoleSender().sendMessage(itemInHand.toString());
@@ -395,7 +397,9 @@ public class PuppeterHandler {
 
 		if (hasPuppeterPower) {
 			AddPuppeter(new Puppeter(player));
-			player.sendMessage("You have puppeter power.");
+			if(!(dmh.isAwaitedDm(player.getUniqueId()))) {
+				player.sendMessage("You have puppeter power.");
+			}
 		} else if (!hasPuppeterPower) {
 			if (isPlayerMorph(player.getName())) {
 				Unmorph(player);
@@ -493,7 +497,7 @@ public class PuppeterHandler {
 	public Puppeter getPuppeter(String name) {
 		if (puppeters.size() > 0) {
 			for (Puppeter pp : puppeters) {
-				if (pp.getName() == name) {
+				if (pp.getName().equals(name)) {
 					return pp;
 				}
 			}
