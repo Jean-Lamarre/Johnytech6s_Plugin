@@ -1,6 +1,7 @@
 package io.github.johnytech6.dm.commands.subcommands;
 
 import io.github.johnytech6.dm.DMHandler;
+import io.github.johnytech6.dm.Dm;
 import io.github.johnytech6.dm.commands.SubCommand;
 import io.github.johnytech6.theft.TeftHandler;
 import org.bukkit.Bukkit;
@@ -11,7 +12,8 @@ import java.util.List;
 
 public class TeftMode_toggle extends SubCommand {
 
-    TeftHandler th = TeftHandler.getInstance();
+    private static DMHandler dmh = DMHandler.getInstance();
+    private static TeftHandler th = TeftHandler.getInstance();
 
     @Override
     public String getName() {
@@ -31,12 +33,12 @@ public class TeftMode_toggle extends SubCommand {
     @Override
     public void perform(Player p, String[] args) {
 
-        if (DMHandler.getInstance().isPlayerDm(p.getName()) && p.hasPermission("dm.mode.teft")) {
+        if (dmh.isPlayerDm(p.getName()) && p.hasPermission("dm.mode.teft")) {
             if (args.length == 2) {
-                Player targetPlayer = DMHandler.getInstance().getDm(args[1]);
-                th.ToggleTeftMode(targetPlayer);
+                Dm targetDm = dmh.getDm(args[1]);
+                th.ToggleTeftMode((Player)targetDm, true);
             } else {
-                th.ToggleTeftMode(p);
+                th.ToggleTeftMode(p, true);
             }
         } else {
             p.sendMessage("You need to be DM to toggle teft power.");

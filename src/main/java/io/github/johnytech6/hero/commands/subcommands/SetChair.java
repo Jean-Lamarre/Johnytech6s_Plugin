@@ -1,35 +1,35 @@
-package io.github.johnytech6.dm.commands.subcommands;
+package io.github.johnytech6.hero.commands.subcommands;
 
 import io.github.johnytech6.dm.DMHandler;
 import io.github.johnytech6.dm.commands.SubCommand;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SetRoom extends SubCommand {
+public class SetChair extends SubCommand {
 
-    private static DMHandler dmh = DMHandler.getInstance();
+    DMHandler dmh = DMHandler.getInstance();
 
     @Override
     public String getName() {
-        return "set_room";
+        return "set_chair";
     }
 
     @Override
     public String getDescription() {
-        return "Set the room of the dnd table.";
+        return "Set your chair in the dnd room";
     }
 
     @Override
     public String getSyntax() {
-        return "/dm set_room [<x> <y> <z>]";
+        return "/hero set_chair ";
     }
 
     @Override
     public void perform(Player p, String[] args) {
+
+
         /*
         if (dmh.isPlayerDm(p.getName()) && p.hasPermission("dm.********")) {
             if (args.length == 1) {

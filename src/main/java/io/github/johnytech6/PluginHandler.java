@@ -2,6 +2,10 @@ package io.github.johnytech6;
 
 import java.util.ArrayList;
 
+import io.github.johnytech6.dm.Dm;
+import io.github.johnytech6.hero.Hero;
+import io.github.johnytech6.hero.HeroHandler;
+import io.github.johnytech6.theft.Teft;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -9,9 +13,7 @@ import org.bukkit.entity.Player;
 import io.github.johnytech6.dm.DMHandler;
 import io.github.johnytech6.dm.puppeter.Puppeter;
 import io.github.johnytech6.dm.puppeter.PuppeterHandler;
-import io.github.johnytech6.theft.Teft;
 import io.github.johnytech6.theft.TeftHandler;
-import io.github.johnytech6.theft.Victim;
 
 public class PluginHandler {
 	
@@ -32,10 +34,35 @@ public class PluginHandler {
 		}
 		// --------------------------------------------------------------------------------------------
 
-	private HeroHandler hh = HeroHandler.getInstance();
-	private DMHandler dmh = DMHandler.getInstance();
-	private PuppeterHandler pph = PuppeterHandler.getInstance();
-	private TeftHandler th = TeftHandler.getInstance();
+	private static HeroHandler hh = HeroHandler.getInstance();
+	private static DMHandler dmh = DMHandler.getInstance();
+	private static PuppeterHandler pph = PuppeterHandler.getInstance();
+	private static TeftHandler th = TeftHandler.getInstance();
+
+	private ArrayList<DndPlayer> dndPlayers = new ArrayList<DndPlayer>();
+
+	public ArrayList<DndPlayer> getDndPlayers(){
+		return dndPlayers;
+	}
+
+	public void addDndPlayer(DndPlayer dndPlayer){
+		dndPlayers.add(dndPlayer);
+	}
+
+	public void removeDndPlayer(DndPlayer dndPlayer){
+		dndPlayers.remove(dndPlayer);
+	}
+
+	public boolean isPlayerDndPlayer(Player p){
+		if (dndPlayers.size() > 0) {
+			for (DndPlayer dndP : dndPlayers) {
+				if (dndP.getUniqueId().equals(p.getUniqueId())) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 	
 	public void johnytech6Stat(CommandSender p) {
 		
@@ -47,9 +74,9 @@ public class PluginHandler {
 
 		ArrayList<Puppeter> listPuppeter = pph.getPuppeters();
 		ArrayList<Puppeter> listMorphedPuppeter = pph.getMorphPlayers();
-		ArrayList<Player> listDm = dmh.getDms();
+		ArrayList<Dm> listDm = dmh.getDms();
 		ArrayList<OfflinePlayer> listOfflineDm = dmh.getAwaitedDms();
-		ArrayList<Player> listHero = hh.getHeros();
+		ArrayList<Hero> listHero = hh.getHeros();
 		ArrayList<OfflinePlayer> listOfflineHero = hh.getAwaitedHeros();
 		ArrayList<Teft> listTeft = th.getTeftPlayers();
 
@@ -59,14 +86,14 @@ public class PluginHandler {
 		for (Puppeter cp : listMorphedPuppeter) {
 			namesMorphedPuppeter.add(cp.getName());
 		}
-		for (Player cp : listDm) {
-			namesDm.add(cp.getName());
+		for (Dm dm : listDm) {
+			namesDm.add(dm.getName());
 		}
 		for (OfflinePlayer op : listOfflineDm){
 			namesDm.add(op.getName());
 		}
-		for (Player cp : listHero) {
-			namesHero.add(cp.getName());
+		for (Hero h : listHero) {
+			namesHero.add(h.getName());
 		}
 		for (OfflinePlayer op : listOfflineHero){
 			namesHero.add(op.getName());

@@ -1,14 +1,9 @@
 package io.github.johnytech6.theft;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.UUID;
 
 import io.github.johnytech6.dm.DMHandler;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
-
-import io.github.johnytech6.dm.puppeter.Puppeter;
 
 public class TeftHandler {
 
@@ -28,46 +23,37 @@ public class TeftHandler {
 	}
 	// ---------------------------------------------
 
-	DMHandler dmh = DMHandler.getInstance();
+	private static DMHandler dmh = DMHandler.getInstance();
 
 	private ArrayList<Teft> tefts = new ArrayList<Teft>();
 
-	public void openPlayerInventory(Teft teft, Player victim) throws Exception {
 
-		if (!teft.hasVictim(victim)) {
-			teft.addVictim(victim);
-		}
-		Victim v = teft.getVictim(victim);
-
-	}
-
-	public boolean ToggleTeftMode(Player player) {
-
+	public boolean ToggleTeftMode(Player player, boolean verbose) {
 		if (!isPlayerTeft(player.getName())) {
-			setTeftMode(player, true);
+			setTeftMode(player, true, verbose);
 		} else if (isPlayerTeft(player.getName())) {
-			setTeftMode(player, false);
+			setTeftMode(player, false, verbose);
 		} else {
 			return false;
 		}
 		return true;
 	}
 
-	public boolean setTeftMode(Player player, boolean hasTeftPower) {
+	public boolean setTeftMode(Player player, boolean hasTeftPower, boolean verbose) {
 		if (hasTeftPower) {
 			AddTeftPlayer(new Teft(player));
-			if(!(dmh.isAwaitedDm(player.getUniqueId()))) {
+			if(verbose) {
 				player.sendMessage("You have teft power.");
 			}
-		} else if (!hasTeftPower) {
+		} else {
 			try {
 				RemoveTeftPlayer(getTeft(player.getName()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			player.sendMessage("You dont have teft power anymore");
-		} else {
-			return false;
+			if(verbose) {
+				player.sendMessage("You dont have teft power anymore");
+			}
 		}
 		return true;
 	}

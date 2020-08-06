@@ -1,6 +1,7 @@
 package io.github.johnytech6.dm.commands.subcommands;
 
 import io.github.johnytech6.dm.DMHandler;
+import io.github.johnytech6.dm.Dm;
 import io.github.johnytech6.dm.commands.SubCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class StartSession extends SubCommand {
 
-    DMHandler dmh = DMHandler.getInstance();
+    private static DMHandler dmh = DMHandler.getInstance();
 
     @Override
     public String getName() {
@@ -36,7 +37,7 @@ public class StartSession extends SubCommand {
                 p.sendMessage("The session is already started ");
             }
             else{
-                dmh.startSession(p);
+                dmh.startSession(dmh.getDm(p.getName()));
             }
         } else {
             p.sendMessage("You need to be DM to start session.");

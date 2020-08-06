@@ -9,7 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
-import io.github.johnytech6.HeroHandler;
+import io.github.johnytech6.hero.HeroHandler;
 import io.github.johnytech6.dm.DMHandler;
 import io.github.johnytech6.dm.puppeter.PuppeterHandler;
 import io.github.johnytech6.theft.TeftHandler;
@@ -50,7 +50,7 @@ public class ClickEntityListener implements Listener {
 			//-------Right click Listener for saddle on player or Villager-------
 			else if (e instanceof Player || e.getName().contentEquals("Villager")) {
 				if (p.getInventory().getItemInMainHand().toString().contentEquals("ItemStack{SADDLE x 1}")) {
-					hh.RidePlayer(p, e);
+					hh.RideHero(p, e);
 				}
 			}
 		}

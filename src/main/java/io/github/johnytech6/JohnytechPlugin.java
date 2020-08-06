@@ -1,6 +1,7 @@
 package io.github.johnytech6;
 
 import io.github.johnytech6.dm.DMHandler;
+import io.github.johnytech6.hero.HeroHandler;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -34,6 +35,7 @@ public class JohnytechPlugin  extends JavaPlugin{
 		config.options().copyDefaults(true);
 		saveConfig();
 
+		//TODO
 		DMHandler.getInstance().loadConfig(config);
 		HeroHandler.getInstance().loadConfig(config);
 

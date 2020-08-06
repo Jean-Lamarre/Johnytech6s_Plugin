@@ -1,6 +1,7 @@
 package io.github.johnytech6.dm.commands.subcommands;
 
 import io.github.johnytech6.dm.DMHandler;
+import io.github.johnytech6.dm.Dm;
 import io.github.johnytech6.dm.commands.SubCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -10,7 +11,7 @@ import java.util.List;
 
 public class Invisibility_toggle extends SubCommand {
 
-    DMHandler dmh = DMHandler.getInstance();
+    private static DMHandler dmh = DMHandler.getInstance();
 
     @Override
     public String getName() {
@@ -30,13 +31,13 @@ public class Invisibility_toggle extends SubCommand {
     @Override
     public void perform(Player p, String[] args) {
 
-        if(DMHandler.getInstance().isPlayerDm(p.getName()) && p.hasPermission("dm.mode.invisibility")) {
+        if(dmh.isPlayerDm(p.getName()) && p.hasPermission("dm.mode.invisibility")) {
             if(args.length == 2){
-                Player targetPlayer = dmh.getDm(args[1]);
-                dmh.DmInvisibility(targetPlayer);
+                Dm targetDm = dmh.getDm(args[1]);
+                dmh.dmInvisibility(targetDm, true);
             }
             else {
-                dmh.DmInvisibility(p);
+                dmh.dmInvisibility(dmh.getDm(p.getName()), true);
             }
         }
         else {

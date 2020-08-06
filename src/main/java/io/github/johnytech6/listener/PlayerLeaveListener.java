@@ -1,11 +1,10 @@
 package io.github.johnytech6.listener;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import io.github.johnytech6.HeroHandler;
+import io.github.johnytech6.hero.HeroHandler;
 import io.github.johnytech6.dm.DMHandler;
 import io.github.johnytech6.dm.puppeter.PuppeterHandler;
 

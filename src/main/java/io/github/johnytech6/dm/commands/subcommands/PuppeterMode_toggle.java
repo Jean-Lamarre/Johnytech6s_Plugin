@@ -1,6 +1,7 @@
 package io.github.johnytech6.dm.commands.subcommands;
 
 import io.github.johnytech6.dm.DMHandler;
+import io.github.johnytech6.dm.Dm;
 import io.github.johnytech6.dm.commands.SubCommand;
 import io.github.johnytech6.dm.puppeter.PuppeterHandler;
 import org.bukkit.Bukkit;
@@ -11,8 +12,8 @@ import java.util.List;
 
 public class PuppeterMode_toggle extends SubCommand {
 
-    PuppeterHandler ph = PuppeterHandler.getInstance();
-    DMHandler dmh = DMHandler.getInstance();
+    private static PuppeterHandler ph = PuppeterHandler.getInstance();
+    private static DMHandler dmh = DMHandler.getInstance();
 
     @Override
     public String getName() {
@@ -31,13 +32,20 @@ public class PuppeterMode_toggle extends SubCommand {
 
     @Override
     public void perform(Player p, String[] args) {
-        if(DMHandler.getInstance().isPlayerDm(p.getName()) && p.hasPermission("dm.mode.puppeter")) {
+        if(dmh.isPlayerDm(p.getName()) && p.hasPermission("dm.mode.puppeter")) {
             if(args.length == 2) {
-                Player targetPlayer = dmh.getDm(args[1]);
-                ph.TogglePuppeterMode(targetPlayer);
+                Dm targetDm = dmh.getDm(args[1]);
+                ph.TogglePuppeterMode((Player)targetDm, true);
+
+                if(ph.isPlayerPuppeter(p.getName())){
+                    targetDm.setPuppeterPower(true);
+                }
+                else{
+                    targetDm.setPuppeterPower(false);
+                }
             }
             else{
-                ph.TogglePuppeterMode(p);
+                ph.TogglePuppeterMode(p, true);
             }
 
         }else {

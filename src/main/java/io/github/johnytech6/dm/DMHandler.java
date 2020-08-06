@@ -2,11 +2,15 @@ package io.github.johnytech6.dm;
 
 import java.util.*;
 
-import io.github.johnytech6.HeroHandler;
+import io.github.johnytech6.DndPlayer;
+import io.github.johnytech6.PluginHandler;
+import io.github.johnytech6.dm.puppeter.PuppeterHandler;
+import io.github.johnytech6.hero.Hero;
+import io.github.johnytech6.hero.HeroHandler;
 import io.github.johnytech6.JohnytechPlugin;
+import io.github.johnytech6.theft.TeftHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -35,64 +39,72 @@ public class DMHandler {
     }
     // --------------------------------------------------------------------------------------------
 
+    private static PluginHandler ph = PluginHandler.getInstance();
+    private static PuppeterHandler pph = PuppeterHandler.getInstance();
+    private static TeftHandler th = TeftHandler.getInstance();
+
     private Plugin plugin = JohnytechPlugin.getPlugin();
 
-    private HashMap<UUID, Location> playerCheckpoint = new HashMap<UUID, Location>();
-    private HashMap<UUID, Location> dmsCheckpoint = new HashMap<UUID, Location>();
-    private HashMap<UUID, Location> playersChairs = new HashMap<UUID, Location>();
-    private HashMap<UUID, Location> dmsChairs = new HashMap<UUID, Location>();
-
     // list of Dm
-    private ArrayList<Player> dms = new ArrayList<Player>();
+    private ArrayList<Dm> dms = new ArrayList<Dm>();
     private ArrayList<OfflinePlayer> awaitedDms = new ArrayList<OfflinePlayer>();
 
     private boolean isSessionStarted = false;
 
     public void loadConfig(FileConfiguration config) {
-        ArrayList<String> listDmsUuid = (ArrayList<String>) config.getList("Dms");
-        if (listDmsUuid != null) {
-            for (String id : listDmsUuid) {
-                awaitedDms.add((Bukkit.getOfflinePlayer(UUID.fromString(id))));
+        ArrayList<String> listDmsNames = (ArrayList<String>) config.getList("Dms");
+        if (listDmsNames != null) {
+            for (String name : listDmsNames) {
+                String id = config.getString("Dms."+name+".PlayerUUID");
+                awaitedDms.add(Bukkit.getOfflinePlayer(UUID.fromString(id)));
             }
-        }
-
-        if (config.contains("player_checkpoint")) {
-            playerCheckpoint = (HashMap) config.getConfigurationSection("player_checkpoint").getValues(false);
-        }
-        if (config.contains("dms_checkpoint")) {
-            dmsCheckpoint = (HashMap) config.getConfigurationSection("dms_checkpoint").getValues(false);
-        }
-        if (config.contains("players_chairs")) {
-            playersChairs = (HashMap) config.getConfigurationSection("players_chairs").getValues(false);
-        }
-        if (config.contains("dms_chairs")) {
-            dmsChairs = (HashMap) config.getConfigurationSection("dms_chairs").getValues(false);
         }
     }
 
     /*
      * Toggle Dm mode
      */
-    public boolean ToggleDmMode(Player p) {
-        return setDmMode(p, !(isPlayerDm(p.getName())));
+    public boolean ToggleDmMode(Player p, boolean verbose) {
+        return setDmMode(p, !(isPlayerDm(p.getName())), verbose);
     }
 
-    public boolean setDmMode(Player p, boolean beDm) {
+    public boolean setDmMode(Player p, boolean beDm, boolean verbose) {
+
         if (beDm) {
-            hh.removeHero(p);
-            AddDm(p);
+            hh.removeHero(hh.getHero(p.getName()));
+            Dm newDm = new Dm(p);
+            addDm(newDm);
             p.setInvulnerable(true);
             p.setGameMode(GameMode.CREATIVE);
-            if (!isAwaitedDm(p.getUniqueId())) {
+
+            if (verbose) {
                 p.sendMessage("***You are now the DM***");
                 p.sendMessage("You are invicible.");
             }
+
+            setDmInvisibility(newDm, true, true);
+            setDmVision(newDm, true, true);
+            pph.setPuppeterMode(newDm.getPlayer(), true, true);
+            newDm.setPuppeterPower(true);
+            th.setTeftMode(newDm.getPlayer(), true, true);
+            newDm.setTeftPower(true);
+
         } else {
-            RemoveDm(getDm(p.getName()));
-            hh.addHero(p);
+            if (verbose) {
+                p.sendMessage("***You are not the DM anymore***");
+                p.sendMessage("You are not invicible anymore.");
+            }
+            Dm dm = getDm(p.getName());
+            setDmInvisibility(dm, false, true);
+            setDmVision(dm, false, true);
+            pph.setPuppeterMode(dm.getPlayer(), false, true);
+            dm.setPuppeterPower(false);
+            th.setTeftMode(dm.getPlayer(), false, true);
+            dm.setTeftPower(false);
+
+            removeDm(getDm(p.getName()));
+            hh.addHero(new Hero(p));
             p.setInvulnerable(false);
-            p.sendMessage("***You are not the DM anymore***");
-            p.sendMessage("You are not invicible anymore.");
         }
 
         return true;
@@ -101,21 +113,24 @@ public class DMHandler {
     /*
      * Toggle Dm invisibility
      */
-    public boolean DmInvisibility(Player p) {
-        return setDmInvisibility(p, !(p.hasPotionEffect(PotionEffectType.INVISIBILITY)));
+    public boolean dmInvisibility(Dm dm, boolean verbose) {
+        return setDmInvisibility(dm, !(dm.hasPotionEffect(PotionEffectType.INVISIBILITY)), verbose);
     }
 
-    public boolean setDmInvisibility(Player p, boolean beInvisible) {
+    public boolean setDmInvisibility(Dm dm, boolean beInvisible, boolean verbose) {
 
         if (beInvisible) {
-            p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 1, false, false, true));
-            if (!isAwaitedDm(p.getUniqueId())) {
-                p.sendMessage("You are now invisible");
+            dm.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 1, false, false, true));
+            if (verbose) {
+                dm.sendMessage("You are now invisible");
             }
         } else {
-            p.removePotionEffect(PotionEffectType.INVISIBILITY);
-            p.sendMessage("You are not invisible anymore");
+            dm.removePotionEffect(PotionEffectType.INVISIBILITY);
+            if (verbose) {
+                dm.sendMessage("You are not invisible anymore");
+            }
         }
+        dm.setInvisibility(beInvisible);
 
         return true;
     }
@@ -123,24 +138,25 @@ public class DMHandler {
     /*
      * Toggle Dm night vision
      */
-    public boolean DmVision(Player p) {
-        return setDmVision(p, !(p.hasPotionEffect(PotionEffectType.NIGHT_VISION)));
+    public boolean dmVision(Dm dm, boolean verbose) {
+        return setDmVision(dm, !(dm.hasPotionEffect(PotionEffectType.NIGHT_VISION)), verbose);
     }
 
-    public boolean setDmVision(Player p, boolean hasNightVision) {
+    public boolean setDmVision(Dm dm, boolean hasNightVision, boolean verbose) {
 
         if (hasNightVision) {
-            p.addPotionEffect(
+            dm.addPotionEffect(
                     new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 1, false, false, true));
-            if (!isAwaitedDm(p.getUniqueId())) {
-                p.sendMessage("You have night vision");
+            if (verbose) {
+                dm.sendMessage("You have night vision");
             }
-        } else if (!hasNightVision) {
-            p.removePotionEffect(PotionEffectType.NIGHT_VISION);
-            p.sendMessage("You lost night vision");
         } else {
-            return false;
+            dm.removePotionEffect(PotionEffectType.NIGHT_VISION);
+            if (verbose) {
+                dm.sendMessage("You lost night vision");
+            }
         }
+        dm.setNightVision(hasNightVision);
 
         return true;
     }
@@ -148,44 +164,37 @@ public class DMHandler {
     /*
      * Add a Dm
      */
-    public void AddDm(Player p) {
-        if (!(isPlayerDm(p.getName()))) {
-            dms.add(p);
+    public void addDm(Dm newDm) {
+        dms.add(newDm);
+        ph.addDndPlayer(newDm);
 
-            updateDmsUuid();
-        }
+        plugin.getConfig().set("Dms."+newDm.getName()+".PlayerUUID", newDm.getUniqueId().toString());
+        plugin.saveConfig();
+
     }
 
     /*
      * Remove Dm
      */
-    public void RemoveDm(Player p) {
-        if ((isPlayerDm(p.getName()))) {
-            dms.remove(p);
+    public void removeDm(Dm dm) {
+        dms.remove(dm);
+        ph.removeDndPlayer(dm);
 
-            updateDmsUuid();
-        }
+        plugin.getConfig().set("Dms."+dm.getName(), null);
+        plugin.saveConfig();
+
     }
 
-    public void RemoveAwaitingDm(Player p) {
+    public void removeAwaitingDm(Player p) {
         if ((isAwaitedDm(p.getUniqueId()))) {
             awaitedDms.remove(p);
         }
     }
 
-    private void updateDmsUuid() {
-        ArrayList<String> uuids = new ArrayList<String>();
-        for (Player dm : dms) {
-            uuids.add(dm.getUniqueId().toString());
-        }
-        plugin.getConfig().set("Dms", uuids);
-        plugin.saveConfig();
-    }
-
     public boolean isPlayerDm(String name) {
         if (dms.size() > 0) {
-            for (Player p : dms) {
-                if (p.getName().equals(name)) {
+            for (Dm dm : dms) {
+                if (dm.getName().equals(name)) {
                     return true;
                 }
             }
@@ -207,11 +216,11 @@ public class DMHandler {
     /*
      * Get Dm reference with his name
      */
-    public Player getDm(String name) {
+    public Dm getDm(String name) {
         if (dms.size() > 0) {
-            for (Player p : dms) {
-                if (p.getName().equalsIgnoreCase(name)) {
-                    return p;
+            for (Dm dm : dms) {
+                if (dm.getName().equalsIgnoreCase(name)) {
+                    return dm;
                 }
             }
         }
@@ -221,7 +230,7 @@ public class DMHandler {
     /*
      * Get reference of the list of all the dms
      */
-    public ArrayList<Player> getDms() {
+    public ArrayList<Dm> getDms() {
         return dms;
     }
 
@@ -250,75 +259,77 @@ public class DMHandler {
         return isSessionStarted;
     }
 
-    public void startSession(Player dmSender) {
+    private boolean dmsHasCheckpoint() {
+        for (Dm dm : dms) {
+            if (dm.hasCheckpoint()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean dmsHasChair() {
+        for (Dm dm : dms) {
+            if (dm.hasChair()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void startSession(Dm dmSender) {
         isSessionStarted = true;
 
-        for (Player dm : dms) {
-            dm.sendTitle("DnD", "The adventure may begin...", 10, 70, 20);
-        }
+        ArrayList<DndPlayer> dndPlayers = PluginHandler.getInstance().getDndPlayers();
 
-        ArrayList<Player> heros = hh.getHeros();
-        for (Player h : heros) {
-            h.sendTitle("DnD", "The adventure may begin...", 10, 70, 20);
+        for (DndPlayer dndP : dndPlayers) {
+            dndP.sendTitle("DnD", "The adventure may begin...", 10, 70, 20);
         }
 
         //teleport if had checkpoint
-        if (playerCheckpoint.size() != 0 || dmsCheckpoint.size() != 0) {
-            for (Player dm : dms) {
+        if (dmSender.hasCheckpoint()) {
+            for (Dm dm : dms) {
                 dm.sendMessage("Teleporting all hero to last checkpoint.");
             }
-            heros = hh.getHeros();
-            for (Player h : heros) {
-                Location targetLocation = playerCheckpoint.get(h.getUniqueId());
-                h.teleport(targetLocation);
+
+            for (DndPlayer dndP : dndPlayers) {
+                if(dndP.hasCheckpoint()){
+                    dndP.teleport(dndP.getCheckpoint());
+                }
+                else{
+                    dndP.teleport(dmSender.getCheckpoint());
+                }
             }
-            for (Player dm : dms) {
-                Location targetLocation = dmsCheckpoint.get(dm.getUniqueId());
-                dm.teleport(targetLocation);
-            }
+
         } else {
-            dmSender.sendMessage("No checkpoint saved, you need to teleport player manually.");
+            dmSender.sendMessage("No checkpoint was saved. Teleport all player manually.");
         }
 
-        //save chairs
-        for (Player h : heros) {
-            playersChairs.put(h.getUniqueId(), h.getLocation());
-            plugin.getConfig().createSection("players_chairs", playersChairs);
-        }
-        for (Player dm : dms) {
-            dmsChairs.put(dm.getUniqueId(), dm.getLocation());
-            plugin.getConfig().createSection("dms_chairs", dmsChairs);
+        if (!(dmSender.hasChair())) {
+            dmSender.setChairPosition(dmSender.getLocation());
+            dmSender.sendMessage("Dnd room location saved");
         }
 
         dmSender.sendMessage("Session started");
-        plugin.saveConfig();
-
     }
 
-    public void endSession(Player dmSender) {
+    public void endSession(Dm dmSender) {
 
-        for (Player dm : dms) {
+        for (Dm dm : dms) {
             dm.sendMessage("Saving checkpoint and teleporting heros to the dnd room.");
         }
 
-        ArrayList<Player> heros = hh.getHeros();
-        for (Player h : heros) {
-            playerCheckpoint.put(h.getUniqueId(), h.getLocation());
-            plugin.getConfig().createSection("player_checkpoint", playerCheckpoint);
+        ArrayList<DndPlayer> dndPlayers = PluginHandler.getInstance().getDndPlayers();
 
-            Location targetLocation = playersChairs.get(h.getUniqueId());
-            h.teleport(targetLocation);
+        for (DndPlayer dndP : dndPlayers) {
+            dndP.setCheckpoint(dndP.getLocation());
+            if (dndP.hasChair()) {
+                dndP.teleport(dndP.getChairPosition());
+            }
+            dndP.teleport(dmSender.getChairPosition());
         }
 
-        for (Player dm : dms) {
-            dmsCheckpoint.put(dm.getUniqueId(), dm.getLocation());
-            plugin.getConfig().createSection("dms_checkpoint", dmsCheckpoint);
-
-            Location targetLocation = dmsChairs.get(dm.getUniqueId());
-            dm.teleport(targetLocation);
-        }
         isSessionStarted = false;
         dmSender.sendMessage("Session ended");
-        plugin.saveConfig();
     }
 }

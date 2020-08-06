@@ -1,7 +1,7 @@
 package io.github.johnytech6.dm.commands.subcommands;
 
-import io.github.johnytech6.HeroHandler;
 import io.github.johnytech6.dm.DMHandler;
+import io.github.johnytech6.dm.Dm;
 import io.github.johnytech6.dm.commands.SubCommand;
 import io.github.johnytech6.dm.puppeter.PuppeterHandler;
 import io.github.johnytech6.theft.TeftHandler;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Mode_toggleDm extends SubCommand {
 
-    DMHandler dmh = DMHandler.getInstance();
+    private static DMHandler dmh = DMHandler.getInstance();
 
     @Override
     public String getName() {
@@ -33,21 +33,13 @@ public class Mode_toggleDm extends SubCommand {
     @Override
     public void perform(Player p, String[] args) {
 
-        dmh.ToggleDmMode(p);
-
         if (p.hasPermission("dm.mode")) {
             if(args.length == 2){
-                Player targetPlayer = dmh.getDm(args[1]);
-                dmh.setDmInvisibility(targetPlayer, (dmh.isPlayerDm(p.getName())));
-                dmh.setDmVision(targetPlayer, (dmh.isPlayerDm(p.getName())));
-                PuppeterHandler.getInstance().setPuppeterMode(targetPlayer, (dmh.isPlayerDm(p.getName())));
-                TeftHandler.getInstance().setTeftMode(targetPlayer, true);
+                Player targetPlayer = Bukkit.getPlayer(args[1]);
+                dmh.ToggleDmMode(targetPlayer, true);
             }
             else{
-                dmh.setDmInvisibility(p, (dmh.isPlayerDm(p.getName())));
-                dmh.setDmVision(p, (dmh.isPlayerDm(p.getName())));
-                PuppeterHandler.getInstance().setPuppeterMode(p, (dmh.isPlayerDm(p.getName())));
-                TeftHandler.getInstance().setTeftMode(p, true);
+                dmh.ToggleDmMode(p, true);
             }
         }
     }

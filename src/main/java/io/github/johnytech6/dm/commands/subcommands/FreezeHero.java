@@ -1,6 +1,6 @@
 package io.github.johnytech6.dm.commands.subcommands;
 
-import io.github.johnytech6.HeroHandler;
+import io.github.johnytech6.hero.HeroHandler;
 import io.github.johnytech6.dm.DMHandler;
 import io.github.johnytech6.dm.commands.SubCommand;
 import org.bukkit.Bukkit;
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class FreezeHero extends SubCommand {
 
-    HeroHandler hh = HeroHandler.getInstance();
+    private static HeroHandler hh = HeroHandler.getInstance();
 
     @Override
     public String getName() {

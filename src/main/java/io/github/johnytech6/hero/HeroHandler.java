@@ -1,8 +1,10 @@
-package io.github.johnytech6;
+package io.github.johnytech6.hero;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
+import io.github.johnytech6.JohnytechPlugin;
+import io.github.johnytech6.PluginHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -31,24 +33,27 @@ public class HeroHandler {
     }
     // --------------------------------------------------------------------------------------------
 
-    private Plugin plugin = JohnytechPlugin.getPlugin();
+    private static PluginHandler ph = PluginHandler.getInstance();
+
+    private static Plugin plugin = JohnytechPlugin.getPlugin();
 
     // list of Hero (all player by default)
-    private ArrayList<Player> heros = new ArrayList<Player>();
+    private ArrayList<Hero> heros = new ArrayList<Hero>();
     private ArrayList<OfflinePlayer> awaitedHeros = new ArrayList<OfflinePlayer>();
 
     public void loadConfig(FileConfiguration config) {
-            ArrayList<String> listHerosUuid = (ArrayList<String>) config.getList("Heros");
-            if(listHerosUuid !=null){
-                for(String id : listHerosUuid){
-                    awaitedHeros.add(Bukkit.getOfflinePlayer(UUID.fromString(id)));
-                }
+        ArrayList<String> listHerosNames = (ArrayList<String>) config.getList("Heros");
+        if (listHerosNames != null) {
+            for (String name : listHerosNames) {
+                String id = config.getString("Heros."+name+".PlayerUUID");
+                awaitedHeros.add(Bukkit.getOfflinePlayer(UUID.fromString(id)));
             }
+        }
     }
 
     // Right click with saddle
-    public void RidePlayer(Player p, Entity e) {
-        e.addPassenger(p);
+    public void RideHero(Player p, Entity e) {
+        e.addPassenger(p.getPlayer());
         if (e instanceof Player) {
             p.sendMessage("You are the passenger of " + e.getName());
             e.sendMessage(p.getName() + " is your passenger.");
@@ -60,33 +65,35 @@ public class HeroHandler {
     /*
      * Add a Hero
      */
-    public void addHero(Player p) {
-        if (!(isPlayerHero(p.getName()))) {
-            heros.add(p);
-            updateHerosUuid();
-        }
+    public void addHero(Hero h) {
+        heros.add(h);
+        ph.addDndPlayer(h);
+
+        plugin.getConfig().set("Heros."+h.getName()+".PlayerUUID", h.getUniqueId().toString());
+        plugin.saveConfig();
     }
 
     /*
      * Remove Hero
      */
-    public void removeHero(Player p) {
-        if ((isPlayerHero(p.getName()))) {
-            heros.remove(p);
-            updateHerosUuid();
-        }
+    public void removeHero(Hero h) {
+        heros.remove(h);
+        ph.removeDndPlayer(h);
+
+        plugin.getConfig().set("Heros."+h.getName(), null);
+        plugin.saveConfig();
     }
 
-    public void RemoveAwaitingHero(Player p) {
+    public void removeAwaitingHero(Player p) {
         if ((isAwaitedHero(p.getUniqueId()))) {
             awaitedHeros.remove(p);
         }
     }
 
-    private void updateHerosUuid(){
+    private void updateHerosUuid() {
         ArrayList<String> uuids = new ArrayList<String>();
-        for(Player dm : heros){
-            uuids.add(dm.getUniqueId().toString());
+        for (Hero h : heros) {
+            uuids.add(h.getUniqueId().toString());
         }
         plugin.getConfig().set("Heros", uuids);
         plugin.saveConfig();
@@ -94,8 +101,8 @@ public class HeroHandler {
 
     public boolean isPlayerHero(String name) {
         if (heros.size() > 0) {
-            for (Player p : heros) {
-                if (p.getName().equals(name)) {
+            for (Hero h : heros) {
+                if (h.getName().equals(name)) {
                     return true;
                 }
             }
@@ -117,11 +124,11 @@ public class HeroHandler {
     /*
      * Get hero reference with his name
      */
-    public Player getHero(String name) {
+    public Hero getHero(String name) {
         if (heros.size() > 0) {
-            for (Player p : heros) {
-                if (p.getName().equalsIgnoreCase(name)) {
-                    return p;
+            for (Hero h : heros) {
+                if (h.getName().equalsIgnoreCase(name)) {
+                    return h;
                 }
             }
         }
@@ -131,7 +138,7 @@ public class HeroHandler {
     /*
      * Get reference of the list of all the heros
      */
-    public ArrayList<Player> getHeros() {
+    public ArrayList<Hero> getHeros() {
         return heros;
     }
 
@@ -144,7 +151,7 @@ public class HeroHandler {
      *
      * @param targetHero
      */
-    public void freezeHero(Player targetHero) {
+    public void freezeHero(Hero targetHero) {
         if (!(targetHero.getWalkSpeed() == 0)) {
             targetHero.setWalkSpeed(0);
             targetHero.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 128, false, false, true));
@@ -155,7 +162,7 @@ public class HeroHandler {
      * Freeze position and jump of all heros.
      */
     public void freezeAllHeros() {
-        for (Player h : heros) {
+        for (Hero h : heros) {
             if (!(h.getWalkSpeed() == 0)) {
                 h.setWalkSpeed(0);
                 h.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 128, false, false, true));
@@ -168,7 +175,7 @@ public class HeroHandler {
      *
      * @param targetHero
      */
-    public void unfreezeHero(Player targetHero) {
+    public void unfreezeHero(Hero targetHero) {
         if (targetHero.getWalkSpeed() == 0) {
             targetHero.setWalkSpeed(0.2f);
             targetHero.removePotionEffect(PotionEffectType.JUMP);
@@ -179,7 +186,7 @@ public class HeroHandler {
      * Unfreeze position and jump of all heros.
      */
     public void unfreezeAllHeros() {
-        for (Player h : heros) {
+        for (Hero h : heros) {
             if (h.getWalkSpeed() == 0) {
                 h.setWalkSpeed(0.2f);
                 h.removePotionEffect(PotionEffectType.JUMP);

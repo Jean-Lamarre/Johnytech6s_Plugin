@@ -11,23 +11,5 @@ Heros:
 #list of dms
 Dms:
 
-#Location of the dnd room
-dnd_room_location:
 
-#List of Location of players at last ended dnd session
-player_checkpoint:
 
-#List of Location of players at last ended dnd session
-dms_checkpoint:
-
-#List of Location of players in dnd room
-players_chairs:
-
-#List of Location of dms in dnd room
-dms_chairs:
-
-#=============================OOO=============================#
-# III-----------------------------------------------------III #
-# |         Parameters to appear in future versions         | #
-# 3---------------------------------------------------------3 #
-#=============================ooo=============================#
