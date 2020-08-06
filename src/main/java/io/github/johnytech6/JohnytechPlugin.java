@@ -35,13 +35,8 @@ public class JohnytechPlugin  extends JavaPlugin{
 		config.options().copyDefaults(true);
 		saveConfig();
 
-		//TODO
 		DMHandler.getInstance().loadConfig(config);
 		HeroHandler.getInstance().loadConfig(config);
-
-		config.set("dm_welcome_message", "Welcome back Dungeon Master!");
-		config.set("hero_welcome_message", "Welcome back hero!");
-		config.set("default_welcome_message", "Welcome hero!");
 
     	//Register all Events
     	getServer().getPluginManager().registerEvents(new ClickEntityListener(), this);

@@ -52,12 +52,19 @@ public class DMHandler {
     private boolean isSessionStarted = false;
 
     public void loadConfig(FileConfiguration config) {
-        ArrayList<String> listDmsNames = (ArrayList<String>) config.getList("Dms");
+
+        Set<String> listDmsNames = config.getConfigurationSection("Dms").getKeys(false);
+
         if (listDmsNames != null) {
             for (String name : listDmsNames) {
+
                 String id = config.getString("Dms."+name+".PlayerUUID");
-                awaitedDms.add(Bukkit.getOfflinePlayer(UUID.fromString(id)));
+                if(!(id.equals("defaultID"))) {
+                    awaitedDms.add(Bukkit.getOfflinePlayer(UUID.fromString(id)));
+                }
             }
+        }
+        else{
         }
     }
 
@@ -71,7 +78,10 @@ public class DMHandler {
     public boolean setDmMode(Player p, boolean beDm, boolean verbose) {
 
         if (beDm) {
-            hh.removeHero(hh.getHero(p.getName()));
+
+            if(hh.isPlayerHero(p.getName())){
+                hh.removeHero(hh.getHero(p.getName()));
+            }
             Dm newDm = new Dm(p);
             addDm(newDm);
             p.setInvulnerable(true);
@@ -82,11 +92,11 @@ public class DMHandler {
                 p.sendMessage("You are invicible.");
             }
 
-            setDmInvisibility(newDm, true, true);
-            setDmVision(newDm, true, true);
-            pph.setPuppeterMode(newDm.getPlayer(), true, true);
+            setDmInvisibility(newDm, true, verbose);
+            setDmVision(newDm, true, verbose);
+            pph.setPuppeterMode(newDm.getPlayer(), true, verbose);
             newDm.setPuppeterPower(true);
-            th.setTeftMode(newDm.getPlayer(), true, true);
+            th.setTeftMode(newDm.getPlayer(), true, verbose);
             newDm.setTeftPower(true);
 
         } else {

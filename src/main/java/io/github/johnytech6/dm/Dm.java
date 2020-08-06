@@ -2,6 +2,8 @@ package io.github.johnytech6.dm;
 
 import io.github.johnytech6.DndPlayer;
 import io.github.johnytech6.JohnytechPlugin;
+import io.github.johnytech6.dm.puppeter.PuppeterHandler;
+import io.github.johnytech6.theft.TeftHandler;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -33,12 +35,12 @@ public class Dm implements DndPlayer {
     public void loadConfig() {
         FileConfiguration config = plugin.getConfig();
 
-        setCheckpoint(config.getLocation("Dms."+playerRef.getName()+".checkpoint"));
-        setChairPosition(config.getLocation("Dms."+playerRef.getName()+".chair_position"));
-        setInvisibility(config.getBoolean("Dms."+playerRef.getName()+".isInvisible"));
-        setPuppeterPower(config.getBoolean("Dms."+playerRef.getName()+".hasPuppeterPower"));
-        setTeftPower(config.getBoolean("Dms."+playerRef.getName()+".hasTeftPower"));
-        setNightVision(config.getBoolean("Dms."+playerRef.getName()+".hasNightVision"));
+        setCheckpoint(config.getLocation("Dms." + playerRef.getName() + ".checkpoint"));
+        setChairPosition(config.getLocation("Dms." + playerRef.getName() + ".chair_position"));
+        setInvisibility(config.getBoolean("Dms." + playerRef.getName() + ".isInvisible"));
+        setPuppeterPower(config.getBoolean("Dms." + playerRef.getName() + ".hasPuppeterPower"));
+        setTeftPower(config.getBoolean("Dms." + playerRef.getName() + ".hasTeftPower"));
+        setNightVision(config.getBoolean("Dms." + playerRef.getName() + ".hasNightVision"));
     }
 
     @Override
@@ -50,7 +52,7 @@ public class Dm implements DndPlayer {
     public void setCheckpoint(Location checkpoint) {
         this.checkpoint = checkpoint;
 
-        plugin.getConfig().set("Dms."+playerRef.getName()+".checkpoint", checkpoint);
+        plugin.getConfig().set("Dms." + playerRef.getName() + ".checkpoint", checkpoint);
         plugin.saveConfig();
     }
 
@@ -70,7 +72,7 @@ public class Dm implements DndPlayer {
     @Override
     public void setChairPosition(Location chairPosition) {
         this.chairPosition = chairPosition;
-        plugin.getConfig().set("Dms."+playerRef.getName()+".chair_position", chairPosition);
+        plugin.getConfig().set("Dms." + playerRef.getName() + ".chair_position", chairPosition);
         plugin.saveConfig();
     }
 
@@ -87,8 +89,9 @@ public class Dm implements DndPlayer {
     }
 
     public void setInvisibility(boolean state) {
+        playerRef.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 1, false, false, true));
         isInvisible = state;
-        plugin.getConfig().set("Dms."+playerRef.getName()+".isInvisible", state);
+        plugin.getConfig().set("Dms." + playerRef.getName() + ".isInvisible", state);
         plugin.saveConfig();
     }
 
@@ -97,8 +100,9 @@ public class Dm implements DndPlayer {
     }
 
     public void setPuppeterPower(boolean state) {
+        PuppeterHandler.getInstance().setPuppeterMode(playerRef, state, true);
         hasPuppeterPower = state;
-        plugin.getConfig().set("Dms."+playerRef.getName()+".hasPuppeterPower", state);
+        plugin.getConfig().set("Dms." + playerRef.getName() + ".hasPuppeterPower", state);
         plugin.saveConfig();
     }
 
@@ -107,8 +111,9 @@ public class Dm implements DndPlayer {
     }
 
     public void setTeftPower(boolean state) {
+        TeftHandler.getInstance().setTeftMode(playerRef, state, true);
         hasTeftPower = state;
-        plugin.getConfig().set("Dms."+playerRef.getName()+".hasTeftPower", state);
+        plugin.getConfig().set("Dms." + playerRef.getName() + ".hasTeftPower", state);
         plugin.saveConfig();
     }
 
@@ -117,8 +122,9 @@ public class Dm implements DndPlayer {
     }
 
     public void setNightVision(boolean state) {
+        playerRef.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 1, false, false, true));
         hasNightVision = state;
-        plugin.getConfig().set("Dms."+playerRef.getName()+".hasNightVision", state);
+        plugin.getConfig().set("Dms." + playerRef.getName() + ".hasNightVision", state);
         plugin.saveConfig();
     }
 

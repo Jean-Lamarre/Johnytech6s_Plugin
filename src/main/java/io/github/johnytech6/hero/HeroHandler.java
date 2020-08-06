@@ -1,6 +1,7 @@
 package io.github.johnytech6.hero;
 
 import java.util.ArrayList;
+import java.util.Set;
 import java.util.UUID;
 
 import io.github.johnytech6.JohnytechPlugin;
@@ -42,11 +43,13 @@ public class HeroHandler {
     private ArrayList<OfflinePlayer> awaitedHeros = new ArrayList<OfflinePlayer>();
 
     public void loadConfig(FileConfiguration config) {
-        ArrayList<String> listHerosNames = (ArrayList<String>) config.getList("Heros");
+        Set<String> listHerosNames = config.getConfigurationSection("Heros").getKeys(false);;
         if (listHerosNames != null) {
             for (String name : listHerosNames) {
                 String id = config.getString("Heros."+name+".PlayerUUID");
-                awaitedHeros.add(Bukkit.getOfflinePlayer(UUID.fromString(id)));
+                if(!(id.equals("defaultID"))) {
+                    awaitedHeros.add(Bukkit.getOfflinePlayer(UUID.fromString(id)));
+                }
             }
         }
     }
