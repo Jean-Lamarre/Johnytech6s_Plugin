@@ -33,6 +33,7 @@
                 <directory>C:\Users\Administrateur\IdeaProjects\Johnytech6Plugin</directory>
                 <includes>
                     <include>plugin.yml</include>
+                    <include>config.yml</include>
                 </includes>
             </resource>
 

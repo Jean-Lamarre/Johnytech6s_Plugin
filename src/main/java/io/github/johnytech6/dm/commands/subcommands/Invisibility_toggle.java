@@ -32,13 +32,14 @@ public class Invisibility_toggle extends SubCommand {
     public void perform(Player p, String[] args) {
 
         if(dmh.isPlayerDm(p.getName()) && p.hasPermission("dm.mode.invisibility")) {
+            Dm targetDm;
             if(args.length == 2){
-                Dm targetDm = dmh.getDm(args[1]);
-                dmh.dmInvisibility(targetDm, true);
+                targetDm = dmh.getDm(args[1]);
             }
             else {
-                dmh.dmInvisibility(dmh.getDm(p.getName()), true);
+                targetDm = dmh.getDm(p.getName());
             }
+            targetDm.invisibilityToggle();
         }
         else {
             p.sendMessage("You need to be DM to toggle invisibility.");

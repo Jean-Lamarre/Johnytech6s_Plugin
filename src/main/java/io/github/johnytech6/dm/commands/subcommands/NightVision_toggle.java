@@ -30,16 +30,15 @@ public class NightVision_toggle extends SubCommand {
 
     @Override
     public void perform(Player p, String[] args) {
-        if(DMHandler.getInstance().isPlayerDm(p.getName()) && p.hasPermission("dm.mode.vision")) {
-            if(args.length == 2) {
-                Dm targetDm = dmh.getDm(args[1]);
-                dmh.dmVision(targetDm, true);
+        if (DMHandler.getInstance().isPlayerDm(p.getName()) && p.hasPermission("dm.mode.vision")) {
+            Dm targetDm;
+            if (args.length == 2) {
+                targetDm = dmh.getDm(args[1]);
+            } else {
+                targetDm = dmh.getDm(p.getName());
             }
-            else{
-                dmh.dmVision(dmh.getDm(p.getName()), true);
-            }
-        }
-        else {
+            targetDm.nightVisionToggle();
+        } else {
             p.sendMessage("You need to be DM to toggle night vision.");
         }
     }

@@ -35,8 +35,7 @@ public class JohnytechPlugin  extends JavaPlugin{
 		config.options().copyDefaults(true);
 		saveConfig();
 
-		DMHandler.getInstance().loadConfig(config);
-		HeroHandler.getInstance().loadConfig(config);
+		PluginHandler.getInstance().loadConfig(config);
 
     	//Register all Events
     	getServer().getPluginManager().registerEvents(new ClickEntityListener(), this);

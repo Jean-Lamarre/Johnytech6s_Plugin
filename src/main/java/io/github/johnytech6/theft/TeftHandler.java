@@ -81,7 +81,7 @@ public class TeftHandler {
 
 	public Teft getTeft(String name) throws Exception {
 		for (Teft t : tefts) {
-			if (t.getPlayer().getName() == name) {
+			if (t.getPlayer().getName().equals(name)) {
 				return t;
 			}
 		}

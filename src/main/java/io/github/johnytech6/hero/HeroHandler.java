@@ -40,30 +40,6 @@ public class HeroHandler {
 
     // list of Hero (all player by default)
     private ArrayList<Hero> heros = new ArrayList<Hero>();
-    private ArrayList<OfflinePlayer> awaitedHeros = new ArrayList<OfflinePlayer>();
-
-    public void loadConfig(FileConfiguration config) {
-        Set<String> listHerosNames = config.getConfigurationSection("Heros").getKeys(false);;
-        if (listHerosNames != null) {
-            for (String name : listHerosNames) {
-                String id = config.getString("Heros."+name+".PlayerUUID");
-                if(!(id.equals("defaultID"))) {
-                    awaitedHeros.add(Bukkit.getOfflinePlayer(UUID.fromString(id)));
-                }
-            }
-        }
-    }
-
-    // Right click with saddle
-    public void RideHero(Player p, Entity e) {
-        e.addPassenger(p.getPlayer());
-        if (e instanceof Player) {
-            p.sendMessage("You are the passenger of " + e.getName());
-            e.sendMessage(p.getName() + " is your passenger.");
-        } else if (e.getName().contentEquals("Villager")) {
-            p.sendMessage("You are the passenger of a villager.");
-        }
-    }
 
     /*
      * Add a Hero
@@ -72,7 +48,7 @@ public class HeroHandler {
         heros.add(h);
         ph.addDndPlayer(h);
 
-        plugin.getConfig().set("Heros."+h.getName()+".PlayerUUID", h.getUniqueId().toString());
+        plugin.getConfig().set("Dnd_player.Heros."+h.getName()+".PlayerUUID", h.getUniqueId().toString());
         plugin.saveConfig();
     }
 
@@ -83,22 +59,7 @@ public class HeroHandler {
         heros.remove(h);
         ph.removeDndPlayer(h);
 
-        plugin.getConfig().set("Heros."+h.getName(), null);
-        plugin.saveConfig();
-    }
-
-    public void removeAwaitingHero(Player p) {
-        if ((isAwaitedHero(p.getUniqueId()))) {
-            awaitedHeros.remove(p);
-        }
-    }
-
-    private void updateHerosUuid() {
-        ArrayList<String> uuids = new ArrayList<String>();
-        for (Hero h : heros) {
-            uuids.add(h.getUniqueId().toString());
-        }
-        plugin.getConfig().set("Heros", uuids);
+        plugin.getConfig().set("Dnd_player.Heros."+h.getName(), null);
         plugin.saveConfig();
     }
 
@@ -106,17 +67,6 @@ public class HeroHandler {
         if (heros.size() > 0) {
             for (Hero h : heros) {
                 if (h.getName().equals(name)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public boolean isAwaitedHero(UUID id) {
-        if (awaitedHeros.size() > 0) {
-            for (OfflinePlayer p : awaitedHeros) {
-                if (p.getUniqueId().equals(id)) {
                     return true;
                 }
             }
@@ -145,43 +95,12 @@ public class HeroHandler {
         return heros;
     }
 
-    public ArrayList<OfflinePlayer> getAwaitedHeros() {
-        return awaitedHeros;
-    }
-
-    /**
-     * Freeze position and jump of a target hero.
-     *
-     * @param targetHero
-     */
-    public void freezeHero(Hero targetHero) {
-        if (!(targetHero.getWalkSpeed() == 0)) {
-            targetHero.setWalkSpeed(0);
-            targetHero.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 128, false, false, true));
-        }
-    }
-
     /**
      * Freeze position and jump of all heros.
      */
     public void freezeAllHeros() {
         for (Hero h : heros) {
-            if (!(h.getWalkSpeed() == 0)) {
-                h.setWalkSpeed(0);
-                h.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 128, false, false, true));
-            }
-        }
-    }
-
-    /**
-     * Unfreeze position and jump of a target hero.
-     *
-     * @param targetHero
-     */
-    public void unfreezeHero(Hero targetHero) {
-        if (targetHero.getWalkSpeed() == 0) {
-            targetHero.setWalkSpeed(0.2f);
-            targetHero.removePotionEffect(PotionEffectType.JUMP);
+            h.freezeHero();
         }
     }
 
@@ -190,10 +109,7 @@ public class HeroHandler {
      */
     public void unfreezeAllHeros() {
         for (Hero h : heros) {
-            if (h.getWalkSpeed() == 0) {
-                h.setWalkSpeed(0.2f);
-                h.removePotionEffect(PotionEffectType.JUMP);
-            }
+            h.unfreezeHero();
         }
     }
 

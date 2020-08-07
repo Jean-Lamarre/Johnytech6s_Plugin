@@ -26,7 +26,6 @@ public class PlayerToggleSneakListener implements Listener {
 				// Unmorph player if is morph AND a puppeter
 				if (ph.isPlayerMorph(ep.getName()) && ph.isPlayerPuppeter(ep.getName())) {
 					ph.Unmorph(ep);
-					
 				}
 			}
 		}

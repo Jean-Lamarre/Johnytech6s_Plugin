@@ -92,8 +92,8 @@ public class PuppeterHandler {
 
         p.removePassenger(e);
 
-        dmh.dmInvisibility(dmh.getDm(p.getName()), true);
-        dmh.dmVision(dmh.getDm(p.getName()), true);
+        dmh.getDm(p.getName()).invisibilityToggle();
+        dmh.getDm(p.getName()).nightVisionToggle();
 
         RemoveMorphPlayer(Morphedpuppeter);
     }

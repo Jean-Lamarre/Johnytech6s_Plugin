@@ -3,6 +3,7 @@ package io.github.johnytech6.hero;
 import io.github.johnytech6.DndPlayer;
 import io.github.johnytech6.JohnytechPlugin;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
@@ -18,15 +19,58 @@ public class Hero implements DndPlayer {
 
     private Location checkpoint;
     private Location chairPosition;
+    private boolean isVerbose;
 
     public Hero(Player p) {
         this.playerRef = p;
     }
 
     @Override
-    public void loadConfig() {
-        setCheckpoint(plugin.getConfig().getLocation("Heros."+playerRef.getName()+".checkpoint"));
-        setChairPosition(plugin.getConfig().getLocation("Heros."+playerRef.getName()+".chair_position"));
+    public boolean isVerbose(){
+        return isVerbose;
+    }
+
+    @Override
+    public void setVerbose(boolean state){
+        isVerbose = state;
+    }
+    
+    // Right click with saddle
+    public void rideHero(Entity e) {
+        e.addPassenger(playerRef.getPlayer());
+        if (e instanceof Player) {
+            playerRef.sendMessage("You are the passenger of " + e.getName());
+            e.sendMessage(playerRef.getName() + " is your passenger.");
+        } else if (e.getName().contentEquals("Villager")) {
+            playerRef.sendMessage("You are the passenger of a villager.");
+        }
+    }
+
+    /**
+     * Freeze position and jump of hero.
+     */
+    public void freezeHero() {
+        if (playerRef.getWalkSpeed() != 0) {
+            playerRef.setWalkSpeed(0);
+            playerRef.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 128, false, false, true));
+        }
+    }
+
+    /**
+     * Unfreeze position and jump of hero.
+     */
+    public void unfreezeHero() {
+        if (playerRef.getWalkSpeed() == 0) {
+            playerRef.setWalkSpeed(0.2f);
+            playerRef.removePotionEffect(PotionEffectType.JUMP);
+        }
+    }
+
+    @Override
+    public void loadConfig(Player p) {
+        this.playerRef = p;
+        setCheckpoint(plugin.getConfig().getLocation("Dnd_player.Heros." + playerRef.getName() + ".checkpoint"));
+        setChairPosition(plugin.getConfig().getLocation("Dnd_player.Heros." + playerRef.getName() + ".chair_position"));
     }
 
     @Override
@@ -37,7 +81,7 @@ public class Hero implements DndPlayer {
     @Override
     public void setCheckpoint(Location checkpoint) {
         this.checkpoint = checkpoint;
-        plugin.getConfig().set("Heros."+playerRef.getName()+".checkpoint", checkpoint);
+        plugin.getConfig().set("Dnd_player.Heros." + playerRef.getName() + ".checkpoint", checkpoint);
         plugin.saveConfig();
     }
 
@@ -57,7 +101,7 @@ public class Hero implements DndPlayer {
     @Override
     public void setChairPosition(Location chairPosition) {
         this.chairPosition = chairPosition;
-        plugin.getConfig().set("Heros."+playerRef.getName()+".chair_position", chairPosition);
+        plugin.getConfig().set("Dnd_player.Heros." + playerRef.getName() + ".chair_position", chairPosition);
         plugin.saveConfig();
     }
 

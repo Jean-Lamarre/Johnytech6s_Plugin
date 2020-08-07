@@ -3,7 +3,11 @@ package io.github.johnytech6.dm;
 import io.github.johnytech6.DndPlayer;
 import io.github.johnytech6.JohnytechPlugin;
 import io.github.johnytech6.dm.puppeter.PuppeterHandler;
+import io.github.johnytech6.hero.Hero;
+import io.github.johnytech6.hero.HeroHandler;
 import io.github.johnytech6.theft.TeftHandler;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -17,6 +21,9 @@ public class Dm implements DndPlayer {
 
     private static Plugin plugin = JohnytechPlugin.getPlugin();
 
+    private static DMHandler dmh = DMHandler.getInstance();
+    private static HeroHandler hh = HeroHandler.getInstance();
+
     private Player playerRef;
 
     private Location checkpoint;
@@ -27,20 +34,45 @@ public class Dm implements DndPlayer {
     private boolean hasPuppeterPower = false;
     private boolean hasTeftPower = false;
 
-    public Dm(Player p) {
+    private boolean isVerbose = true;
+
+    public Dm(Player p, boolean verbose) {
+        isVerbose = verbose;
+        if(isVerbose){
+            p.sendMessage("***You are now DM***");
+        }
         this.playerRef = p;
+        if (hh.isPlayerHero(p.getName())) {
+            hh.removeHero(hh.getHero(p.getName()));
+        }
+        p.setInvulnerable(true);
+        p.setGameMode(GameMode.CREATIVE);
+
+        isVerbose = true;
     }
 
     @Override
-    public void loadConfig() {
-        FileConfiguration config = plugin.getConfig();
+    public boolean isVerbose(){
+        return isVerbose;
+    }
 
-        setCheckpoint(config.getLocation("Dms." + playerRef.getName() + ".checkpoint"));
-        setChairPosition(config.getLocation("Dms." + playerRef.getName() + ".chair_position"));
-        setInvisibility(config.getBoolean("Dms." + playerRef.getName() + ".isInvisible"));
-        setPuppeterPower(config.getBoolean("Dms." + playerRef.getName() + ".hasPuppeterPower"));
-        setTeftPower(config.getBoolean("Dms." + playerRef.getName() + ".hasTeftPower"));
-        setNightVision(config.getBoolean("Dms." + playerRef.getName() + ".hasNightVision"));
+    @Override
+    public void setVerbose(boolean state){
+        isVerbose = state;
+    }
+
+    @Override
+    public void loadConfig(Player p) {
+        this.playerRef = p;
+        FileConfiguration config = plugin.getConfig();
+        isVerbose = false;
+        setCheckpoint(config.getLocation("Dnd_player.Dms." + playerRef.getName() + ".checkpoint"));
+        setChairPosition(config.getLocation("Dnd_player.Dms." + playerRef.getName() + ".chair_position"));
+        setInvisibility(config.getBoolean("Dnd_player.Dms." + playerRef.getName() + ".isInvisible"));
+        setPuppeterPower(config.getBoolean("Dnd_player.Dms." + playerRef.getName() + ".hasPuppeterPower"));
+        setTeftPower(config.getBoolean("Dnd_player.Dms." + playerRef.getName() + ".hasTeftPower"));
+        setNightVision(config.getBoolean("Dnd_player.Dms." + playerRef.getName() + ".hasNightVision"));
+        isVerbose = true;
     }
 
     @Override
@@ -50,10 +82,11 @@ public class Dm implements DndPlayer {
 
     @Override
     public void setCheckpoint(Location checkpoint) {
-        this.checkpoint = checkpoint;
-
-        plugin.getConfig().set("Dms." + playerRef.getName() + ".checkpoint", checkpoint);
-        plugin.saveConfig();
+        if(checkpoint != null) {
+            this.checkpoint = checkpoint;
+            plugin.getConfig().set("Dnd_player.Dms." + playerRef.getName() + ".checkpoint", checkpoint);
+            plugin.saveConfig();
+        }
     }
 
     @Override
@@ -71,9 +104,11 @@ public class Dm implements DndPlayer {
 
     @Override
     public void setChairPosition(Location chairPosition) {
-        this.chairPosition = chairPosition;
-        plugin.getConfig().set("Dms." + playerRef.getName() + ".chair_position", chairPosition);
-        plugin.saveConfig();
+        if(chairPosition != null){
+            this.chairPosition = chairPosition;
+            plugin.getConfig().set("Dnd_player.Dms." + playerRef.getName() + ".chair_position", chairPosition);
+            plugin.saveConfig();
+        }
     }
 
     @Override
@@ -88,21 +123,68 @@ public class Dm implements DndPlayer {
         return isInvisible;
     }
 
-    public void setInvisibility(boolean state) {
-        playerRef.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 1, false, false, true));
-        isInvisible = state;
-        plugin.getConfig().set("Dms." + playerRef.getName() + ".isInvisible", state);
-        plugin.saveConfig();
+    /*
+     * Toggle Dm invisibility
+     */
+    public void invisibilityToggle() {
+        setInvisibility(!(playerRef.hasPotionEffect(PotionEffectType.INVISIBILITY)));
     }
+
+    public void setInvisibility(boolean state) {
+        isInvisible = state;
+        plugin.getConfig().set("Dnd_player.Dms." + playerRef.getName() + ".isInvisible", state);
+        plugin.saveConfig();
+        if (state) {
+            playerRef.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 1, false, false, true));
+            if (isVerbose) {
+                playerRef.sendMessage("You are now invisible");
+            }
+        } else {
+            removePotionEffect(PotionEffectType.INVISIBILITY);
+            if (isVerbose) {
+                playerRef.sendMessage("You are not invisible anymore");
+            }
+        }
+
+    }
+
+    public boolean hasNightVision() {
+        return hasNightVision;
+    }
+
+    /*
+     * Toggle Dm night vision
+     */
+    public void nightVisionToggle() {
+        setNightVision(!(playerRef.hasPotionEffect(PotionEffectType.NIGHT_VISION)));
+    }
+
+    public void setNightVision(boolean state) {
+        hasNightVision = state;
+        plugin.getConfig().set("Dnd_player.Dms." + playerRef.getName() + ".hasNightVision", state);
+        plugin.saveConfig();
+        if (state) {
+            playerRef.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 1, false, false, true));
+            if (isVerbose) {
+                playerRef.sendMessage("You have night vision");
+            }
+        } else {
+            playerRef.removePotionEffect(PotionEffectType.NIGHT_VISION);
+            if (isVerbose) {
+                playerRef.sendMessage("You lost night vision");
+            }
+        }
+    }
+
 
     public boolean hasPuppeterPower() {
         return hasPuppeterPower;
     }
 
     public void setPuppeterPower(boolean state) {
-        PuppeterHandler.getInstance().setPuppeterMode(playerRef, state, true);
+        PuppeterHandler.getInstance().setPuppeterMode(playerRef, state, isVerbose);
         hasPuppeterPower = state;
-        plugin.getConfig().set("Dms." + playerRef.getName() + ".hasPuppeterPower", state);
+        plugin.getConfig().set("Dnd_player.Dms." + playerRef.getName() + ".hasPuppeterPower", state);
         plugin.saveConfig();
     }
 
@@ -111,21 +193,17 @@ public class Dm implements DndPlayer {
     }
 
     public void setTeftPower(boolean state) {
-        TeftHandler.getInstance().setTeftMode(playerRef, state, true);
+        TeftHandler.getInstance().setTeftMode(playerRef, state, isVerbose);
         hasTeftPower = state;
-        plugin.getConfig().set("Dms." + playerRef.getName() + ".hasTeftPower", state);
+        plugin.getConfig().set("Dnd_player.Dms." + playerRef.getName() + ".hasTeftPower", state);
         plugin.saveConfig();
     }
 
-    public boolean hasNightVision() {
-        return hasNightVision;
-    }
-
-    public void setNightVision(boolean state) {
-        playerRef.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 1, false, false, true));
-        hasNightVision = state;
-        plugin.getConfig().set("Dms." + playerRef.getName() + ".hasNightVision", state);
-        plugin.saveConfig();
+    public void setAllPower(boolean state) {
+        setInvisibility(state);
+        setNightVision(state);
+        setPuppeterPower(state);
+        setTeftPower(state);
     }
 
     @Override

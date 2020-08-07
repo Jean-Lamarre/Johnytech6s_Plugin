@@ -8,15 +8,18 @@ dm_welcome_message: Welcome back Dungeon Master!
 hero_welcome_message: Welcome back hero!
 default_welcome_message: Welcome hero!
 
-# list of heros
-Heros:
-  defaultHero:
-    PlayerUUID: defaultID
+#list of Dnd pLayer
+Dnd_player:
 
-#list of dms
-Dms:
-  defaultDm:
-    PlayerUUID: defaultID
+  #list of heros
+  Heros:
+    defaultHero:
+      PlayerUUID: defaultID
+
+  #list of dms
+  Dms:
+    defaultDm:
+      PlayerUUID: defaultID
 
 
 

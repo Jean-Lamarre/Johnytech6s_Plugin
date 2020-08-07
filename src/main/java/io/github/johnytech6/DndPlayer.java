@@ -21,6 +21,10 @@ public interface DndPlayer {
 
     public boolean hasChair();
 
+    public boolean isVerbose();
+
+    public void setVerbose(boolean state);
+
     public String getName();
 
     public Player getPlayer();
@@ -41,5 +45,5 @@ public interface DndPlayer {
 
     public boolean hasPotionEffect(PotionEffectType potionEffect);
 
-    public void loadConfig();
+    public void loadConfig(Player player);
 }
