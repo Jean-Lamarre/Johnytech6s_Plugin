@@ -1,19 +1,10 @@
-package io.github.johnytech6.hero;
+package io.github.johnytech6.Handler;
 
 import java.util.ArrayList;
-import java.util.Set;
-import java.util.UUID;
 
 import io.github.johnytech6.JohnytechPlugin;
-import io.github.johnytech6.PluginHandler;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
+import io.github.johnytech6.hero.Hero;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 public class HeroHandler {
 

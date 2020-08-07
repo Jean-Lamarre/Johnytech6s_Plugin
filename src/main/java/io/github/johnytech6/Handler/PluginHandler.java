@@ -1,24 +1,21 @@
-package io.github.johnytech6;
+package io.github.johnytech6.Handler;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Set;
 import java.util.UUID;
 
+import io.github.johnytech6.DndPlayer;
+import io.github.johnytech6.OfflineDndPlayer;
 import io.github.johnytech6.dm.Dm;
 import io.github.johnytech6.hero.Hero;
-import io.github.johnytech6.hero.HeroHandler;
-import io.github.johnytech6.theft.Teft;
+import io.github.johnytech6.dm.theft.Teft;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-import io.github.johnytech6.dm.DMHandler;
 import io.github.johnytech6.dm.puppeter.Puppeter;
 import io.github.johnytech6.dm.puppeter.PuppeterHandler;
-import io.github.johnytech6.theft.TeftHandler;
 
 public class PluginHandler {
 

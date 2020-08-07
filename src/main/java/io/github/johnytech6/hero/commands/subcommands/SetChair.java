@@ -1,6 +1,6 @@
 package io.github.johnytech6.hero.commands.subcommands;
 
-import io.github.johnytech6.dm.DMHandler;
+import io.github.johnytech6.Handler.DMHandler;
 import io.github.johnytech6.dm.commands.SubCommand;
 import org.bukkit.entity.Player;
 

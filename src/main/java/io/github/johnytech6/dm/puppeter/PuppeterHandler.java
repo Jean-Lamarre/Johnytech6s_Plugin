@@ -14,7 +14,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import io.github.johnytech6.JohnytechPlugin;
-import io.github.johnytech6.dm.DMHandler;
+import io.github.johnytech6.Handler.DMHandler;
 
 public class PuppeterHandler {
 

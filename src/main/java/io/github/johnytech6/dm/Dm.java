@@ -1,12 +1,11 @@
 package io.github.johnytech6.dm;
 
 import io.github.johnytech6.DndPlayer;
+import io.github.johnytech6.Handler.DMHandler;
 import io.github.johnytech6.JohnytechPlugin;
 import io.github.johnytech6.dm.puppeter.PuppeterHandler;
-import io.github.johnytech6.hero.Hero;
-import io.github.johnytech6.hero.HeroHandler;
-import io.github.johnytech6.theft.TeftHandler;
-import org.bukkit.Bukkit;
+import io.github.johnytech6.Handler.HeroHandler;
+import io.github.johnytech6.Handler.TeftHandler;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;

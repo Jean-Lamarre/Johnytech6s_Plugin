@@ -4,7 +4,7 @@ import io.github.johnytech6.dm.commands.subcommands.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
-import io.github.johnytech6.dm.DMHandler;
+import io.github.johnytech6.Handler.DMHandler;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;

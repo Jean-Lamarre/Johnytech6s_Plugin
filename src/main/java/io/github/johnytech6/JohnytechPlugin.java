@@ -1,7 +1,6 @@
 package io.github.johnytech6;
 
-import io.github.johnytech6.dm.DMHandler;
-import io.github.johnytech6.hero.HeroHandler;
+import io.github.johnytech6.Handler.PluginHandler;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;

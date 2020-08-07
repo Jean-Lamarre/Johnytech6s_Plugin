@@ -1,9 +1,9 @@
 package io.github.johnytech6.dm.commands.subcommands;
 
-import io.github.johnytech6.dm.DMHandler;
+import io.github.johnytech6.Handler.DMHandler;
 import io.github.johnytech6.dm.Dm;
 import io.github.johnytech6.dm.commands.SubCommand;
-import io.github.johnytech6.theft.TeftHandler;
+import io.github.johnytech6.Handler.TeftHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

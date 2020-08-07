@@ -1,8 +1,7 @@
 package io.github.johnytech6.hero.commands;
 
-import io.github.johnytech6.dm.DMHandler;
+import io.github.johnytech6.Handler.DMHandler;
 import io.github.johnytech6.dm.commands.SubCommand;
-import io.github.johnytech6.dm.commands.subcommands.*;
 import io.github.johnytech6.hero.commands.subcommands.SetChair;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

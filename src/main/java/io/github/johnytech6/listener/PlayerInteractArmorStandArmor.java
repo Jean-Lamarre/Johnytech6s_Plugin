@@ -8,7 +8,7 @@ import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.johnytech6.dm.DMHandler;
+import io.github.johnytech6.Handler.DMHandler;
 import io.github.johnytech6.dm.puppeter.PuppeterHandler;
 
 public class PlayerInteractArmorStandArmor implements Listener {

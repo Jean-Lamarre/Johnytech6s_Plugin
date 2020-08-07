@@ -1,9 +1,7 @@
 package io.github.johnytech6.dm.commands.subcommands;
 
-import io.github.johnytech6.dm.DMHandler;
+import io.github.johnytech6.Handler.DMHandler;
 import io.github.johnytech6.dm.commands.SubCommand;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;

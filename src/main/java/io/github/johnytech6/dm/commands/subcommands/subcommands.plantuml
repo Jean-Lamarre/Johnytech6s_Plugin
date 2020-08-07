@@ -1,0 +1,206 @@
+@startuml
+
+title __SUBCOMMANDS's Class Diagram__\n
+
+  namespace io.github.johnytech6 {
+    namespace dm {
+      namespace commands {
+        namespace subcommands {
+          class io.github.johnytech6.dm.commands.subcommands.EndSession {
+              {static} - dmh : DMHandler
+              + getDescription()
+              + getName()
+              + getSubcommandArguments()
+              + getSyntax()
+              + perform()
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace io.github.johnytech6 {
+    namespace dm {
+      namespace commands {
+        namespace subcommands {
+          class io.github.johnytech6.dm.commands.subcommands.FreezeHero {
+              {static} - hh : HeroHandler
+              + getDescription()
+              + getName()
+              + getSubcommandArguments()
+              + getSyntax()
+              + perform()
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace io.github.johnytech6 {
+    namespace dm {
+      namespace commands {
+        namespace subcommands {
+          class io.github.johnytech6.dm.commands.subcommands.Invisibility_toggle {
+              {static} - dmh : DMHandler
+              + getDescription()
+              + getName()
+              + getSubcommandArguments()
+              + getSyntax()
+              + perform()
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace io.github.johnytech6 {
+    namespace dm {
+      namespace commands {
+        namespace subcommands {
+          class io.github.johnytech6.dm.commands.subcommands.Mode_toggleDm {
+              {static} - dmh : DMHandler
+              + getDescription()
+              + getName()
+              + getSubcommandArguments()
+              + getSyntax()
+              + perform()
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace io.github.johnytech6 {
+    namespace dm {
+      namespace commands {
+        namespace subcommands {
+          class io.github.johnytech6.dm.commands.subcommands.NightVision_toggle {
+              {static} - dmh : DMHandler
+              + getDescription()
+              + getName()
+              + getSubcommandArguments()
+              + getSyntax()
+              + perform()
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace io.github.johnytech6 {
+    namespace dm {
+      namespace commands {
+        namespace subcommands {
+          class io.github.johnytech6.dm.commands.subcommands.PuppeterMode_toggle {
+              {static} - dmh : DMHandler
+              {static} - ph : PuppeterHandler
+              + getDescription()
+              + getName()
+              + getSubcommandArguments()
+              + getSyntax()
+              + perform()
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace io.github.johnytech6 {
+    namespace dm {
+      namespace commands {
+        namespace subcommands {
+          class io.github.johnytech6.dm.commands.subcommands.SetRoom {
+              {static} - dmh : DMHandler
+              + getDescription()
+              + getName()
+              + getSubcommandArguments()
+              + getSyntax()
+              + perform()
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace io.github.johnytech6 {
+    namespace dm {
+      namespace commands {
+        namespace subcommands {
+          class io.github.johnytech6.dm.commands.subcommands.StartSession {
+              {static} - dmh : DMHandler
+              + getDescription()
+              + getName()
+              + getSubcommandArguments()
+              + getSyntax()
+              + perform()
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace io.github.johnytech6 {
+    namespace dm {
+      namespace commands {
+        namespace subcommands {
+          class io.github.johnytech6.dm.commands.subcommands.TeftMode_toggle {
+              {static} - dmh : DMHandler
+              {static} - th : TeftHandler
+              + getDescription()
+              + getName()
+              + getSubcommandArguments()
+              + getSyntax()
+              + perform()
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace io.github.johnytech6 {
+    namespace dm {
+      namespace commands {
+        namespace subcommands {
+          class io.github.johnytech6.dm.commands.subcommands.UnfreezeHero {
+              {static} - hh : HeroHandler
+              + getDescription()
+              + getName()
+              + getSubcommandArguments()
+              + getSyntax()
+              + perform()
+          }
+        }
+      }
+    }
+  }
+  
+
+  io.github.johnytech6.dm.commands.subcommands.EndSession -up-|> io.github.johnytech6.dm.commands.SubCommand
+  io.github.johnytech6.dm.commands.subcommands.FreezeHero -up-|> io.github.johnytech6.dm.commands.SubCommand
+  io.github.johnytech6.dm.commands.subcommands.Invisibility_toggle -up-|> io.github.johnytech6.dm.commands.SubCommand
+  io.github.johnytech6.dm.commands.subcommands.Mode_toggleDm -up-|> io.github.johnytech6.dm.commands.SubCommand
+  io.github.johnytech6.dm.commands.subcommands.NightVision_toggle -up-|> io.github.johnytech6.dm.commands.SubCommand
+  io.github.johnytech6.dm.commands.subcommands.PuppeterMode_toggle -up-|> io.github.johnytech6.dm.commands.SubCommand
+  io.github.johnytech6.dm.commands.subcommands.SetRoom -up-|> io.github.johnytech6.dm.commands.SubCommand
+  io.github.johnytech6.dm.commands.subcommands.StartSession -up-|> io.github.johnytech6.dm.commands.SubCommand
+  io.github.johnytech6.dm.commands.subcommands.TeftMode_toggle -up-|> io.github.johnytech6.dm.commands.SubCommand
+  io.github.johnytech6.dm.commands.subcommands.UnfreezeHero -up-|> io.github.johnytech6.dm.commands.SubCommand
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

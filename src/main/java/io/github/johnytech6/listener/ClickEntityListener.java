@@ -9,10 +9,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
-import io.github.johnytech6.hero.HeroHandler;
-import io.github.johnytech6.dm.DMHandler;
+import io.github.johnytech6.Handler.HeroHandler;
+import io.github.johnytech6.Handler.DMHandler;
 import io.github.johnytech6.dm.puppeter.PuppeterHandler;
-import io.github.johnytech6.theft.TeftHandler;
+import io.github.johnytech6.Handler.TeftHandler;
 
 public class ClickEntityListener implements Listener {
 

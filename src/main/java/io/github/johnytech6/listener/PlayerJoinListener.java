@@ -4,21 +4,16 @@ package io.github.johnytech6.listener;
 import io.github.johnytech6.DndPlayer;
 import io.github.johnytech6.JohnytechPlugin;
 import io.github.johnytech6.OfflineDndPlayer;
-import io.github.johnytech6.PluginHandler;
+import io.github.johnytech6.Handler.PluginHandler;
 import io.github.johnytech6.dm.Dm;
-import io.github.johnytech6.dm.puppeter.PuppeterHandler;
 import io.github.johnytech6.hero.Hero;
-import io.github.johnytech6.theft.TeftHandler;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import io.github.johnytech6.hero.HeroHandler;
-import io.github.johnytech6.dm.DMHandler;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
+import io.github.johnytech6.Handler.HeroHandler;
+import io.github.johnytech6.Handler.DMHandler;
 
 public class PlayerJoinListener implements Listener {
 

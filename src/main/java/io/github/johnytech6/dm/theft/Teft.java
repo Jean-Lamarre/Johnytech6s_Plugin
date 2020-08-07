@@ -1,4 +1,4 @@
-package io.github.johnytech6.theft;
+package io.github.johnytech6.dm.theft;
 
 import org.bukkit.entity.Player;
 

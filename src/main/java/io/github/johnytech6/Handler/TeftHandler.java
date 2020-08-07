@@ -1,8 +1,8 @@
-package io.github.johnytech6.theft;
+package io.github.johnytech6.Handler;
 
 import java.util.ArrayList;
 
-import io.github.johnytech6.dm.DMHandler;
+import io.github.johnytech6.dm.theft.Teft;
 import org.bukkit.entity.Player;
 
 public class TeftHandler {

@@ -1,6 +1,6 @@
 package io.github.johnytech6.dm.commands.subcommands;
 
-import io.github.johnytech6.dm.DMHandler;
+import io.github.johnytech6.Handler.DMHandler;
 import io.github.johnytech6.dm.Dm;
 import io.github.johnytech6.dm.commands.SubCommand;
 import org.bukkit.Bukkit;
@@ -34,12 +34,19 @@ public class Invisibility_toggle extends SubCommand {
         if(dmh.isPlayerDm(p.getName()) && p.hasPermission("dm.mode.invisibility")) {
             Dm targetDm;
             if(args.length == 2){
-                targetDm = dmh.getDm(args[1]);
+                if(dmh.isPlayerDm(args[1])){
+                    targetDm = dmh.getDm(args[1]);
+                    targetDm.invisibilityToggle();
+                    p.sendMessage("Toggle invisibility of " + args[1]);
+                }
+                else{
+                    p.sendMessage("Only dm can toggle invisibilty.");
+                }
             }
             else {
                 targetDm = dmh.getDm(p.getName());
+                targetDm.invisibilityToggle();
             }
-            targetDm.invisibilityToggle();
         }
         else {
             p.sendMessage("You need to be DM to toggle invisibility.");
@@ -54,7 +61,10 @@ public class Invisibility_toggle extends SubCommand {
             Player[] players = new Player[Bukkit.getServer().getOnlinePlayers().size()];
             Bukkit.getServer().getOnlinePlayers().toArray(players);
             for (int i = 0; i < players.length; i++) {
-                playerNames.add(players[i].getName());
+                if(dmh.isPlayerDm(players[i].getName())){
+                    playerNames.add(players[i].getName());
+                }
+
             }
 
             return playerNames;
