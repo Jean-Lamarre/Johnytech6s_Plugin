@@ -39,9 +39,11 @@ public class PuppeterMode_toggle extends SubCommand {
 
                 if(ph.isPlayerPuppeter(p.getName())){
                     targetDm.setPuppeterPower(true);
+                    p.sendMessage(args[1] + " has now puppeter's power.");
                 }
                 else{
                     targetDm.setPuppeterPower(false);
+                    p.sendMessage(args[1] + " lost puppeter's power.");
                 }
             }
             else{

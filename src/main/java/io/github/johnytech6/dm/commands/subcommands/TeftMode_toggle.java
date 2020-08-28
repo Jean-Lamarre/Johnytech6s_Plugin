@@ -36,7 +36,8 @@ public class TeftMode_toggle extends SubCommand {
         if (dmh.isPlayerDm(p.getName()) && p.hasPermission("dm.mode.teft")) {
             if (args.length == 2) {
                 Dm targetDm = dmh.getDm(args[1]);
-                th.ToggleTeftMode((Player)targetDm, true);
+                th.ToggleTeftMode((Player) targetDm, true);
+                p.sendMessage("Teft power state of " + args[1] + " : " + targetDm.hasTeftPower());
             } else {
                 th.ToggleTeftMode(p, true);
             }

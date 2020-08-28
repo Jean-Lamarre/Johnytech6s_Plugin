@@ -62,9 +62,6 @@ title __JOHNYTECH6-S_PLUGIN's Class Diagram__\n
           class io.github.johnytech6.dm.commands.subcommands.PuppeterMode_toggle {
           }
 
-          class io.github.johnytech6.dm.commands.subcommands.SetRoom {
-          }
-
           class io.github.johnytech6.dm.commands.subcommands.StartSession {
           }
 
@@ -144,7 +141,6 @@ title __JOHNYTECH6-S_PLUGIN's Class Diagram__\n
   io.github.johnytech6.dm.commands.subcommands.Mode_toggleDm -up-|> io.github.johnytech6.dm.commands.SubCommand
   io.github.johnytech6.dm.commands.subcommands.NightVision_toggle -up-|> io.github.johnytech6.dm.commands.SubCommand
   io.github.johnytech6.dm.commands.subcommands.PuppeterMode_toggle -up-|> io.github.johnytech6.dm.commands.SubCommand
-  io.github.johnytech6.dm.commands.subcommands.SetRoom -up-|> io.github.johnytech6.dm.commands.SubCommand
   io.github.johnytech6.dm.commands.subcommands.StartSession -up-|> io.github.johnytech6.dm.commands.SubCommand
   io.github.johnytech6.dm.commands.subcommands.TeftMode_toggle -up-|> io.github.johnytech6.dm.commands.SubCommand
   io.github.johnytech6.dm.commands.subcommands.UnfreezeHero -up-|> io.github.johnytech6.dm.commands.SubCommand

@@ -87,6 +87,7 @@ public class Hero implements DndPlayer {
         if (playerRef.getWalkSpeed() == 0) {
             playerRef.setWalkSpeed(0.2f);
             playerRef.removePotionEffect(PotionEffectType.JUMP);
+            playerRef.sendMessage("You can move.");
         }
     }
 

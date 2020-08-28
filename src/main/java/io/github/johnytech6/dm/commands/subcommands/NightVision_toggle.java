@@ -34,6 +34,7 @@ public class NightVision_toggle extends SubCommand {
             Dm targetDm;
             if (args.length == 2) {
                 targetDm = dmh.getDm(args[1]);
+                p.sendMessage("Night vision state of "+args[1] + " : " + targetDm.hasNightVision());
             } else {
                 targetDm = dmh.getDm(p.getName());
             }

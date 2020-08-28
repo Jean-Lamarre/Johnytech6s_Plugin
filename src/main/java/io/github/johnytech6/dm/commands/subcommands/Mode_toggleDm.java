@@ -34,6 +34,12 @@ public class Mode_toggleDm extends SubCommand {
             if(args.length == 2){
                 Player targetPlayer = Bukkit.getPlayer(args[1]);
                 dmh.ToggleDmMode(targetPlayer, true);
+                if(dmh.isPlayerDm(targetPlayer.getName())){
+                    p.sendMessage(args[1] + " is now DM.");
+                }
+                else{
+                    p.sendMessage(args[1] + " is now a hero.");
+                }
             }
             else{
                 dmh.ToggleDmMode(p, true);
