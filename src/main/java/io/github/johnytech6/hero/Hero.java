@@ -95,16 +95,19 @@ public class Hero implements DndPlayer {
         }
     }
 
-    private void setFrozenState(boolean state){
+    public void setFrozenState(boolean state){
         frozenState = state;
         plugin.getConfig().set("Dnd_player.Heros." + playerRef.getName() + ".frozen_state", frozenState);
         plugin.saveConfig();
         if(frozenState){
             freezeHero();
         }
+        else{
+            unfreezeHero();
+        }
     }
 
-    public boolean getFrozenState(){
+    public boolean isFrozen(){
         return frozenState;
     }
 

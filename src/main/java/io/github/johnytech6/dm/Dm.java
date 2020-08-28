@@ -70,6 +70,10 @@ public class Dm implements DndPlayer {
             chairPosition = oldChairPosition;
         }
 
+        if(oldHero.isFrozen()){
+            oldHero.setFrozenState(false);
+        }
+
         hh.removeHero(oldHero);
 
         playerRef.setGameMode(GameMode.CREATIVE);

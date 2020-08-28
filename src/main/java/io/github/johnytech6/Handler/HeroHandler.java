@@ -91,7 +91,7 @@ public class HeroHandler {
      */
     public void freezeAllHeros() {
         for (Hero h : heros) {
-            h.freezeHero();
+            h.setFrozenState(true);
         }
     }
 
@@ -100,7 +100,7 @@ public class HeroHandler {
      */
     public void unfreezeAllHeros() {
         for (Hero h : heros) {
-            h.unfreezeHero();
+            h.setFrozenState(false);
         }
     }
 

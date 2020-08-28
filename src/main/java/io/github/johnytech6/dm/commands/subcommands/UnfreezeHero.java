@@ -34,7 +34,7 @@ public class UnfreezeHero extends SubCommand {
         if (DMHandler.getInstance().isPlayerDm(p.getName()) /*&& p.hasPermission("dm.*****")*/) {
             if (args.length == 2) {
                 if (hh.isPlayerHero(args[1])) {
-                    hh.getHero(args[1]).unfreezeHero();
+                    hh.getHero(args[1]).setFrozenState(false);
                     p.sendMessage(args[1] + "is unfrozen.");
                 } else {
                     p.sendMessage("A dm can never be frozen.");
