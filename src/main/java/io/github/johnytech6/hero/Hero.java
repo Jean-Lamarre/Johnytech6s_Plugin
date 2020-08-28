@@ -73,7 +73,7 @@ public class Hero implements DndPlayer {
     /**
      * Freeze position and jump of hero.
      */
-    public void freezeHero() {
+    private void freezeHero() {
         if (!frozenState) {
             frozenState = true;
 
@@ -86,7 +86,7 @@ public class Hero implements DndPlayer {
     /**
      * Unfreeze position and jump of hero.
      */
-    public void unfreezeHero() {
+    private void unfreezeHero() {
         if (frozenState) {
             frozenState = false;
             playerRef.setWalkSpeed(0.2f);
