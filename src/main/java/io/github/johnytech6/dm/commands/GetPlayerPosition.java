@@ -16,7 +16,7 @@ public class GetPlayerPosition implements TabExecutor {
 
         if (sender instanceof Player) {
             Player p = (Player) sender;
-            if (DMHandler.getInstance().isPlayerDm(p.getName()) && p.hasPermission("dm.mode")) {
+            if (p.isOp()) {
                 if (args.length == 1) {
                     Player targetPlayer = Bukkit.getPlayer(args[0]);
                     p.sendMessage(targetPlayer.getName() + " is at " + (int) targetPlayer.getLocation().getX() + ", " + (int) targetPlayer.getLocation().getY() + ", " + (int) targetPlayer.getLocation().getZ());
@@ -24,7 +24,7 @@ public class GetPlayerPosition implements TabExecutor {
                     p.sendMessage("Usage: /getPlayerPosition <player>");
                 }
             } else {
-                p.sendMessage("You must be dm to locate a player.");
+                p.sendMessage("You must be op to locate a player.");
             }
         }
 
