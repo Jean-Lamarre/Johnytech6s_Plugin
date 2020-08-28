@@ -22,6 +22,7 @@ public class Hero implements DndPlayer {
 
     private Location checkpoint;
     private Location chairPosition;
+    private boolean frozenState;
     private boolean isVerbose;
 
     public Hero(Player p) {
@@ -73,7 +74,9 @@ public class Hero implements DndPlayer {
      * Freeze position and jump of hero.
      */
     public void freezeHero() {
-        if (playerRef.getWalkSpeed() != 0) {
+        if (!frozenState) {
+            frozenState = true;
+
             playerRef.setWalkSpeed(0);
             playerRef.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 128, false, false, true));
             playerRef.sendMessage("You cannot move anymore.");
@@ -84,11 +87,25 @@ public class Hero implements DndPlayer {
      * Unfreeze position and jump of hero.
      */
     public void unfreezeHero() {
-        if (playerRef.getWalkSpeed() == 0) {
+        if (frozenState) {
+            frozenState = false;
             playerRef.setWalkSpeed(0.2f);
             playerRef.removePotionEffect(PotionEffectType.JUMP);
             playerRef.sendMessage("You can move.");
         }
+    }
+
+    private void setFrozenState(boolean state){
+        frozenState = state;
+        plugin.getConfig().set("Dnd_player.Heros." + playerRef.getName() + ".frozen_state", frozenState);
+        plugin.saveConfig();
+        if(frozenState){
+            freezeHero();
+        }
+    }
+
+    public boolean getFrozenState(){
+        return frozenState;
     }
 
     @Override
@@ -96,6 +113,7 @@ public class Hero implements DndPlayer {
         this.playerRef = p;
         setCheckpoint(plugin.getConfig().getLocation("Dnd_player.Heros." + playerRef.getName() + ".checkpoint"));
         setChairPosition(plugin.getConfig().getLocation("Dnd_player.Heros." + playerRef.getName() + ".chair_position"));
+        setFrozenState(plugin.getConfig().getBoolean("Dnd_player.Heros." + playerRef.getName() + ".frozen_state"));
     }
 
     @Override
