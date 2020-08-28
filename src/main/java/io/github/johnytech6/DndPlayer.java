@@ -1,5 +1,6 @@
 package io.github.johnytech6;
 
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -46,4 +47,6 @@ public interface DndPlayer {
     public boolean hasPotionEffect(PotionEffectType potionEffect);
 
     public void loadConfig(Player player);
+
+    void setGameMode(GameMode gameMode);
 }

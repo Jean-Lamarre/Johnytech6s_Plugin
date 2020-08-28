@@ -52,7 +52,12 @@ public class DMHandler {
     public boolean setDmMode(Player p, boolean beDm, boolean verbose) {
 
         if (beDm) {
-            Dm newDm = new Dm(p, verbose);
+            Dm newDm;
+            if(hh.isPlayerHero(p.getName())){
+                newDm = new Dm(hh.getHero(p.getName()), verbose);
+            }else{
+                newDm = new Dm(p, verbose);
+            }
             newDm.setAllPower(true);
             addDm(newDm);
         } else {
@@ -62,7 +67,7 @@ public class DMHandler {
             }
             dm.setAllPower(false);
             removeDm(getDm(p.getName()));
-            hh.addHero(new Hero(p));
+            hh.addHero(new Hero(dm));
         }
         return true;
     }

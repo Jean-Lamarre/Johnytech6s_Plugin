@@ -1,7 +1,10 @@
 package io.github.johnytech6.hero;
 
 import io.github.johnytech6.DndPlayer;
+import io.github.johnytech6.Handler.DMHandler;
 import io.github.johnytech6.JohnytechPlugin;
+import io.github.johnytech6.dm.Dm;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -22,7 +25,27 @@ public class Hero implements DndPlayer {
     private boolean isVerbose;
 
     public Hero(Player p) {
-        this.playerRef = p;
+        playerRef = p;
+        playerRef.setGameMode(GameMode.ADVENTURE);
+    }
+
+    public Hero(Dm oldDm) {
+        playerRef = oldDm.getPlayer();
+        playerRef.setGameMode(GameMode.ADVENTURE);
+        checkpoint = oldDm.getCheckpoint();
+        chairPosition = oldDm.getChairPosition();
+
+        Location oldCheckpoint = oldDm.getCheckpoint();
+        if(oldCheckpoint != null){
+            checkpoint = oldCheckpoint;
+        }
+
+        Location oldChairPosition = oldDm.getChairPosition();
+        if(oldChairPosition !=null){
+            chairPosition = oldChairPosition;
+        }
+
+        DMHandler.getInstance().removeDm(oldDm);
     }
 
     @Override
@@ -53,6 +76,7 @@ public class Hero implements DndPlayer {
         if (playerRef.getWalkSpeed() != 0) {
             playerRef.setWalkSpeed(0);
             playerRef.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 128, false, false, true));
+            playerRef.sendMessage("You cannot move anymore.");
         }
     }
 
@@ -71,6 +95,11 @@ public class Hero implements DndPlayer {
         this.playerRef = p;
         setCheckpoint(plugin.getConfig().getLocation("Dnd_player.Heros." + playerRef.getName() + ".checkpoint"));
         setChairPosition(plugin.getConfig().getLocation("Dnd_player.Heros." + playerRef.getName() + ".chair_position"));
+    }
+
+    @Override
+    public void setGameMode(GameMode gameMode) {
+        playerRef.setGameMode(gameMode);
     }
 
     @Override

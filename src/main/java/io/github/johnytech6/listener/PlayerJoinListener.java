@@ -26,6 +26,9 @@ public class PlayerJoinListener implements Listener {
 
         Player p = event.getPlayer();
 
+        //TODO remove after updated on Alec's server
+        p.setInvulnerable(false);
+
         if (ph.isOfflineDndPlayers(p.getUniqueId())) {
             OfflineDndPlayer offlineDndPlayer = ph.getOfflineDndPlayer(p.getUniqueId());
 

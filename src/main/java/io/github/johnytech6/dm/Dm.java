@@ -6,10 +6,12 @@ import io.github.johnytech6.JohnytechPlugin;
 import io.github.johnytech6.dm.puppeter.PuppeterHandler;
 import io.github.johnytech6.Handler.HeroHandler;
 import io.github.johnytech6.Handler.TeftHandler;
+import io.github.johnytech6.hero.Hero;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -33,7 +35,9 @@ public class Dm implements DndPlayer {
     private boolean hasPuppeterPower = false;
     private boolean hasTeftPower = false;
 
-    private boolean isVerbose = true;
+    private boolean isVerbose;
+
+    private PermissionAttachment permissionAttachment;
 
     public Dm(Player p, boolean verbose) {
         isVerbose = verbose;
@@ -44,8 +48,31 @@ public class Dm implements DndPlayer {
         if (hh.isPlayerHero(p.getName())) {
             hh.removeHero(hh.getHero(p.getName()));
         }
-        p.setInvulnerable(true);
         p.setGameMode(GameMode.CREATIVE);
+
+        isVerbose = true;
+    }
+
+    public Dm(Hero oldHero, boolean verbose){
+        isVerbose = verbose;
+        if(isVerbose){
+            oldHero.sendMessage("***You are now DM***");
+        }
+        this.playerRef = oldHero.getPlayer();
+
+        Location oldCheckpoint = oldHero.getCheckpoint();
+        if(oldCheckpoint != null){
+            checkpoint = oldCheckpoint;
+        }
+
+        Location oldChairPosition = oldHero.getChairPosition();
+        if(oldChairPosition !=null){
+            chairPosition = oldChairPosition;
+        }
+
+        hh.removeHero(oldHero);
+
+        playerRef.setGameMode(GameMode.CREATIVE);
 
         isVerbose = true;
     }
@@ -72,6 +99,11 @@ public class Dm implements DndPlayer {
         setTeftPower(config.getBoolean("Dnd_player.Dms." + playerRef.getName() + ".hasTeftPower"));
         setNightVision(config.getBoolean("Dnd_player.Dms." + playerRef.getName() + ".hasNightVision"));
         isVerbose = true;
+    }
+
+    @Override
+    public void setGameMode(GameMode gameMode) {
+        playerRef.setGameMode(gameMode);
     }
 
     @Override
