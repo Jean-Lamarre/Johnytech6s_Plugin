@@ -181,7 +181,6 @@ public class Dm implements DndPlayer {
                 playerRef.sendMessage("You are not invisible anymore");
             }
         }
-
     }
 
     public boolean hasNightVision() {

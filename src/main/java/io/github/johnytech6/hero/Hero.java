@@ -27,22 +27,20 @@ public class Hero implements DndPlayer {
 
     public Hero(Player p) {
         playerRef = p;
-        playerRef.setGameMode(GameMode.ADVENTURE);
     }
 
     public Hero(Dm oldDm) {
         playerRef = oldDm.getPlayer();
-        playerRef.setGameMode(GameMode.ADVENTURE);
         checkpoint = oldDm.getCheckpoint();
         chairPosition = oldDm.getChairPosition();
 
         Location oldCheckpoint = oldDm.getCheckpoint();
-        if(oldCheckpoint != null){
+        if (oldCheckpoint != null) {
             checkpoint = oldCheckpoint;
         }
 
         Location oldChairPosition = oldDm.getChairPosition();
-        if(oldChairPosition !=null){
+        if (oldChairPosition != null) {
             chairPosition = oldChairPosition;
         }
 
@@ -50,15 +48,15 @@ public class Hero implements DndPlayer {
     }
 
     @Override
-    public boolean isVerbose(){
+    public boolean isVerbose() {
         return isVerbose;
     }
 
     @Override
-    public void setVerbose(boolean state){
+    public void setVerbose(boolean state) {
         isVerbose = state;
     }
-    
+
     // Right click with saddle
     public void rideHero(Entity e) {
         e.addPassenger(playerRef.getPlayer());
@@ -95,19 +93,18 @@ public class Hero implements DndPlayer {
         }
     }
 
-    public void setFrozenState(boolean state){
+    public void setFrozenState(boolean state) {
         frozenState = state;
         plugin.getConfig().set("Dnd_player.Heros." + playerRef.getName() + ".frozen_state", frozenState);
         plugin.saveConfig();
-        if(frozenState){
+        if (frozenState) {
             freezeHero();
-        }
-        else{
+        } else {
             unfreezeHero();
         }
     }
 
-    public boolean isFrozen(){
+    public boolean isFrozen() {
         return frozenState;
     }
 
@@ -151,7 +148,7 @@ public class Hero implements DndPlayer {
 
     @Override
     public void setChairPosition(Location chairPosition) {
-        if(chairPosition != null) {
+        if (chairPosition != null) {
             this.chairPosition = chairPosition;
             playerRef.sendMessage("Chair position set to : " + chairPosition.getX() + ", " + chairPosition.getY() + ", " + chairPosition.getZ());
             plugin.getConfig().set("Dnd_player.Heros." + playerRef.getName() + ".chair_position", chairPosition);

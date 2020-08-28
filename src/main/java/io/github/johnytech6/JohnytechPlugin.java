@@ -25,12 +25,14 @@ public class JohnytechPlugin  extends JavaPlugin{
 	private static Plugin pluginInstance;
 
 	private File customConfigFile;
-	private FileConfiguration config = getConfig();
+	private FileConfiguration config;
 
     @Override
     public void onEnable() {
     	
     	pluginInstance = this;
+
+		config = getConfig();
 
 		config.options().copyDefaults(true);
 		saveConfig();

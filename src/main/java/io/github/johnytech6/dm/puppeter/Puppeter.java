@@ -10,6 +10,7 @@ public class Puppeter{
 	private Player playerRef;
 	private Puppet puppet;
 	private int index;
+	private boolean wasInvisibile;
 	
 	public Puppeter(Player p) {
 		this.playerRef = p;
@@ -34,5 +35,11 @@ public class Puppeter{
 	}
 	public void setPuppet(Puppet pu) {
 		this.puppet = pu;
+	}
+	public void setInvisibilityState(boolean state){
+		wasInvisibile = state;
+	}
+	public boolean wasInvisible(){
+		return wasInvisibile;
 	}
 }

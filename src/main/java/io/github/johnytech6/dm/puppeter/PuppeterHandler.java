@@ -2,6 +2,7 @@ package io.github.johnytech6.dm.puppeter;
 
 import java.util.ArrayList;
 
+import io.github.johnytech6.dm.Dm;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -100,9 +101,9 @@ public class PuppeterHandler {
 
     public void UnmorphOfArmorStand(Player ep) {
 
-        Puppeter Morphedpuppeter = GetMorphPuppeter(ep.getName());
-        Player p = Morphedpuppeter.getPlayer();
-        Puppet pu = Morphedpuppeter.getPuppet();
+        Puppeter morphedpuppeter = GetMorphPuppeter(ep.getName());
+        Player p = morphedpuppeter.getPlayer();
+        Puppet pu = morphedpuppeter.getPuppet();
         Entity e = pu.getEntity();
         EntityEquipment armorStandEquipement = ((ArmorStand) e).getEquipment();
 
@@ -113,6 +114,10 @@ public class PuppeterHandler {
         p.getInventory().setChestplate(armorStandEquipement.getChestplate());
         p.getInventory().setLeggings(armorStandEquipement.getLeggings());
         p.getInventory().setBoots(armorStandEquipement.getBoots());
+
+        if(morphedpuppeter.wasInvisible()){
+            dmh.getDm(p.getName()).setInvisibility(true);
+        }
 
         // give item to the entity
         armorStandEquipement.setItemInMainHand(pu.getItemInMainHand());
@@ -127,7 +132,7 @@ public class PuppeterHandler {
         e.setInvulnerable(false);
         ((ArmorStand) e).setVisible(true);
 
-        RemoveMorphPlayer(Morphedpuppeter);
+        RemoveMorphPlayer(morphedpuppeter);
     }
 
     /**
@@ -151,6 +156,11 @@ public class PuppeterHandler {
         // teleport player to entity last location
         p.teleport(armorStand.getLocation());
 
+        puppeter.setInvisibilityState(dmh.getDm(p.getName()).isInvisible());
+        if(puppeter.wasInvisible()){
+            dmh.getDm(p.getName()).setInvisibility(false);
+        }
+
         // Set armor stand invisible incollidable and invulnerable
         armorStand.setVisible(false);
         armorStand.setCollidable(false);
@@ -161,7 +171,6 @@ public class PuppeterHandler {
         giveArmorOfAT(p, armorStandEquipement, selectedEquipment, itemHold);
 
         removeEquipmentFromAS(armorStandEquipement);
-
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(JohnytechPlugin.getPlugin(), new Runnable() {
             public void run() {
