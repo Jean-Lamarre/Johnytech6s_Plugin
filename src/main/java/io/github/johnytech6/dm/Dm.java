@@ -141,6 +141,7 @@ public class Dm implements DndPlayer {
     public void setChairPosition(Location chairPosition) {
         if(chairPosition != null){
             this.chairPosition = chairPosition;
+            playerRef.sendMessage("Chair position set to : " + chairPosition.getX() +", "+chairPosition.getY()+", "+chairPosition.getZ());
             plugin.getConfig().set("Dnd_player.Dms." + playerRef.getName() + ".chair_position", chairPosition);
             plugin.saveConfig();
         }

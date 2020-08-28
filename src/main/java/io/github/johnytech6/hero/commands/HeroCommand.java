@@ -35,14 +35,6 @@ public class HeroCommand implements TabExecutor {
                 }
             }
         }
-		/*---------------Logic for set room---------------
-		if(dmh.isPlayerDm(p.getName()) && sender.hasPermission("dm.mode")) {
-			p.sendMessage("Setting dnd room location to " + p.getName() + "position.");
-			return dmh.setDndRoomLocation(p.getLocation());
-		}else {
-			p.sendMessage("You need to be DM to set the DnD room.");
-			return true;
-		}*/
         return true;
     }
 

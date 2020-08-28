@@ -6,31 +6,38 @@ author: Johnytech6
 website: https://github.com/Johnytech6/Johnytech6s_Plugin
 api-version: 1.16
 depend:
-- ProtocolLib
-- LibsDisguises
-- Morphy
+  - ProtocolLib
+  - LibsDisguises
+  - Morphy
 commands:
-   stat_Johnytech6Plugin:
-      description: See all puppeters
-      usage: /stat_Johnytech6Plugin
-      permission: dm.mode
-   dm:
-      description: Set the table room of the game
-      usage: /set_dnd_room
-      permission: dm.mode
-   getPlayerPosition:
-      description: Get the player of any player
-      usage: /getPlayerPosition <player>
-      permision: dm.mode
+  stat_Johnytech6Plugin:
+    description: See all puppeters
+    usage: /stat_Johnytech6Plugin
+    permission: dm.mode
+  dm:
+    description: Set the table room of the game
+    usage: /dm <dm_command>
+    permission: dm.mode
+  getPlayerPosition:
+    description: Get the player of any player
+    usage: /getPlayerPosition <player>
+    permision: dm.mode
+  hero:
+    description: Set the chair position of the player
+    usage: /hero setChair [<Location>]
+    permission: hero.chair
+
 permissions:
-   dm.mode.*:
-      description: Toggle dm powers
-      children:
-         dm.mode.invisibility: true
-         dm.mode.vision: true
-         dm.mode.puppeter: true
-         dm.mode.teft: true
-      default: op
-   hero.*:
-      description: Hero commands
-      default: true
+  dm.mode.*:
+    description: Toggle dm powers
+    children:
+      dm.mode.invisibility: true
+      dm.mode.vision: true
+      dm.mode.puppeter: true
+      dm.mode.teft: true
+    default: op
+  hero.*:
+    description: Hero commands
+    children:
+      hero.chair: true
+    default: true

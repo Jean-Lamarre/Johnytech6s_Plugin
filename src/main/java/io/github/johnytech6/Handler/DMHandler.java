@@ -163,7 +163,6 @@ public class DMHandler {
                 dndP.sendTitle("Minecraft DnD", "The adventure may begin...", 10, 70, 20);
                 if(!(dndP.hasChair())){
                     dndP.setChairPosition(dndP.getLocation());
-                    dndP.sendMessage("Chair location saved");
                 }
             }
         }

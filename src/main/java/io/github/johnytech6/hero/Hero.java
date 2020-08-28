@@ -151,9 +151,12 @@ public class Hero implements DndPlayer {
 
     @Override
     public void setChairPosition(Location chairPosition) {
-        this.chairPosition = chairPosition;
-        plugin.getConfig().set("Dnd_player.Heros." + playerRef.getName() + ".chair_position", chairPosition);
-        plugin.saveConfig();
+        if(chairPosition != null) {
+            this.chairPosition = chairPosition;
+            playerRef.sendMessage("Chair position set to : " + chairPosition.getX() + ", " + chairPosition.getY() + ", " + chairPosition.getZ());
+            plugin.getConfig().set("Dnd_player.Heros." + playerRef.getName() + ".chair_position", chairPosition);
+            plugin.saveConfig();
+        }
     }
 
     @Override

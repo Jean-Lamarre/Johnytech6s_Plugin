@@ -1,6 +1,7 @@
 package io.github.johnytech6;
 
 import io.github.johnytech6.Handler.PluginHandler;
+import io.github.johnytech6.hero.commands.HeroCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -46,6 +47,7 @@ public class JohnytechPlugin  extends JavaPlugin{
     	
     	//Set all commands
 		this.getCommand("dm").setExecutor(new DmCommand());
+		this.getCommand("hero").setExecutor(new HeroCommand());
 		this.getCommand("getPlayerPosition").setExecutor(new GetPlayerPosition());
     	this.getCommand("stat_Johnytech6Plugin").setExecutor(new StatJohnytech());
 
