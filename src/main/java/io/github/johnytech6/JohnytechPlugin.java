@@ -2,16 +2,12 @@ package io.github.johnytech6;
 
 import io.github.johnytech6.Handler.PluginHandler;
 import io.github.johnytech6.hero.commands.HeroCommand;
+import io.github.johnytech6.listener.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import io.github.johnytech6.dm.commands.*;
-import io.github.johnytech6.listener.ClickEntityListener;
-import io.github.johnytech6.listener.PlayerInteractArmorStandArmor;
-import io.github.johnytech6.listener.PlayerJoinListener;
-import io.github.johnytech6.listener.PlayerLeaveListener;
-import io.github.johnytech6.listener.PlayerToggleSneakListener;
 
 import java.io.File;
 
@@ -20,7 +16,7 @@ import java.io.File;
 //**SUBJECT MAIN**
 //****************
 //
-public class JohnytechPlugin  extends JavaPlugin{
+public class JohnytechPlugin extends JavaPlugin{
 	
 	private static Plugin pluginInstance;
 
@@ -45,6 +41,7 @@ public class JohnytechPlugin  extends JavaPlugin{
     	getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
     	getServer().getPluginManager().registerEvents(new PlayerInteractArmorStandArmor(), this);
     	getServer().getPluginManager().registerEvents(new PlayerLeaveListener(), this);
+    	getServer().getPluginManager().registerEvents(new PlayerInteract(), this);
 
     	
     	//Set all commands
