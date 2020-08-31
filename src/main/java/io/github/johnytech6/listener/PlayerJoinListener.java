@@ -1,6 +1,5 @@
 package io.github.johnytech6.listener;
 
-
 import io.github.johnytech6.DndPlayer;
 import io.github.johnytech6.JohnytechPlugin;
 import io.github.johnytech6.OfflineDndPlayer;
@@ -17,9 +16,9 @@ import io.github.johnytech6.Handler.DMHandler;
 
 public class PlayerJoinListener implements Listener {
 
-    private static DMHandler dmh = DMHandler.getInstance();
-    private static HeroHandler hh = HeroHandler.getInstance();
-    private static PluginHandler ph = PluginHandler.getInstance();
+    private static final DMHandler dmh = DMHandler.getInstance();
+    private static final HeroHandler hh = HeroHandler.getInstance();
+    private static final PluginHandler ph = PluginHandler.getInstance();
 
     @EventHandler
     public void OnPlayerJoin(PlayerJoinEvent event) {

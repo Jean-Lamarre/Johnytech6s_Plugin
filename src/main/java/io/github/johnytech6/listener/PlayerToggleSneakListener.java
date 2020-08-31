@@ -1,13 +1,12 @@
 package io.github.johnytech6.listener;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 import io.github.johnytech6.Handler.DMHandler;
-import io.github.johnytech6.dm.puppeter.PuppeterHandler;
+import io.github.johnytech6.Handler.PuppeterHandler;
 
 public class PlayerToggleSneakListener implements Listener {
 

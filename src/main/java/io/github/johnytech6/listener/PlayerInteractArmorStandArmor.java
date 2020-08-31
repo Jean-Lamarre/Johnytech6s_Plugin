@@ -1,5 +1,6 @@
 package io.github.johnytech6.listener;
 
+import io.github.johnytech6.Handler.PuppeterHandler;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -8,13 +9,9 @@ import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.johnytech6.Handler.DMHandler;
-import io.github.johnytech6.dm.puppeter.PuppeterHandler;
-
 public class PlayerInteractArmorStandArmor implements Listener {
 
 	PuppeterHandler ph = PuppeterHandler.getInstance();
-	DMHandler dmh = DMHandler.getInstance();
 
 	@EventHandler
 	public void OnPlayerArmorStandManipulate(PlayerArmorStandManipulateEvent event) {

@@ -15,7 +15,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import io.github.johnytech6.dm.puppeter.Puppeter;
-import io.github.johnytech6.dm.puppeter.PuppeterHandler;
 
 public class PluginHandler {
 

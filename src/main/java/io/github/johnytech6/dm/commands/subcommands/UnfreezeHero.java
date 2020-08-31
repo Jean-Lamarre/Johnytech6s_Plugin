@@ -3,6 +3,7 @@ package io.github.johnytech6.dm.commands.subcommands;
 import io.github.johnytech6.Handler.HeroHandler;
 import io.github.johnytech6.Handler.DMHandler;
 import io.github.johnytech6.dm.commands.SubCommand;
+import io.github.johnytech6.hero.Hero;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -56,7 +57,13 @@ public class UnfreezeHero extends SubCommand {
             Player[] players = new Player[Bukkit.getServer().getOnlinePlayers().size()];
             Bukkit.getServer().getOnlinePlayers().toArray(players);
             for (int i = 0; i < players.length; i++) {
-                playerNames.add(players[i].getName());
+                Player current_player = players[i];
+                if(hh.isPlayerHero(current_player.getName())){
+                    Hero current_hero = hh.getHero(current_player.getName());
+                    if(current_hero.isFrozen()){
+                        playerNames.add(current_player.getName());
+                    }
+                }
             }
 
             return playerNames;

@@ -1,8 +1,9 @@
-package io.github.johnytech6.dm.puppeter;
+package io.github.johnytech6.Handler;
 
 import java.util.ArrayList;
 
-import io.github.johnytech6.dm.Dm;
+import io.github.johnytech6.dm.puppeter.Puppet;
+import io.github.johnytech6.dm.puppeter.Puppeter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -15,7 +16,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import io.github.johnytech6.JohnytechPlugin;
-import io.github.johnytech6.Handler.DMHandler;
 
 public class PuppeterHandler {
 
@@ -439,7 +439,6 @@ public class PuppeterHandler {
 
         if (!(isPlayerMorph(puppeter.getName()))) {
             morphedPuppeters.add(puppeter);
-            puppeter.setIndex(morphedPuppeters.size() - 1);
         }
     }
 
@@ -484,7 +483,6 @@ public class PuppeterHandler {
     public void AddPuppeter(Puppeter pp) {
         if (!(isPlayerPuppeter(pp.getName()))) {
             puppeters.add(pp);
-            pp.setIndex(puppeters.size() - 1);
         }
     }
 

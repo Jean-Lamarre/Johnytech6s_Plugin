@@ -10,6 +10,7 @@ public class EndSession extends SubCommand {
 
     private static DMHandler dmh = DMHandler.getInstance();
 
+
     @Override
     public String getName() {
         return "end_session";

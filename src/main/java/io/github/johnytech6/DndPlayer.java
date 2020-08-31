@@ -10,43 +10,43 @@ import java.util.UUID;
 
 public interface DndPlayer {
 
-    public Location getCheckpoint();
+    Location getCheckpoint();
 
-    public void setCheckpoint(Location checkpoint);
+    void setCheckpoint(Location checkpoint);
 
-    public boolean hasCheckpoint();
+    boolean hasCheckpoint();
 
-    public Location getChairPosition();
+    Location getChairPosition();
 
-    public void setChairPosition(Location chairPosition);
+    void setChairPosition(Location chairPosition);
 
-    public boolean hasChair();
+    boolean hasChair();
 
-    public boolean isVerbose();
+    boolean isVerbose();
 
-    public void setVerbose(boolean state);
+    void setVerbose(boolean state);
 
-    public String getName();
+    String getName();
 
-    public Player getPlayer();
+    Player getPlayer();
 
-    public UUID getUniqueId();
+    UUID getUniqueId();
 
-    public void sendTitle(String title, String s, int i, int i1, int i2);
+    void sendTitle(String title, String s, int i, int i1, int i2);
 
-    public void sendMessage(String s);
+    void sendMessage(String s);
 
-    public void teleport(Location targetLocation);
+    void teleport(Location targetLocation);
 
-    public Location getLocation();
+    Location getLocation();
 
-    public void addPotionEffect(PotionEffect potionEffect);
+    void addPotionEffect(PotionEffect potionEffect);
 
-    public void removePotionEffect(PotionEffectType potionEffect);
+    void removePotionEffect(PotionEffectType potionEffect);
 
-    public boolean hasPotionEffect(PotionEffectType potionEffect);
+    boolean hasPotionEffect(PotionEffectType potionEffect);
 
-    public void loadConfig(Player player);
+    void loadConfig(Player player);
 
     void setGameMode(GameMode gameMode);
 }

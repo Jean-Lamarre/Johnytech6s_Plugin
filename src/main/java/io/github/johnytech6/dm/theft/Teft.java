@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 
 public class Teft {
 
-	private Player playerRef;
+	private final Player playerRef;
 
 	public Teft(Player p) {
 		this.playerRef = p;
@@ -17,6 +17,5 @@ public class Teft {
 	public Player getPlayer() {
 		return this.playerRef;
 	}
-
 
 }

@@ -1,9 +1,8 @@
 package io.github.johnytech6.dm;
 
 import io.github.johnytech6.DndPlayer;
-import io.github.johnytech6.Handler.DMHandler;
 import io.github.johnytech6.JohnytechPlugin;
-import io.github.johnytech6.dm.puppeter.PuppeterHandler;
+import io.github.johnytech6.Handler.PuppeterHandler;
 import io.github.johnytech6.Handler.HeroHandler;
 import io.github.johnytech6.Handler.TeftHandler;
 import io.github.johnytech6.hero.Hero;
@@ -11,7 +10,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -20,10 +18,8 @@ import java.util.UUID;
 
 public class Dm implements DndPlayer {
 
-    private static Plugin plugin = JohnytechPlugin.getPlugin();
-
-    private static DMHandler dmh = DMHandler.getInstance();
-    private static HeroHandler hh = HeroHandler.getInstance();
+    private static final Plugin plugin = JohnytechPlugin.getPlugin();
+    private static final HeroHandler hh = HeroHandler.getInstance();
 
     private Player playerRef;
 
@@ -36,8 +32,6 @@ public class Dm implements DndPlayer {
     private boolean hasTeftPower = false;
 
     private boolean isVerbose;
-
-    private PermissionAttachment permissionAttachment;
 
     public Dm(Player p, boolean verbose) {
         isVerbose = verbose;
@@ -126,10 +120,7 @@ public class Dm implements DndPlayer {
 
     @Override
     public boolean hasCheckpoint() {
-        if (checkpoint != null) {
-            return true;
-        }
-        return false;
+        return checkpoint != null;
     }
 
     @Override
@@ -149,10 +140,7 @@ public class Dm implements DndPlayer {
 
     @Override
     public boolean hasChair() {
-        if (chairPosition != null) {
-            return true;
-        }
-        return false;
+        return chairPosition != null;
     }
 
     public boolean isInvisible() {
@@ -187,7 +175,7 @@ public class Dm implements DndPlayer {
         return hasNightVision;
     }
 
-    /*
+    /**
      * Toggle Dm night vision
      */
     public void nightVisionToggle() {

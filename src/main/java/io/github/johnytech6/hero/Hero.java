@@ -12,11 +12,12 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class Hero implements DndPlayer {
 
-    private static Plugin plugin = JohnytechPlugin.getPlugin();
+    private static final Plugin plugin = JohnytechPlugin.getPlugin();
 
     private Player playerRef;
 
@@ -25,10 +26,18 @@ public class Hero implements DndPlayer {
     private boolean frozenState;
     private boolean isVerbose;
 
+    /**
+     * Contructor of the dnd hero with the player reference.
+     * @param p the player.
+     */
     public Hero(Player p) {
         playerRef = p;
     }
 
+    /**
+     * Contructor of the dnd player with an old dm reference.
+     * @param oldDm the old dungeon master
+     */
     public Hero(Dm oldDm) {
         playerRef = oldDm.getPlayer();
         checkpoint = oldDm.getCheckpoint();
@@ -47,6 +56,10 @@ public class Hero implements DndPlayer {
         DMHandler.getInstance().removeDm(oldDm);
     }
 
+    /**
+     * Tell when state changed.
+     * @return boolean (the state)
+     */
     @Override
     public boolean isVerbose() {
         return isVerbose;
@@ -59,7 +72,7 @@ public class Hero implements DndPlayer {
 
     // Right click with saddle
     public void rideHero(Entity e) {
-        e.addPassenger(playerRef.getPlayer());
+        e.addPassenger(Objects.requireNonNull(playerRef.getPlayer()));
         if (e instanceof Player) {
             playerRef.sendMessage("You are the passenger of " + e.getName());
             e.sendMessage(playerRef.getName() + " is your passenger.");
@@ -134,10 +147,7 @@ public class Hero implements DndPlayer {
 
     @Override
     public boolean hasCheckpoint() {
-        if (checkpoint != null) {
-            return true;
-        }
-        return false;
+        return checkpoint != null;
     }
 
     @Override
@@ -157,10 +167,7 @@ public class Hero implements DndPlayer {
 
     @Override
     public boolean hasChair() {
-        if (chairPosition != null) {
-            return true;
-        }
-        return false;
+        return chairPosition != null;
     }
 
     @Override

@@ -11,7 +11,7 @@ import org.bukkit.inventory.EquipmentSlot;
 
 import io.github.johnytech6.Handler.HeroHandler;
 import io.github.johnytech6.Handler.DMHandler;
-import io.github.johnytech6.dm.puppeter.PuppeterHandler;
+import io.github.johnytech6.Handler.PuppeterHandler;
 import io.github.johnytech6.Handler.TeftHandler;
 
 public class ClickEntityListener implements Listener {
@@ -31,18 +31,19 @@ public class ClickEntityListener implements Listener {
             Entity e = event.getRightClicked();
 
             //-------RightClick Listener for Puppeter player-------
-            if ((e instanceof Entity) && ph.isPlayerPuppeter(p.getName()) && !(e instanceof Player)) {
+            if (ph.isPlayerPuppeter(p.getName()) && !(e instanceof Player)) {
                 ph.Morph(p, e);
             }
 
 
             //----------Right Click for control Inventory--------------
             else if (e instanceof Player && dmh.isPlayerDm(p.getName()) && th.isPlayerTeft(p.getName())) {
-                String playerName = ((Player) e).getName();
+                String playerName = e.getName();
                 Player otherPlayer = Bukkit.getServer().getPlayerExact(playerName);
                 if (otherPlayer == null) {
                     p.sendMessage(ChatColor.RED + "Error: Player name (" + playerName + ") is invalid! Is the player online?");
                 }
+                assert otherPlayer != null;
                 p.openInventory(otherPlayer.getInventory());
             }
 

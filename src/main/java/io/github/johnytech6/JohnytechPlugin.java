@@ -1,15 +1,14 @@
 package io.github.johnytech6;
 
 import io.github.johnytech6.Handler.PluginHandler;
+import io.github.johnytech6.dm.commands.DmCommand;
+import io.github.johnytech6.dm.commands.GetPlayerPosition;
+import io.github.johnytech6.dm.commands.StatJohnytech;
 import io.github.johnytech6.hero.commands.HeroCommand;
 import io.github.johnytech6.listener.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import io.github.johnytech6.dm.commands.*;
-
-import java.io.File;
 
 //
 //****************
@@ -20,15 +19,12 @@ public class JohnytechPlugin extends JavaPlugin{
 	
 	private static Plugin pluginInstance;
 
-	private File customConfigFile;
-	private FileConfiguration config;
-
-    @Override
+	@Override
     public void onEnable() {
     	
     	pluginInstance = this;
 
-		config = getConfig();
+		FileConfiguration config = getConfig();
 
 		config.options().copyDefaults(true);
 		saveConfig();

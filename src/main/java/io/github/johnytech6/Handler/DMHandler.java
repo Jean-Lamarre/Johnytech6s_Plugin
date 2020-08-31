@@ -4,7 +4,6 @@ import java.util.*;
 
 import io.github.johnytech6.DndPlayer;
 import io.github.johnytech6.dm.Dm;
-import io.github.johnytech6.dm.puppeter.PuppeterHandler;
 import io.github.johnytech6.hero.Hero;
 import io.github.johnytech6.JohnytechPlugin;
 import org.bukkit.entity.Player;
