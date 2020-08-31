@@ -93,8 +93,17 @@ public class PuppeterHandler {
 
         p.removePassenger(e);
 
-        dmh.getDm(p.getName()).invisibilityToggle();
-        dmh.getDm(p.getName()).nightVisionToggle();
+        if (Morphedpuppeter.wasInvisible()) {
+            dmh.getDm(p.getName()).setInvisibility(true);
+        } else {
+            dmh.getDm(p.getName()).setInvisibility(false);
+        }
+
+        if (Morphedpuppeter.hadNightVision()) {
+            dmh.getDm(p.getName()).setNightVision(true);
+        } else {
+            dmh.getDm(p.getName()).setNightVision(false);
+        }
 
         RemoveMorphPlayer(Morphedpuppeter);
     }
@@ -102,21 +111,20 @@ public class PuppeterHandler {
     public void UnmorphOfArmorStand(Player ep) {
 
         Puppeter morphedpuppeter = GetMorphPuppeter(ep.getName());
-        Player p = morphedpuppeter.getPlayer();
         Puppet pu = morphedpuppeter.getPuppet();
         Entity e = pu.getEntity();
         EntityEquipment armorStandEquipement = ((ArmorStand) e).getEquipment();
 
-        // remove item of entity of the player
-        p.getInventory().setItemInMainHand(armorStandEquipement.getItemInMainHand());
-        p.getInventory().setItemInOffHand(armorStandEquipement.getItemInOffHand());
-        p.getInventory().setHelmet(armorStandEquipement.getHelmet());
-        p.getInventory().setChestplate(armorStandEquipement.getChestplate());
-        p.getInventory().setLeggings(armorStandEquipement.getLeggings());
-        p.getInventory().setBoots(armorStandEquipement.getBoots());
+        // remove item of entity off the player
+        ep.getInventory().setItemInMainHand(armorStandEquipement.getItemInMainHand());
+        ep.getInventory().setItemInOffHand(armorStandEquipement.getItemInOffHand());
+        ep.getInventory().setHelmet(armorStandEquipement.getHelmet());
+        ep.getInventory().setChestplate(armorStandEquipement.getChestplate());
+        ep.getInventory().setLeggings(armorStandEquipement.getLeggings());
+        ep.getInventory().setBoots(armorStandEquipement.getBoots());
 
-        if(morphedpuppeter.wasInvisible()){
-            dmh.getDm(p.getName()).setInvisibility(true);
+        if (morphedpuppeter.wasInvisible()) {
+            dmh.getDm(ep.getName()).setInvisibility(true);
         }
 
         // give item to the entity
@@ -127,10 +135,12 @@ public class PuppeterHandler {
         armorStandEquipement.setLeggings(pu.getLeggings());
         armorStandEquipement.setBoots(pu.getBoots());
 
-        e.teleport(p.getLocation());
+        e.teleport(ep.getLocation());
         ((ArmorStand) e).setCollidable(true);
         e.setInvulnerable(false);
         ((ArmorStand) e).setVisible(true);
+
+        morphedpuppeter.setPuppet(null);
 
         RemoveMorphPlayer(morphedpuppeter);
     }
@@ -157,7 +167,7 @@ public class PuppeterHandler {
         p.teleport(armorStand.getLocation());
 
         puppeter.setInvisibilityState(dmh.getDm(p.getName()).isInvisible());
-        if(puppeter.wasInvisible()){
+        if (puppeter.wasInvisible()) {
             dmh.getDm(p.getName()).setInvisibility(false);
         }
 
@@ -304,7 +314,6 @@ public class PuppeterHandler {
      * @param itemInHand
      */
     private void itemInHand(Player p, ItemStack itemInHand) {
-        Bukkit.getConsoleSender().sendMessage(itemInHand.toString());
         p.getInventory().setItemInMainHand(itemInHand);
     }
 
@@ -335,6 +344,9 @@ public class PuppeterHandler {
 
         // teleport player to entity last location
         p.teleport(e.getLocation());
+
+        puppeter.setInvisibilityState(dmh.getDm(p.getName()).isInvisible());
+        puppeter.setNightVisionState(dmh.getDm(p.getName()).hasNightVision());
 
         // make entity invincible, silent and invisible
         ((LivingEntity) e)
@@ -388,17 +400,11 @@ public class PuppeterHandler {
 
         if (!isPlayerPuppeter(player.getName())) {
             AddPuppeter(new Puppeter(player));
-            if (verbose) {
-                player.sendMessage("You have puppeter power.");
-            }
         } else if (isPlayerPuppeter(player.getName())) {
             if (isPlayerMorph(player.getName())) {
                 Unmorph(player);
             }
             RemovePuppeter(getPuppeter(player.getName()));
-            if (verbose) {
-                player.sendMessage("You dont have puppeter power anymore");
-            }
         } else {
             return false;
         }
@@ -464,7 +470,7 @@ public class PuppeterHandler {
     public Puppeter GetMorphPuppeter(String name) {
         if (morphedPuppeters.size() > 0) {
             for (Puppeter pp : morphedPuppeters) {
-                if (pp.getName() == name) {
+                if (pp.getName().equals(name)) {
                     return pp;
                 }
             }

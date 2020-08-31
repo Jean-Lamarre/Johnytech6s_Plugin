@@ -2,44 +2,55 @@ package io.github.johnytech6.dm.puppeter;
 
 import org.bukkit.entity.Player;
 
-/*
- * 
- */
-public class Puppeter{
+public class Puppeter {
 
-	private Player playerRef;
-	private Puppet puppet;
-	private int index;
-	private boolean wasInvisibile;
-	
-	public Puppeter(Player p) {
-		this.playerRef = p;
-	}
-	
-	public String getName() {
-		return playerRef.getName();
-	}
-	
-	public int getIndex() {
-		return this.index;
-	}
-	public void setIndex(int i) {
-		this.index = i;
-	}
-	
-	public Player getPlayer() {
-		return this.playerRef;
-	}
-	public Puppet getPuppet() {
-		return this.puppet;
-	}
-	public void setPuppet(Puppet pu) {
-		this.puppet = pu;
-	}
-	public void setInvisibilityState(boolean state){
-		wasInvisibile = state;
-	}
-	public boolean wasInvisible(){
-		return wasInvisibile;
-	}
+    private Player playerRef;
+    private Puppet puppet;
+    private int index;
+    private boolean wasInvisibile;
+    private boolean hadNightVision;
+
+    public Puppeter(Player p) {
+        this.playerRef = p;
+    }
+
+    public String getName() {
+        return playerRef.getName();
+    }
+
+    public int getIndex() {
+        return this.index;
+    }
+
+    public void setIndex(int i) {
+        this.index = i;
+    }
+
+    public Player getPlayer() {
+        return this.playerRef;
+    }
+
+    public Puppet getPuppet() {
+        return this.puppet;
+    }
+
+    public void setPuppet(Puppet pu) {
+        this.puppet = pu;
+    }
+
+    public void setInvisibilityState(boolean state) {
+        wasInvisibile = state;
+    }
+
+    public boolean wasInvisible() {
+        return wasInvisibile;
+    }
+
+    public void setNightVisionState(boolean state) {
+        hadNightVision = state;
+    }
+
+    public boolean hadNightVision() {
+        return hadNightVision;
+    }
 }

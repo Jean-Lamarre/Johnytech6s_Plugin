@@ -73,9 +73,8 @@ public class Hero implements DndPlayer {
      */
     private void freezeHero() {
         if (!frozenState) {
-            frozenState = true;
-
             playerRef.setWalkSpeed(0);
+            playerRef.setFlySpeed(0);
             playerRef.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 128, false, false, true));
             playerRef.sendMessage("You cannot move anymore.");
         }
@@ -86,22 +85,22 @@ public class Hero implements DndPlayer {
      */
     private void unfreezeHero() {
         if (frozenState) {
-            frozenState = false;
             playerRef.setWalkSpeed(0.2f);
+            playerRef.setFlySpeed(0.1f);
             playerRef.removePotionEffect(PotionEffectType.JUMP);
             playerRef.sendMessage("You can move.");
         }
     }
 
     public void setFrozenState(boolean state) {
-        frozenState = state;
-        plugin.getConfig().set("Dnd_player.Heros." + playerRef.getName() + ".frozen_state", frozenState);
-        plugin.saveConfig();
-        if (frozenState) {
+        if (state) {
             freezeHero();
         } else {
             unfreezeHero();
         }
+        frozenState = state;
+        plugin.getConfig().set("Dnd_player.Heros." + playerRef.getName() + ".frozen_state", frozenState);
+        plugin.saveConfig();
     }
 
     public boolean isFrozen() {

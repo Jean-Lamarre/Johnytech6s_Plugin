@@ -44,30 +44,33 @@ public class PlayerInteract implements Listener {
                     inventory = plugin.getServer().createInventory(p, chest.getInventory().getSize());
                     inventory.setContents(chest.getInventory().getContents());
                     event.setCancelled(true);
+                    p.openInventory(inventory);
                     break;
                 case DISPENSER:
                     inventory = ((Dispenser) blockState).getInventory();
                     event.setCancelled(true);
+                    p.openInventory(inventory);
                     break;
                 case HOPPER:
                     inventory = ((Hopper) blockState).getInventory();
                     event.setCancelled(true);
+                    p.openInventory(inventory);
                     break;
                 case DROPPER:
                     inventory = ((Dropper) blockState).getInventory();
                     event.setCancelled(true);
+                    p.openInventory(inventory);
                     break;
                 case BARREL:
                     final Barrel barrel = (Barrel) blockState;
                     inventory = plugin.getServer().createInventory(p, barrel.getInventory().getSize());
                     inventory.setContents(barrel.getInventory().getContents());
                     event.setCancelled(true);
+                    p.openInventory(inventory);
                     break;
             }
 
 
-
-            p.openInventory(inventory);
         }
     }
 

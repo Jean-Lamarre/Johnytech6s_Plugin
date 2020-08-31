@@ -32,23 +32,24 @@ public class PuppeterMode_toggle extends SubCommand {
 
     @Override
     public void perform(Player p, String[] args) {
-        if(dmh.isPlayerDm(p.getName()) && p.hasPermission("dm.mode.puppeter")) {
-            if(args.length == 2) {
-                Dm targetDm = dmh.getDm(args[1]);
-                ph.TogglePuppeterMode((Player)targetDm, true);
 
+        if(dmh.isPlayerDm(p.getName()) && p.hasPermission("dm.mode.puppeter")) {
+            Dm targetDm;
+            if(args.length == 2) {
+                targetDm = dmh.getDm(args[1]);
+                ph.TogglePuppeterMode((Player)targetDm, true);
                 if(ph.isPlayerPuppeter(p.getName())){
-                    targetDm.setPuppeterPower(true);
                     p.sendMessage(args[1] + " has now puppeter's power.");
                 }
                 else{
-                    targetDm.setPuppeterPower(false);
                     p.sendMessage(args[1] + " lost puppeter's power.");
                 }
             }
             else{
+                targetDm = dmh.getDm(p.getName());
                 ph.TogglePuppeterMode(p, true);
             }
+            targetDm.setPuppeterPower(!targetDm.hasPuppeterPower());
 
         }else {
             p.sendMessage("You need to be DM to toggle puppeterMode.");
