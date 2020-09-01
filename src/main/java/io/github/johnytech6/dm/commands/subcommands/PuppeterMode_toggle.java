@@ -37,7 +37,7 @@ public class PuppeterMode_toggle extends SubCommand {
             Dm targetDm;
             if(args.length == 2) {
                 targetDm = dmh.getDm(args[1]);
-                ph.TogglePuppeterMode((Player)targetDm, true);
+                ph.TogglePuppeterMode(targetDm.getPlayer(), true);
                 if(ph.isPlayerPuppeter(p.getName())){
                     p.sendMessage(args[1] + " has now puppeter's power.");
                 }
