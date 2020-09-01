@@ -56,12 +56,12 @@ public class Dm implements DndPlayer {
 
         Location oldCheckpoint = oldHero.getCheckpoint();
         if(oldCheckpoint != null){
-            checkpoint = oldCheckpoint;
+            setCheckpoint(oldCheckpoint);
         }
 
         Location oldChairPosition = oldHero.getChairPosition();
         if(oldChairPosition !=null){
-            chairPosition = oldChairPosition;
+            setChairPosition(oldChairPosition);
         }
 
         if(oldHero.isFrozen()){

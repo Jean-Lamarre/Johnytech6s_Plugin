@@ -45,12 +45,12 @@ public class Hero implements DndPlayer {
 
         Location oldCheckpoint = oldDm.getCheckpoint();
         if (oldCheckpoint != null) {
-            checkpoint = oldCheckpoint;
+            setCheckpoint(oldCheckpoint);
         }
 
         Location oldChairPosition = oldDm.getChairPosition();
         if (oldChairPosition != null) {
-            chairPosition = oldChairPosition;
+            setChairPosition(oldChairPosition);
         }
 
         DMHandler.getInstance().removeDm(oldDm);
