@@ -37,7 +37,7 @@ public class JohnytechPlugin extends JavaPlugin{
     	getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
     	getServer().getPluginManager().registerEvents(new PlayerInteractArmorStandArmor(), this);
     	getServer().getPluginManager().registerEvents(new PlayerLeaveListener(), this);
-    	getServer().getPluginManager().registerEvents(new PlayerInteract(), this);
+    	getServer().getPluginManager().registerEvents(new DmInteractChest(), this);
 
     	
     	//Set all commands

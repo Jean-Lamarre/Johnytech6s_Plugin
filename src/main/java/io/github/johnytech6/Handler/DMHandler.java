@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 
-public class DMHandler {
+public class DMHandler{
 
     HeroHandler hh = HeroHandler.getInstance();
 
