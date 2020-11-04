@@ -1,0 +1,5 @@
+language: node_js
+java:
+  - "stable"
+script:
+  - npm test
