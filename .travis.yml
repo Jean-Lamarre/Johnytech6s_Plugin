@@ -1,5 +1,5 @@
-language: node_js
-java:
-  - "stable"
+language: java
+jdk:
+  - jdk8
 script:
   - npm test
