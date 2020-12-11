@@ -10,8 +10,4 @@ Made by: Jean Lamarre (Johnytech6)
 
 ## CU01 - Dm can control Mobs
 
-```puml
-@startuml
-!include https://raw.githubusercontent.com/Jean-Lamarre/Johnytech6s_Plugin/master/docs/Model/dcu-control-mobs.plantuml
-@enduml
-```
+![dcu-control-mobs](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Jean-Lamarre/Johnytech6s_Plugin/master/docs/Model/dcu-control-mobs.plantuml)
