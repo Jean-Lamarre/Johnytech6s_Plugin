@@ -8,12 +8,12 @@ title DSS - Control Mobs
 actor ":Dm" as dm
 participant ":PluginHandler" as plugin
 
-dm -> plugin : takeControl(puppet :LivingEntity)
+dm -> plugin : morph(puppet :Entity)
 
-return Control of Living Entity (movement)
+return Control of Entity (movement)
 
 opt player toggle sneak
-dm -> plugin : leaveControl()
+dm -> plugin : unMorph()
 return Dm leave mobs and become invisible
 end opt
 

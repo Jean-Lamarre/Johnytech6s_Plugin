@@ -5,8 +5,8 @@ skinparam packageStyle rect
 skinparam defaultfontname Verdana
 actor Dm as dm
 rectangle "PluginHandler" {
-  (Take Control of a Mob) as JP #PowderBlue
-  (Leave Mobs) as R #PowderBlue
+  (Morph into Entity) as JP #PowderBlue
+  (Leave Entity) as R #PowderBlue
   dm -- JP
   dm -- R
 }
