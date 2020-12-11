@@ -40,8 +40,8 @@ public class Dm implements DndPlayer {
         if (isVerbose) {
             playerRef.sendMessage("***You are now DM***");
         }
-        if (hh.isPlayerHero(playerRef.getName())) {
-            hh.removeHero(hh.getHero(playerRef.getName()));
+        if (hh.isPlayerHero(playerRef.getUniqueId())) {
+            hh.removeHero(hh.getHero(playerRef.getUniqueId()));
         }
         playerRef.setGameMode(GameMode.CREATIVE);
 
