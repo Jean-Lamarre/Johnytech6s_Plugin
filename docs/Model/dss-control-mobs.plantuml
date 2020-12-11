@@ -6,7 +6,7 @@ skinparam sequence {
 }
 title DSS - Control Mobs
 actor ":Dm" as dm
-participant ":Plugin" as plugin
+participant ":PluginHandler" as plugin
 
 dm -> plugin : takeControl(puppet :LivingEntity)
 

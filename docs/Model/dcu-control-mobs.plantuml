@@ -4,7 +4,7 @@ skinparam style strictuml
 skinparam packageStyle rect
 skinparam defaultfontname Verdana
 actor Dm as dm
-rectangle "Plugin" {
+rectangle "PluginHandler" {
   (Take Control of a Mob) as JP #PowderBlue
   (Leave Mobs) as R #PowderBlue
   dm -- JP
