@@ -129,7 +129,7 @@ public class DMHandler {
     public void startSession(Dm dmSender) {
         isSessionStarted = true;
 
-        ArrayList<DndPlayer> dndPlayers = PluginHandler.getInstance().getDndPlayers();
+        HashMap<UUID, DndPlayer> dndPlayers = PluginHandler.getInstance().getDndPlayers();
 
         //teleport if had checkpoint
         if (dmSender.hasCheckpoint()) {
@@ -140,7 +140,12 @@ public class DMHandler {
                 entry.getValue().sendMessage("Teleporting all hero to last checkpoint.");
             }
 
-            for (DndPlayer dndP : dndPlayers) {
+            Iterator<Map.Entry<UUID, DndPlayer>> allDndPlayer = dndPlayers.entrySet().iterator();
+            while (allDndPlayer.hasNext()) {
+                HashMap.Entry<UUID, DndPlayer> entry = allDndPlayer.next();
+
+                DndPlayer dndP = entry.getValue();
+
                 if (!(dndP.hasChair())) {
                     dndP.setChairPosition(dndP.getLocation());
                     dndP.sendMessage("Chair location saved");
@@ -156,7 +161,13 @@ public class DMHandler {
 
         } else {
             dmSender.sendMessage("No checkpoint was saved. Teleport all player manually.");
-            for (DndPlayer dndP : dndPlayers) {
+
+            Iterator<Map.Entry<UUID, DndPlayer>> allDndPlayer = dndPlayers.entrySet().iterator();
+            while (allDndPlayer.hasNext()) {
+                HashMap.Entry<UUID, DndPlayer> entry = allDndPlayer.next();
+
+                DndPlayer dndP = entry.getValue();
+
                 dndP.sendTitle("Minecraft DnD", "The adventure may begin...", 10, 70, 20);
                 if (!(dndP.hasChair())) {
                     dndP.setChairPosition(dndP.getLocation());
@@ -169,9 +180,14 @@ public class DMHandler {
     }
 
     public void endSession(Dm dmSender) {
-        ArrayList<DndPlayer> dndPlayers = PluginHandler.getInstance().getDndPlayers();
+        HashMap<UUID, DndPlayer> dndPlayers = PluginHandler.getInstance().getDndPlayers();
 
-        for (DndPlayer dndP : dndPlayers) {
+        Iterator<Map.Entry<UUID, DndPlayer>> allDndPlayer = dndPlayers.entrySet().iterator();
+        while (allDndPlayer.hasNext()) {
+            HashMap.Entry<UUID, DndPlayer> entry = allDndPlayer.next();
+
+            DndPlayer dndP = entry.getValue();
+
             dndP.setCheckpoint(dndP.getLocation());
             if (dndP.hasChair()) {
                 dndP.teleport(dndP.getChairPosition());

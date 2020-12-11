@@ -5,99 +5,288 @@ title __JOHNYTECH6-S_PLUGIN's Class Diagram__\n
   namespace io.github.johnytech6 {
     interface io.github.johnytech6.DndPlayer {
     }
+  }
+  
 
+  namespace io.github.johnytech6 {
     namespace Handler {
       class io.github.johnytech6.Handler.DMHandler {
       }
+    }
+  }
+  
 
+  namespace io.github.johnytech6 {
+    namespace Handler {
       class io.github.johnytech6.Handler.HeroHandler {
       }
+    }
+  }
+  
 
+  namespace io.github.johnytech6 {
+    namespace Handler {
       class io.github.johnytech6.Handler.PluginHandler {
       }
+    }
+  }
+  
 
+  namespace io.github.johnytech6 {
+    namespace Handler {
+      class io.github.johnytech6.Handler.PuppeterHandler {
+      }
+    }
+  }
+  
+
+  namespace io.github.johnytech6 {
+    namespace Handler {
       class io.github.johnytech6.Handler.TeftHandler {
       }
     }
+  }
+  
 
+  namespace io.github.johnytech6 {
     class io.github.johnytech6.JohnytechPlugin {
     }
+  }
+  
 
+  namespace io.github.johnytech6 {
     class io.github.johnytech6.OfflineDndPlayer {
     }
+  }
+  
 
+  namespace io.github.johnytech6 {
     namespace dm {
       class io.github.johnytech6.dm.Dm {
       }
+    }
+  }
+  
 
+  namespace io.github.johnytech6 {
+    namespace dm {
+      class io.github.johnytech6.dm.VirtualInventory {
+      }
+    }
+  }
+  
+
+  namespace io.github.johnytech6 {
+    namespace dm {
       namespace commands {
         class io.github.johnytech6.dm.commands.DmCommand {
         }
+      }
+    }
+  }
+  
 
+  namespace io.github.johnytech6 {
+    namespace dm {
+      namespace commands {
         class io.github.johnytech6.dm.commands.GetPlayerPosition {
         }
+      }
+    }
+  }
+  
 
+  namespace io.github.johnytech6 {
+    namespace dm {
+      namespace commands {
         class io.github.johnytech6.dm.commands.StatJohnytech {
         }
+      }
+    }
+  }
+  
 
+  namespace io.github.johnytech6 {
+    namespace dm {
+      namespace commands {
         abstract class io.github.johnytech6.dm.commands.SubCommand {
         }
+      }
+    }
+  }
+  
 
+  namespace io.github.johnytech6 {
+    namespace dm {
+      namespace commands {
         namespace subcommands {
           class io.github.johnytech6.dm.commands.subcommands.EndSession {
           }
+        }
+      }
+    }
+  }
+  
 
+  namespace io.github.johnytech6 {
+    namespace dm {
+      namespace commands {
+        namespace subcommands {
           class io.github.johnytech6.dm.commands.subcommands.FreezeHero {
           }
+        }
+      }
+    }
+  }
+  
 
+  namespace io.github.johnytech6 {
+    namespace dm {
+      namespace commands {
+        namespace subcommands {
           class io.github.johnytech6.dm.commands.subcommands.Invisibility_toggle {
           }
+        }
+      }
+    }
+  }
+  
 
+  namespace io.github.johnytech6 {
+    namespace dm {
+      namespace commands {
+        namespace subcommands {
           class io.github.johnytech6.dm.commands.subcommands.Mode_toggleDm {
           }
+        }
+      }
+    }
+  }
+  
 
+  namespace io.github.johnytech6 {
+    namespace dm {
+      namespace commands {
+        namespace subcommands {
           class io.github.johnytech6.dm.commands.subcommands.NightVision_toggle {
           }
+        }
+      }
+    }
+  }
+  
 
+  namespace io.github.johnytech6 {
+    namespace dm {
+      namespace commands {
+        namespace subcommands {
           class io.github.johnytech6.dm.commands.subcommands.PuppeterMode_toggle {
           }
+        }
+      }
+    }
+  }
+  
 
+  namespace io.github.johnytech6 {
+    namespace dm {
+      namespace commands {
+        namespace subcommands {
+          class io.github.johnytech6.dm.commands.subcommands.SetChair {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace io.github.johnytech6 {
+    namespace dm {
+      namespace commands {
+        namespace subcommands {
           class io.github.johnytech6.dm.commands.subcommands.StartSession {
           }
+        }
+      }
+    }
+  }
+  
 
+  namespace io.github.johnytech6 {
+    namespace dm {
+      namespace commands {
+        namespace subcommands {
           class io.github.johnytech6.dm.commands.subcommands.TeftMode_toggle {
           }
+        }
+      }
+    }
+  }
+  
 
+  namespace io.github.johnytech6 {
+    namespace dm {
+      namespace commands {
+        namespace subcommands {
           class io.github.johnytech6.dm.commands.subcommands.UnfreezeHero {
           }
         }
       }
+    }
+  }
+  
 
+  namespace io.github.johnytech6 {
+    namespace dm {
       namespace puppeter {
         class io.github.johnytech6.dm.puppeter.Puppet {
         }
+      }
+    }
+  }
+  
 
+  namespace io.github.johnytech6 {
+    namespace dm {
+      namespace puppeter {
         class io.github.johnytech6.dm.puppeter.Puppeter {
         }
-
-        class io.github.johnytech6.Handler.PuppeterHandler {
-        }
       }
+    }
+  }
+  
 
+  namespace io.github.johnytech6 {
+    namespace dm {
       namespace theft {
         class io.github.johnytech6.dm.theft.Teft {
         }
       }
     }
+  }
+  
 
+  namespace io.github.johnytech6 {
     namespace hero {
       class io.github.johnytech6.hero.Hero {
       }
+    }
+  }
+  
 
+  namespace io.github.johnytech6 {
+    namespace hero {
       namespace commands {
         class io.github.johnytech6.hero.commands.HeroCommand {
         }
+      }
+    }
+  }
+  
 
+  namespace io.github.johnytech6 {
+    namespace hero {
+      namespace commands {
         namespace subcommands {
           class io.github.johnytech6.hero.commands.subcommands.SetChair {
           }
@@ -111,16 +300,44 @@ title __JOHNYTECH6-S_PLUGIN's Class Diagram__\n
     namespace listener {
       class io.github.johnytech6.listener.ClickEntityListener {
       }
+    }
+  }
+  
 
+  namespace io.github.johnytech6 {
+    namespace listener {
+      class io.github.johnytech6.listener.DmInteractChest {
+      }
+    }
+  }
+  
+
+  namespace io.github.johnytech6 {
+    namespace listener {
       class io.github.johnytech6.listener.PlayerInteractArmorStandArmor {
       }
+    }
+  }
+  
 
+  namespace io.github.johnytech6 {
+    namespace listener {
       class io.github.johnytech6.listener.PlayerJoinListener {
       }
+    }
+  }
+  
 
+  namespace io.github.johnytech6 {
+    namespace listener {
       class io.github.johnytech6.listener.PlayerLeaveListener {
       }
+    }
+  }
+  
 
+  namespace io.github.johnytech6 {
+    namespace listener {
       class io.github.johnytech6.listener.PlayerToggleSneakListener {
       }
     }
@@ -141,6 +358,8 @@ title __JOHNYTECH6-S_PLUGIN's Class Diagram__\n
   io.github.johnytech6.dm.commands.subcommands.Mode_toggleDm -up-|> io.github.johnytech6.dm.commands.SubCommand
   io.github.johnytech6.dm.commands.subcommands.NightVision_toggle -up-|> io.github.johnytech6.dm.commands.SubCommand
   io.github.johnytech6.dm.commands.subcommands.PuppeterMode_toggle -up-|> io.github.johnytech6.dm.commands.SubCommand
+  io.github.johnytech6.dm.commands.subcommands.SetChair -up-|> io.github.johnytech6.dm.commands.SubCommand
+  io.github.johnytech6.dm.commands.subcommands.SetChair o-- io.github.johnytech6.Handler.PluginHandler : ph
   io.github.johnytech6.dm.commands.subcommands.StartSession -up-|> io.github.johnytech6.dm.commands.SubCommand
   io.github.johnytech6.dm.commands.subcommands.TeftMode_toggle -up-|> io.github.johnytech6.dm.commands.SubCommand
   io.github.johnytech6.dm.commands.subcommands.UnfreezeHero -up-|> io.github.johnytech6.dm.commands.SubCommand
@@ -149,20 +368,18 @@ title __JOHNYTECH6-S_PLUGIN's Class Diagram__\n
   io.github.johnytech6.hero.commands.HeroCommand .up.|> org.bukkit.command.TabExecutor
   io.github.johnytech6.hero.commands.HeroCommand o-- io.github.johnytech6.Handler.DMHandler : dmh
   io.github.johnytech6.hero.commands.subcommands.SetChair -up-|> io.github.johnytech6.dm.commands.SubCommand
-  io.github.johnytech6.hero.commands.subcommands.SetChair o-- io.github.johnytech6.Handler.DMHandler : dmh
+  io.github.johnytech6.hero.commands.subcommands.SetChair o-- io.github.johnytech6.Handler.PluginHandler : ph
   io.github.johnytech6.listener.ClickEntityListener .up.|> org.bukkit.event.Listener
   io.github.johnytech6.listener.ClickEntityListener o-- io.github.johnytech6.Handler.DMHandler : dmh
   io.github.johnytech6.listener.ClickEntityListener o-- io.github.johnytech6.Handler.HeroHandler : hh
   io.github.johnytech6.listener.ClickEntityListener o-- io.github.johnytech6.Handler.PuppeterHandler : ph
   io.github.johnytech6.listener.ClickEntityListener o-- io.github.johnytech6.Handler.TeftHandler : th
+  io.github.johnytech6.listener.DmInteractChest .up.|> org.bukkit.event.Listener
+  io.github.johnytech6.listener.DmInteractChest o-- io.github.johnytech6.Handler.DMHandler : dmh
   io.github.johnytech6.listener.PlayerInteractArmorStandArmor .up.|> org.bukkit.event.Listener
-  io.github.johnytech6.listener.PlayerInteractArmorStandArmor o-- io.github.johnytech6.Handler.DMHandler : dmh
   io.github.johnytech6.listener.PlayerInteractArmorStandArmor o-- io.github.johnytech6.Handler.PuppeterHandler : ph
   io.github.johnytech6.listener.PlayerJoinListener .up.|> org.bukkit.event.Listener
   io.github.johnytech6.listener.PlayerLeaveListener .up.|> org.bukkit.event.Listener
-  io.github.johnytech6.listener.PlayerLeaveListener o-- io.github.johnytech6.Handler.DMHandler : dmh
-  io.github.johnytech6.listener.PlayerLeaveListener o-- io.github.johnytech6.Handler.HeroHandler : hh
-  io.github.johnytech6.listener.PlayerLeaveListener o-- io.github.johnytech6.Handler.PuppeterHandler : ph
   io.github.johnytech6.listener.PlayerToggleSneakListener .up.|> org.bukkit.event.Listener
   io.github.johnytech6.listener.PlayerToggleSneakListener o-- io.github.johnytech6.Handler.DMHandler : dmh
   io.github.johnytech6.listener.PlayerToggleSneakListener o-- io.github.johnytech6.Handler.PuppeterHandler : ph

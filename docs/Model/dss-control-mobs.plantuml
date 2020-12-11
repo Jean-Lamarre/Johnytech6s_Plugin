@@ -1,0 +1,21 @@
+@startuml
+skinparam style strictuml
+skinparam defaultfontname Verdana
+skinparam sequence {
+    MessageAlign center
+}
+title DSS - Control Mobs
+actor ":Dm" as dm
+participant ":Plugin" as plugin
+
+dm -> plugin : takeControl(puppet :LivingEntity)
+
+return Control of Living Entity (movement)
+
+opt player toggle sneak
+dm -> plugin : leaveControl()
+return Dm leave mobs and become invisible
+end opt
+
+
+@enduml

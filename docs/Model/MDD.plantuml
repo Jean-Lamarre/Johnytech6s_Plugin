@@ -1,0 +1,59 @@
+@startuml MDD
+skinparam style strictuml
+skinparam defaultfontname Verdana
+left to right direction
+hide empty members
+'skinparam linetype ortho
+title Domain modle of Johnytech6's plugin
+
+class Plugin{
+
+}
+
+class Server{
+
+}
+
+class Player{
+
+}
+
+class OfflinePlayer{
+
+}
+
+class DndPlayer{
+
+}
+
+class OfflineDndPlayer{
+
+}
+
+class Dm{
+
+}
+
+class Hero{
+
+}
+
+class Teft{
+
+}
+
+class Puppeter{
+
+}
+
+class Puppet{
+
+}
+
+class Mob{
+
+}
+
+
+
+@enduml

@@ -1,0 +1,13 @@
+@startuml
+left to right direction
+skinparam style strictuml
+skinparam packageStyle rect
+skinparam defaultfontname Verdana
+actor Dm as dm
+rectangle "Plugin" {
+  (Take Control of a Mob) as JP #powderblue
+  (Leave Mobs) as R #powderblue
+  dm -- JP
+  dm -- R
+}
+@enduml
