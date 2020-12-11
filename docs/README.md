@@ -8,7 +8,7 @@ Made by: Jean Lamarre (Johnytech6)
 
 ## Domain Model
 
-
+![MDD](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Jean-Lamarre/Johnytech6s_Plugin/master/docs/Model/MDD.plantuml)
 
 ![dcu-control-mobs](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Jean-Lamarre/Johnytech6s_Plugin/master/docs/Model/dcu-control-mobs.plantuml)
 
