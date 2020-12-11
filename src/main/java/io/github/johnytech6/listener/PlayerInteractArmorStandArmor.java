@@ -23,7 +23,7 @@ public class PlayerInteractArmorStandArmor implements Listener {
 		ItemStack itemPlayerHelding = event.getArmorStandItem();
 		
 		// -------interactArmorListener for Puppeter player-------
-		if (ph.isPlayerPuppeter(p.getName())) {
+		if (ph.isPlayerPuppeter(p.getUniqueId())) {
 			//event.setCancelled(true);
 			armorStand = event.getRightClicked();
 			ph.MorphInArmorStand(p, armorStand, equipementSelected, itemPlayerHelding);

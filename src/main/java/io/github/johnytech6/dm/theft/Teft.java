@@ -2,6 +2,8 @@ package io.github.johnytech6.dm.theft;
 
 import org.bukkit.entity.Player;
 
+import java.util.UUID;
+
 public class Teft {
 
 	private final Player playerRef;
@@ -18,4 +20,7 @@ public class Teft {
 		return this.playerRef;
 	}
 
+    public UUID getUniqueId() {
+		return playerRef.getUniqueId();
+    }
 }

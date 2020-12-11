@@ -1,9 +1,9 @@
 package io.github.johnytech6.Handler;
 
-import java.util.ArrayList;
-import java.util.UUID;
+import java.util.*;
 
 import io.github.johnytech6.JohnytechPlugin;
+import io.github.johnytech6.dm.Dm;
 import io.github.johnytech6.hero.Hero;
 import org.bukkit.plugin.Plugin;
 
@@ -30,17 +30,17 @@ public class HeroHandler {
 
     private static Plugin plugin = JohnytechPlugin.getPlugin();
 
-    // list of Hero (all player by default)
-    private ArrayList<Hero> heros = new ArrayList<Hero>();
+    // amp of Hero (all player by default)
+    private HashMap<UUID, Hero> heros = new HashMap<UUID, Hero>();
 
     /*
      * Add a Hero
      */
     public void addHero(Hero h) {
-        heros.add(h);
+        heros.put(h.getUniqueId(), h);
         ph.addDndPlayer(h);
 
-        plugin.getConfig().set("Dnd_player.Heros."+h.getName()+".PlayerUUID", h.getUniqueId().toString());
+        plugin.getConfig().set("Dnd_player.Heros." + h.getName() + ".PlayerUUID", h.getUniqueId().toString());
         plugin.saveConfig();
     }
 
@@ -51,39 +51,32 @@ public class HeroHandler {
         heros.remove(h);
         ph.removeDndPlayer(h);
 
-        plugin.getConfig().set("Dnd_player.Heros."+h.getName(), null);
+        plugin.getConfig().set("Dnd_player.Heros." + h.getName(), null);
         plugin.saveConfig();
     }
 
     public boolean isPlayerHero(UUID id) {
-        if (heros.size() > 0) {
-            for (Hero h : heros) {
-                if (h.getUniqueId().equals(id)) {
-                    return true;
-                }
-            }
+        if (heros.containsKey(id)) {
+            return true;
         }
         return false;
     }
 
     /*
-     * Get hero reference with his name
+     * Get hero reference with his id
      */
     public Hero getHero(UUID id) {
-        if (heros.size() > 0) {
-            for (Hero h : heros) {
-                if (h.getUniqueId().equals(id)) {
-                    return h;
-                }
-            }
+        if (heros.containsKey(id)) {
+            return heros.get(id);
         }
+
         return null;
     }
 
     /*
      * Get reference of the list of all the heros
      */
-    public ArrayList<Hero> getHeros() {
+    public HashMap<UUID,Hero> getHeros() {
         return heros;
     }
 
@@ -91,8 +84,10 @@ public class HeroHandler {
      * Freeze position and jump of all heros.
      */
     public void freezeAllHeros() {
-        for (Hero h : heros) {
-            h.setFrozenState(true);
+        Iterator<Map.Entry<UUID, Hero>> heroEntries = heros.entrySet().iterator();
+        while (heroEntries.hasNext()) {
+            HashMap.Entry<UUID, Hero> entry = heroEntries.next();
+            entry.getValue().setFrozenState(true);
         }
     }
 
@@ -100,8 +95,10 @@ public class HeroHandler {
      * Unfreeze position and jump of all heros.
      */
     public void unfreezeAllHeros() {
-        for (Hero h : heros) {
-            h.setFrozenState(false);
+        Iterator<Map.Entry<UUID, Hero>> heroEntries = heros.entrySet().iterator();
+        while (heroEntries.hasNext()) {
+            HashMap.Entry<UUID, Hero> entry = heroEntries.next();
+            entry.getValue().setFrozenState(false);
         }
     }
 

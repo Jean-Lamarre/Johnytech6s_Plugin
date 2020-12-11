@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 
-public class DMHandler{
+public class DMHandler {
 
     HeroHandler hh = HeroHandler.getInstance();
 
@@ -38,7 +38,7 @@ public class DMHandler{
     private Plugin plugin = JohnytechPlugin.getPlugin();
 
     // list of Dm
-    private ArrayList<Dm> dms = new ArrayList<Dm>();
+    private HashMap<UUID, Dm> dms = new HashMap<UUID, Dm>();
 
     private boolean isSessionStarted = false;
 
@@ -54,16 +54,16 @@ public class DMHandler{
 
         if (beDm) {
             Dm newDm;
-            if(hh.isPlayerHero(p.getUniqueId())){
+            if (hh.isPlayerHero(p.getUniqueId())) {
                 newDm = new Dm(hh.getHero(p.getUniqueId()), verbose);
-            }else{
+            } else {
                 newDm = new Dm(p, verbose);
             }
             newDm.setAllPower(true);
             addDm(newDm);
         } else {
             Dm dm = getDm(id);
-            if(verbose){
+            if (verbose) {
                 p.sendMessage("***You are not the DM anymore***");
             }
             dm.setAllPower(false);
@@ -77,7 +77,7 @@ public class DMHandler{
      * Add a Dm
      */
     public void addDm(Dm newDm) {
-        dms.add(newDm);
+        dms.put(newDm.getUniqueId(), newDm);
         ph.addDndPlayer(newDm);
 
         plugin.getConfig().set("Dnd_player.Dms." + newDm.getName() + ".PlayerUUID", newDm.getUniqueId().toString());
@@ -90,7 +90,7 @@ public class DMHandler{
      */
     public void removeDm(Dm dm) {
 
-        dms.remove(dm);
+        dms.remove(dm.getUniqueId());
         ph.removeDndPlayer(dm);
         plugin.getConfig().set("Dnd_player.Dms." + dm.getName(), null);
         plugin.saveConfig();
@@ -98,34 +98,27 @@ public class DMHandler{
     }
 
     public boolean isPlayerDm(UUID id) {
-        if (dms.size() > 0) {
-            for (Dm dm : dms) {
-                if (dm.getUniqueId().equals(id)) {
-                    return true;
-                }
-            }
+        if (dms.containsKey(id)) {
+            return true;
         }
         return false;
     }
 
     /*
-     * Get Dm reference with his name
+     * Get Dm reference with his id
      */
     public Dm getDm(UUID id) {
-        if (dms.size() > 0) {
-            for (Dm dm : dms) {
-                if (dm.getUniqueId().equals(id)) {
-                    return dm;
-                }
-            }
+        if (dms.containsKey(id)) {
+            return dms.get(id);
         }
+
         return null;
     }
 
     /*
-     * Get reference of the list of all the dms
+     * Get reference of the map of all the dms
      */
-    public ArrayList<Dm> getDms() {
+    public HashMap<UUID,Dm> getDms() {
         return dms;
     }
 
@@ -140,12 +133,15 @@ public class DMHandler{
 
         //teleport if had checkpoint
         if (dmSender.hasCheckpoint()) {
-            for (Dm dm : dms) {
-                dm.sendMessage("Teleporting all hero to last checkpoint.");
+
+            Iterator<Map.Entry<UUID, Dm>> allDm = dms.entrySet().iterator();
+            while (allDm.hasNext()) {
+                HashMap.Entry<UUID, Dm> entry = allDm.next();
+                entry.getValue().sendMessage("Teleporting all hero to last checkpoint.");
             }
 
             for (DndPlayer dndP : dndPlayers) {
-                if(!(dndP.hasChair())){
+                if (!(dndP.hasChair())) {
                     dndP.setChairPosition(dndP.getLocation());
                     dndP.sendMessage("Chair location saved");
                 }
@@ -162,12 +158,11 @@ public class DMHandler{
             dmSender.sendMessage("No checkpoint was saved. Teleport all player manually.");
             for (DndPlayer dndP : dndPlayers) {
                 dndP.sendTitle("Minecraft DnD", "The adventure may begin...", 10, 70, 20);
-                if(!(dndP.hasChair())){
+                if (!(dndP.hasChair())) {
                     dndP.setChairPosition(dndP.getLocation());
                 }
             }
         }
-
 
 
         dmSender.sendMessage("Session started");
@@ -185,9 +180,12 @@ public class DMHandler{
             dndP.sendTitle("To be continued...", "End of the session", 10, 70, 20);
         }
 
-        for (Dm dm : dms) {
-            dm.sendMessage("Saved checkpoint and teleported heros to the dnd room.");
+        Iterator<Map.Entry<UUID, Dm>> allDm = dms.entrySet().iterator();
+        while (allDm.hasNext()) {
+            HashMap.Entry<UUID, Dm> entry = allDm.next();
+            entry.getValue().sendMessage("Saved checkpoint and teleported heros to the dnd room.");
         }
+
         isSessionStarted = false;
         dmSender.sendMessage("Session ended");
     }

@@ -1,6 +1,7 @@
 package io.github.johnytech6.Handler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 import io.github.johnytech6.dm.puppeter.Puppet;
@@ -40,9 +41,9 @@ public class PuppeterHandler {
     private static DMHandler dmh = DMHandler.getInstance();
 
     // list of morphed puppeter
-    private ArrayList<Puppeter> puppeters = new ArrayList<Puppeter>();
+    private HashMap<UUID, Puppeter> puppeters = new HashMap<UUID, Puppeter>();
     // list of puppeter
-    private ArrayList<Puppeter> morphedPuppeters = new ArrayList<Puppeter>();
+    private HashMap<UUID, Puppeter> morphedPuppeters = new HashMap<UUID, Puppeter>();
 
     /**
      * @param ep
@@ -443,7 +444,7 @@ public class PuppeterHandler {
     public void AddMorphPuppeter(Puppeter puppeter) {
 
         if (!(isPlayerMorph(puppeter.getUniqueId()))) {
-            morphedPuppeters.add(puppeter);
+            morphedPuppeters.put(puppeter.getUniqueId(), puppeter);
         }
     }
 
@@ -451,19 +452,15 @@ public class PuppeterHandler {
      * Remove morphed puppeter
      */
     public void RemoveMorphPlayer(Puppeter pp) {
-        morphedPuppeters.remove(pp);
+        morphedPuppeters.remove(pp.getUniqueId());
     }
 
     /*
      * Check if puppeter already morph
      */
     public boolean isPlayerMorph(UUID id) {
-        if (morphedPuppeters.size() > 0) {
-            for (Puppeter pp : morphedPuppeters) {
-                if (pp.getUniqueId().equals(id)) {
-                    return true;
-                }
-            }
+        if (morphedPuppeters.containsKey(id)) {
+            return true;
         }
         return false;
     }
@@ -472,14 +469,7 @@ public class PuppeterHandler {
      * Get morphed puppeter reference with his id
      */
     public Puppeter GetMorphPuppeter(UUID id) {
-        if (morphedPuppeters.size() > 0) {
-            for (Puppeter pp : morphedPuppeters) {
-                if (pp.getPlayer().getUniqueId().equals(id)) {
-                    return pp;
-                }
-            }
-        }
-        return null;
+        return morphedPuppeters.get(id);
     }
 
     /*
@@ -487,7 +477,7 @@ public class PuppeterHandler {
      */
     public void AddPuppeter(Puppeter pp) {
         if (!(isPlayerPuppeter(pp.getUniqueId()))) {
-            puppeters.add(pp);
+            puppeters.put(pp.getUniqueId(), pp);
         }
     }
 
@@ -495,19 +485,15 @@ public class PuppeterHandler {
      * Remove puppeter
      */
     public void RemovePuppeter(Puppeter pp) {
-        puppeters.remove(pp);
+        puppeters.remove(pp.getUniqueId());
     }
 
     /*
      * Check if the player is in the list of all the puppeters
      */
     public boolean isPlayerPuppeter(UUID id) {
-        if (puppeters.size() > 0) {
-            for (Puppeter pp : puppeters) {
-                if (pp.getUniqueId().equals(id)) {
-                    return true;
-                }
-            }
+        if (puppeters.containsKey(id)) {
+            return true;
         }
         return false;
     }
@@ -516,27 +502,20 @@ public class PuppeterHandler {
      * Get puppeter reference with his UUID
      */
     public Puppeter getPuppeter(UUID id) {
-        if (puppeters.size() > 0) {
-            for (Puppeter pp : puppeters) {
-                if (pp.getUniqueId().equals(id)) {
-                    return pp;
-                }
-            }
-        }
-        return null;
+        return puppeters.get(id);
     }
 
     /*
      * Get reference of the list of all morphed puppeter
      */
-    public ArrayList<Puppeter> getMorphPlayers() {
+    public HashMap<UUID,Puppeter> getMorphPlayers() {
         return morphedPuppeters;
     }
 
     /*
      * Get reference of the list of all puppeters
      */
-    public ArrayList<Puppeter> getPuppeters() {
+    public HashMap<UUID,Puppeter> getPuppeters() {
         return puppeters;
     }
 }

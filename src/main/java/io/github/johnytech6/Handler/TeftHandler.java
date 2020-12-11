@@ -1,6 +1,8 @@
 package io.github.johnytech6.Handler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.UUID;
 
 import io.github.johnytech6.dm.theft.Teft;
 import org.bukkit.entity.Player;
@@ -25,13 +27,13 @@ public class TeftHandler {
 
 	private static DMHandler dmh = DMHandler.getInstance();
 
-	private ArrayList<Teft> tefts = new ArrayList<Teft>();
+	private HashMap<UUID,Teft> tefts = new HashMap<UUID,Teft>();
 
 
 	public boolean ToggleTeftMode(Player player, boolean verbose) {
-		if (!isPlayerTeft(player.getName())) {
+		if (!isPlayerTeft(player.getUniqueId())) {
 			setTeftMode(player, true, verbose);
-		} else if (isPlayerTeft(player.getName())) {
+		} else if (isPlayerTeft(player.getUniqueId())) {
 			setTeftMode(player, false, verbose);
 		} else {
 			return false;
@@ -47,7 +49,7 @@ public class TeftHandler {
 			}
 		} else {
 			try {
-				RemoveTeftPlayer(getTeft(player.getName()));
+				RemoveTeftPlayer(getTeft(player.getUniqueId()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -59,36 +61,27 @@ public class TeftHandler {
 	}
 
 	public void AddTeftPlayer(Teft t) {
-		if (!(isPlayerTeft(t.getName()))) {
-			tefts.add(t);
+		if (!(isPlayerTeft(t.getUniqueId()))) {
+			tefts.put(t.getUniqueId(), t);
 		}
 	}
 
 	public void RemoveTeftPlayer(Teft t) {
-		tefts.remove(t);
+		tefts.remove(t.getUniqueId());
 	}
 
-	public boolean isPlayerTeft(String name) {
-		if (tefts.size() > 0) {
-			for (Teft t : tefts) {
-				if (t.getName().equals(name)) {
-					return true;
-				}
-			}
+	public boolean isPlayerTeft(UUID id) {
+		if(tefts.containsKey(id)){
+			return true;
 		}
 		return false;
 	}
 
-	public Teft getTeft(String name) throws Exception {
-		for (Teft t : tefts) {
-			if (t.getPlayer().getName().equals(name)) {
-				return t;
-			}
-		}
-		throw new Exception("No teft with the name: " + name);
+	public Teft getTeft(UUID id) throws Exception {
+		return tefts.get(id);
 	}
 
-	public ArrayList<Teft> getTeftPlayers() {
+	public HashMap<UUID, Teft> getTeftPlayers() {
 		return tefts;
 	}
 

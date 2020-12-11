@@ -35,9 +35,8 @@ public class ClickEntityListener implements Listener {
                 ph.Morph(p, e);
             }
 
-
             //----------Right Click for control Inventory--------------
-            else if (e instanceof Player && dmh.isPlayerDm(p.getUniqueId()) && th.isPlayerTeft(p.getName())) {
+            else if (e instanceof Player && dmh.isPlayerDm(p.getUniqueId()) && th.isPlayerTeft(p.getUniqueId())) {
                 String playerName = e.getName();
                 Player otherPlayer = Bukkit.getServer().getPlayerExact(playerName);
                 if (otherPlayer == null) {
@@ -46,7 +45,6 @@ public class ClickEntityListener implements Listener {
                 assert otherPlayer != null;
                 p.openInventory(otherPlayer.getInventory());
             }
-
 
             //-------Right click Listener for saddle on player or Villager-------
             else if (e instanceof Player || e.getName().contentEquals("Villager")) {

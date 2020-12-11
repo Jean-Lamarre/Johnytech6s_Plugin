@@ -1,8 +1,6 @@
 package io.github.johnytech6.Handler;
 
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import io.github.johnytech6.DndPlayer;
 import io.github.johnytech6.OfflineDndPlayer;
@@ -40,9 +38,9 @@ public class PluginHandler {
     private static PuppeterHandler pph = PuppeterHandler.getInstance();
     private static TeftHandler th = TeftHandler.getInstance();
 
-    private ArrayList<DndPlayer> dndPlayers = new ArrayList<DndPlayer>();
+    private HashMap<UUID, DndPlayer> dndPlayers = new HashMap<UUID, DndPlayer>();
 
-    private ArrayList<OfflineDndPlayer> offlineDndPlayers = new ArrayList<OfflineDndPlayer>();
+    private HashMap<UUID, OfflineDndPlayer> offlineDndPlayers = new HashMap<UUID, OfflineDndPlayer>();
 
     public void loadConfig(FileConfiguration config) {
         Set<String> listDmsNames = config.getConfigurationSection("Dnd_player.Dms").getKeys(false);
@@ -52,7 +50,8 @@ public class PluginHandler {
             for (String name : listDmsNames) {
                 String id = config.getString("Dnd_player.Dms." + name + ".PlayerUUID");
                 if (!(id.equals("defaultID"))) {
-                    offlineDndPlayers.add(new OfflineDndPlayer(Bukkit.getOfflinePlayer(UUID.fromString(id))));
+                    UUID playerId = UUID.fromString(id);
+                    offlineDndPlayers.put(playerId, new OfflineDndPlayer(Bukkit.getOfflinePlayer(playerId)));
                 }
             }
         }
@@ -60,115 +59,101 @@ public class PluginHandler {
             for (String name : listHerosNames) {
                 String id = config.getString("Dnd_player.Heros." + name + ".PlayerUUID");
                 if (!(id.equals("defaultID"))) {
-                    offlineDndPlayers.add(new OfflineDndPlayer(Bukkit.getOfflinePlayer(UUID.fromString(id))));
+                    UUID playerId = UUID.fromString(id);
+                    offlineDndPlayers.put(playerId, new OfflineDndPlayer(Bukkit.getOfflinePlayer(playerId)));
                 }
             }
         }
     }
 
-    public ArrayList<DndPlayer> getDndPlayers() {
+    public HashMap<UUID, DndPlayer> getDndPlayers() {
         return dndPlayers;
     }
 
-    public ArrayList<OfflineDndPlayer> getofflineDndPlayers() {
+    public HashMap<UUID, OfflineDndPlayer> getofflineDndPlayers() {
         return offlineDndPlayers;
     }
 
     public void addDndPlayer(DndPlayer dndPlayer) {
-        dndPlayers.add(dndPlayer);
+        dndPlayers.put(dndPlayer.getUniqueId(), dndPlayer);
     }
 
     public void removeDndPlayer(DndPlayer dndPlayer) {
-        dndPlayers.remove(dndPlayer);
+        dndPlayers.remove(dndPlayer.getUniqueId());
     }
 
     public void removeOfflineDndPlayers(OfflineDndPlayer oDndP) {
         offlineDndPlayers.remove(oDndP);
     }
 
-    public boolean isPlayerDndPlayer(Player p) {
-        if (dndPlayers.size() > 0) {
-            for (DndPlayer dndP : dndPlayers) {
-                if (dndP.getUniqueId().equals(p.getUniqueId())) {
-                    return true;
-                }
-            }
+    public boolean isPlayerDndPlayer(UUID id) {
+        if (dndPlayers.containsKey(id)) {
+            return true;
         }
         return false;
     }
 
     public boolean isOfflineDndPlayers(UUID id) {
-        if (offlineDndPlayers.size() > 0) {
-            for (OfflineDndPlayer p : offlineDndPlayers) {
-                if (p.getUniqueId().equals(id)) {
-                    return true;
-                }
-            }
+        if (offlineDndPlayers.containsKey(id)) {
+            return true;
         }
+
         return false;
     }
 
     public DndPlayer getDndPlayer(UUID uuid) {
-        if (dndPlayers.size() > 0) {
-            for (DndPlayer dndP : dndPlayers) {
-                if (dndP.getUniqueId().equals(uuid)) {
-                    return dndP;
-                }
-            }
-        }
-        return null;
+        return dndPlayers.get(uuid);
     }
 
     public OfflineDndPlayer getOfflineDndPlayer(UUID uuid) {
-        if (offlineDndPlayers.size() > 0) {
-            for (OfflineDndPlayer oDndP : offlineDndPlayers) {
-                if (oDndP.getUniqueId().equals(uuid)) {
-                    return oDndP;
-                }
-            }
-        }
-        return null;
+        return offlineDndPlayers.get(uuid);
     }
 
     public void johnytech6Stat(CommandSender p) {
 
         ArrayList<String> offlineDndPlayerName = new ArrayList<String>();
-        ArrayList<String> DndPlayerName = new ArrayList<String>();
+        ArrayList<String> dndPlayerName = new ArrayList<String>();
         ArrayList<String> namesPuppeter = new ArrayList<String>();
         ArrayList<String> namesMorphedPuppeter = new ArrayList<String>();
         ArrayList<String> namesDm = new ArrayList<String>();
         ArrayList<String> namesHero = new ArrayList<String>();
         ArrayList<String> namesTeft = new ArrayList<String>();
 
-        ArrayList<Puppeter> listPuppeter = pph.getPuppeters();
-        ArrayList<Puppeter> listMorphedPuppeter = pph.getMorphPlayers();
-        ArrayList<Dm> listDm = dmh.getDms();
-        ArrayList<Hero> listHero = hh.getHeros();
-        ArrayList<Teft> listTeft = th.getTeftPlayers();
+        HashMap<UUID, Puppeter> listPuppeter = pph.getPuppeters();
+        HashMap<UUID, Puppeter> listMorphedPuppeter = pph.getMorphPlayers();
+        HashMap<UUID, Dm> listDm = dmh.getDms();
+        HashMap<UUID, Hero> listHero = hh.getHeros();
+        HashMap<UUID, Teft> listTeft = th.getTeftPlayers();
 
-        for (DndPlayer dndP : dndPlayers) {
-            DndPlayerName.add(dndP.getName());
-        }
-        for (OfflineDndPlayer oDndP : offlineDndPlayers) {
-            offlineDndPlayerName.add(oDndP.getName());
-        }
-        for (Puppeter cp : listPuppeter) {
-            namesPuppeter.add(cp.getName());
-        }
-        for (Puppeter cp : listMorphedPuppeter) {
-            namesMorphedPuppeter.add(cp.getName());
-        }
-        for (Dm dm : listDm) {
-            namesDm.add(dm.getName());
-        }
-        for (Hero h : listHero) {
-            namesHero.add(h.getName());
-        }
-        for (Teft cp : listTeft) {
-            namesTeft.add(cp.getName());
-        }
+        dndPlayers.forEach((id, dndPlayer) ->
+                dndPlayerName.add(dndPlayer.getName())
+        );
 
-        p.sendMessage("DnD players: " + DndPlayerName.toString());
+        offlineDndPlayers.forEach((id,offlineDndPlayer) ->
+                offlineDndPlayerName.add(offlineDndPlayer.getName())
+        );
+
+        listPuppeter.forEach((id, puppeter) ->
+                namesPuppeter.add(puppeter.getName())
+        );
+
+        listMorphedPuppeter.forEach((id, mPuppeter) ->
+                namesMorphedPuppeter.add(mPuppeter.getName())
+        );
+
+        listDm.forEach((id, dm) ->
+                namesDm.add(dm.getName())
+        );
+
+        listHero.forEach((id, h) ->
+                namesHero.add(h.getName())
+        );
+
+        listTeft.forEach((id, teft) ->
+                namesTeft.add(teft.getName())
+        );
+
+        p.sendMessage("DnD players: " + dndPlayerName.toString());
         p.sendMessage("Offline DnD players: " + offlineDndPlayerName.toString());
         p.sendMessage("Puppeters: " + namesPuppeter.toString());
         p.sendMessage("Morph puppeters: " + namesMorphedPuppeter.toString());
