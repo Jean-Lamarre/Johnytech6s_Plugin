@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Mode_toggleDm extends SubCommand {
 
@@ -32,9 +33,11 @@ public class Mode_toggleDm extends SubCommand {
 
         if (p.hasPermission("dm.mode")) {
             if(args.length == 2){
-                Player targetPlayer = Bukkit.getPlayer(args[1]);
-                dmh.ToggleDmMode(targetPlayer, true);
-                if(dmh.isPlayerDm(targetPlayer.getName())){
+                UUID targetPlayerID = UUID.fromString(args[1]);
+
+                dmh.ToggleDmMode(targetPlayerID, true);
+
+                if(dmh.isPlayerDm(targetPlayerID)){
                     p.sendMessage(args[1] + " is now DM.");
                 }
                 else{
@@ -42,7 +45,7 @@ public class Mode_toggleDm extends SubCommand {
                 }
             }
             else{
-                dmh.ToggleDmMode(p, true);
+                dmh.ToggleDmMode(p.getUniqueId(), true);
             }
         }
     }

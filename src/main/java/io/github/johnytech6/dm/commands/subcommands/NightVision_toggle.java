@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class NightVision_toggle extends SubCommand {
 
@@ -30,13 +31,15 @@ public class NightVision_toggle extends SubCommand {
 
     @Override
     public void perform(Player p, String[] args) {
-        if (DMHandler.getInstance().isPlayerDm(p.getName()) && p.hasPermission("dm.mode.vision")) {
+        UUID playerID = p.getUniqueId();
+
+        if (DMHandler.getInstance().isPlayerDm(playerID) && p.hasPermission("dm.mode.vision")) {
             Dm targetDm;
             if (args.length == 2) {
-                targetDm = dmh.getDm(args[1]);
+                targetDm = dmh.getDm(UUID.fromString(args[1]));
                 p.sendMessage("Night vision state of "+args[1] + " : " + targetDm.hasNightVision());
             } else {
-                targetDm = dmh.getDm(p.getName());
+                targetDm = dmh.getDm(playerID);
             }
             targetDm.nightVisionToggle();
         } else {

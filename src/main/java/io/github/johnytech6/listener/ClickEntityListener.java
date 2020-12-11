@@ -31,13 +31,13 @@ public class ClickEntityListener implements Listener {
             Entity e = event.getRightClicked();
 
             //-------RightClick Listener for Puppeter player-------
-            if (ph.isPlayerPuppeter(p.getName()) && !(e instanceof Player)) {
+            if (ph.isPlayerPuppeter(p.getUniqueId()) && !(e instanceof Player)) {
                 ph.Morph(p, e);
             }
 
 
             //----------Right Click for control Inventory--------------
-            else if (e instanceof Player && dmh.isPlayerDm(p.getName()) && th.isPlayerTeft(p.getName())) {
+            else if (e instanceof Player && dmh.isPlayerDm(p.getUniqueId()) && th.isPlayerTeft(p.getName())) {
                 String playerName = e.getName();
                 Player otherPlayer = Bukkit.getServer().getPlayerExact(playerName);
                 if (otherPlayer == null) {
@@ -51,8 +51,8 @@ public class ClickEntityListener implements Listener {
             //-------Right click Listener for saddle on player or Villager-------
             else if (e instanceof Player || e.getName().contentEquals("Villager")) {
                 if (p.getInventory().getItemInMainHand().toString().contentEquals("ItemStack{SADDLE x 1}")) {
-                    if (hh.isPlayerHero(p.getName())) {
-                        hh.getHero(p.getName()).rideHero(e);
+                    if (hh.isPlayerHero(p.getUniqueId())) {
+                        hh.getHero(p.getUniqueId()).rideHero(e);
                     }
                 }
             }

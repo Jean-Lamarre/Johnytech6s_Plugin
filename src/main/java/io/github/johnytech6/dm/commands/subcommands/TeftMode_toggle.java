@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class TeftMode_toggle extends SubCommand {
 
@@ -32,15 +33,16 @@ public class TeftMode_toggle extends SubCommand {
 
     @Override
     public void perform(Player p, String[] args) {
+        UUID playerID = p.getUniqueId();
 
-        if (dmh.isPlayerDm(p.getName()) && p.hasPermission("dm.mode.teft")) {
+        if (dmh.isPlayerDm(playerID) && p.hasPermission("dm.mode.teft")) {
             Dm targetDm;
             if (args.length == 2) {
-                targetDm = dmh.getDm(args[1]);
+                targetDm = dmh.getDm(UUID.fromString(args[1]));
                 th.ToggleTeftMode(targetDm.getPlayer(), true);
                 p.sendMessage("Teft power state of " + args[1] + " : " + targetDm.hasTeftPower());
             } else {
-                targetDm = dmh.getDm(p.getName());
+                targetDm = dmh.getDm(playerID);
                 th.ToggleTeftMode(p, true);
             }
             targetDm.setTeftPower(!targetDm.hasTeftPower());

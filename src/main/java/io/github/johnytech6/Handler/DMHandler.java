@@ -6,6 +6,7 @@ import io.github.johnytech6.DndPlayer;
 import io.github.johnytech6.dm.Dm;
 import io.github.johnytech6.hero.Hero;
 import io.github.johnytech6.JohnytechPlugin;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -44,28 +45,29 @@ public class DMHandler{
     /*
      * Toggle Dm mode
      */
-    public boolean ToggleDmMode(Player p, boolean verbose) {
-        return setDmMode(p, !(isPlayerDm(p.getName())), verbose);
+    public boolean ToggleDmMode(UUID id, boolean verbose) {
+        return setDmMode(id, !(isPlayerDm(id)), verbose);
     }
 
-    public boolean setDmMode(Player p, boolean beDm, boolean verbose) {
+    public boolean setDmMode(UUID id, boolean beDm, boolean verbose) {
+        Player p = Bukkit.getPlayer(id);
 
         if (beDm) {
             Dm newDm;
-            if(hh.isPlayerHero(p.getName())){
-                newDm = new Dm(hh.getHero(p.getName()), verbose);
+            if(hh.isPlayerHero(p.getUniqueId())){
+                newDm = new Dm(hh.getHero(p.getUniqueId()), verbose);
             }else{
                 newDm = new Dm(p, verbose);
             }
             newDm.setAllPower(true);
             addDm(newDm);
         } else {
-            Dm dm = getDm(p.getName());
+            Dm dm = getDm(id);
             if(verbose){
                 p.sendMessage("***You are not the DM anymore***");
             }
             dm.setAllPower(false);
-            removeDm(getDm(p.getName()));
+            removeDm(getDm(id));
             hh.addHero(new Hero(dm));
         }
         return true;
@@ -95,10 +97,10 @@ public class DMHandler{
 
     }
 
-    public boolean isPlayerDm(String name) {
+    public boolean isPlayerDm(UUID id) {
         if (dms.size() > 0) {
             for (Dm dm : dms) {
-                if (dm.getName().equals(name)) {
+                if (dm.getUniqueId().equals(id)) {
                     return true;
                 }
             }
@@ -109,10 +111,10 @@ public class DMHandler{
     /*
      * Get Dm reference with his name
      */
-    public Dm getDm(String name) {
+    public Dm getDm(UUID id) {
         if (dms.size() > 0) {
             for (Dm dm : dms) {
-                if (dm.getName().equalsIgnoreCase(name)) {
+                if (dm.getUniqueId().equals(id)) {
                     return dm;
                 }
             }

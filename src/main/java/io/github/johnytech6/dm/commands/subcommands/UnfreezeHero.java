@@ -32,7 +32,7 @@ public class UnfreezeHero extends SubCommand {
     @Override
     public void perform(Player p, String[] args) {
         //TODO
-        if (DMHandler.getInstance().isPlayerDm(p.getName()) /*&& p.hasPermission("dm.*****")*/) {
+        if (DMHandler.getInstance().isPlayerDm(p.getUniqueId()) /*&& p.hasPermission("dm.*****")*/) {
             if (args.length == 2) {
                 if (hh.isPlayerHero(args[1])) {
                     hh.getHero(args[1]).setFrozenState(false);

@@ -22,9 +22,9 @@ public class PlayerToggleSneakListener implements Listener {
 			Player ep = event.getPlayer();
 
 			//Sneak listener for DM
-			if (dmh.isPlayerDm(ep.getName())) {
+			if (dmh.isPlayerDm(ep.getUniqueId())) {
 				// Unmorph player if is morph AND a puppeter
-				if (ph.isPlayerMorph(ep.getName()) && ph.isPlayerPuppeter(ep.getName())) {
+				if (ph.isPlayerMorph(ep.getUniqueId()) && ph.isPlayerPuppeter(ep.getUniqueId())) {
 					ph.Unmorph(ep);
 				}
 			}

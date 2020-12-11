@@ -45,11 +45,11 @@ public class PlayerJoinListener implements Listener {
             ph.removeOfflineDndPlayers(offlineDndPlayer);
 
         } else {
-            if (dmh.isPlayerDm(p.getName())) {
-                dmh.getDm(p.getName()).loadConfig(p);
+            if (dmh.isPlayerDm(p.getUniqueId())) {
+                dmh.getDm(p.getUniqueId()).loadConfig(p);
                 p.sendMessage(JohnytechPlugin.getPlugin().getConfig().getString("dm_welcome_message"));
-            } else if (hh.isPlayerHero(p.getName())) {
-                hh.getHero(p.getName()).loadConfig(p);
+            } else if (hh.isPlayerHero(p.getUniqueId())) {
+                hh.getHero(p.getUniqueId()).loadConfig(p);
                 p.sendMessage(JohnytechPlugin.getPlugin().getConfig().getString("hero_welcome_message"));
             } else {
                 p.sendMessage(JohnytechPlugin.getPlugin().getConfig().getString("default_welcome_message"));

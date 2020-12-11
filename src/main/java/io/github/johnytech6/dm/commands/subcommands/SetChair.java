@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SetHero extends SubCommand {
+public class SetChair extends SubCommand {
 
     PluginHandler ph = PluginHandler.getInstance();
 
@@ -22,12 +22,12 @@ public class SetHero extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Set chair of a player in the dnd room";
+        return "Set chair of a dm or player in the dnd room";
     }
 
     @Override
     public String getSyntax() {
-        return "/hero set_chair ";
+        return "/dm set_chair [<PlayerName>]";
     }
 
     @Override
@@ -46,7 +46,6 @@ public class SetHero extends SubCommand {
         } else {
             p.sendMessage("You are not a DndPlayer ask Jean for help.");
         }
-
     }
 
     @Override
@@ -54,15 +53,7 @@ public class SetHero extends SubCommand {
 
         if (args.length == 1) {
             List<String> arguments = new ArrayList<>();
-            arguments.add("[<x> <y> <z>]");
-            return arguments;
-        } else if (args.length == 2 && isDouble(args[1])) {
-            List<String> arguments = new ArrayList<>();
-            arguments.add("<y> <z>");
-            return arguments;
-        } else if (args.length == 3 && isDouble(args[1]) && isDouble(args[2])) {
-            List<String> arguments = new ArrayList<>();
-            arguments.add("<z>");
+            arguments.add("[<PlayerName>]");
             return arguments;
         }
         return null;

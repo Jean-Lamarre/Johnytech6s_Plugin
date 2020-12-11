@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class FreezeHero extends SubCommand {
 
@@ -32,7 +33,9 @@ public class FreezeHero extends SubCommand {
     @Override
     public void perform(Player p, String[] args) {
         //TODO
-        if (DMHandler.getInstance().isPlayerDm(p.getName()) /*&& p.hasPermission("dm.*****")*/) {
+        UUID playerID = p.getUniqueId();
+
+        if (DMHandler.getInstance().isPlayerDm(playerID) /*&& p.hasPermission("dm.*****")*/) {
             if (args.length == 2) {
                 if (hh.isPlayerHero(args[1])) {
                     hh.getHero(args[1]).setFrozenState(true);

@@ -1,6 +1,7 @@
 package io.github.johnytech6.Handler;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import io.github.johnytech6.JohnytechPlugin;
 import io.github.johnytech6.hero.Hero;
@@ -54,10 +55,10 @@ public class HeroHandler {
         plugin.saveConfig();
     }
 
-    public boolean isPlayerHero(String name) {
+    public boolean isPlayerHero(UUID id) {
         if (heros.size() > 0) {
             for (Hero h : heros) {
-                if (h.getName().equals(name)) {
+                if (h.getUniqueId().equals(id)) {
                     return true;
                 }
             }
@@ -68,10 +69,10 @@ public class HeroHandler {
     /*
      * Get hero reference with his name
      */
-    public Hero getHero(String name) {
+    public Hero getHero(UUID id) {
         if (heros.size() > 0) {
             for (Hero h : heros) {
-                if (h.getName().equalsIgnoreCase(name)) {
+                if (h.getUniqueId().equals(id)) {
                     return h;
                 }
             }

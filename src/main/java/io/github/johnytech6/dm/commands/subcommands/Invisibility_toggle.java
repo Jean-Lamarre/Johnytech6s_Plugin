@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Invisibility_toggle extends SubCommand {
 
@@ -30,19 +31,21 @@ public class Invisibility_toggle extends SubCommand {
 
     @Override
     public void perform(Player p, String[] args) {
+        UUID playerID = p.getUniqueId();
 
-        if (dmh.isPlayerDm(p.getName()) && p.hasPermission("dm.mode.invisibility")) {
+        if (dmh.isPlayerDm(playerID) && p.hasPermission("dm.mode.invisibility")) {
             Dm targetDm;
             if (args.length == 2) {
-                if (dmh.isPlayerDm(args[1])) {
-                    targetDm = dmh.getDm(args[1]);
+                UUID targetPlayerID = UUID.fromString(args[1]);
+                if (dmh.isPlayerDm(targetPlayerID)){
+                    targetDm = dmh.getDm(targetPlayerID);
                     targetDm.invisibilityToggle();
                     p.sendMessage("Invisibility state of " + args[1] + " : " + targetDm.isInvisible());
                 } else {
                     p.sendMessage("Only dm can toggle invisibilty.");
                 }
             } else {
-                targetDm = dmh.getDm(p.getName());
+                targetDm = dmh.getDm(playerID);
                 targetDm.invisibilityToggle();
             }
         } else {
@@ -58,10 +61,9 @@ public class Invisibility_toggle extends SubCommand {
             Player[] players = new Player[Bukkit.getServer().getOnlinePlayers().size()];
             Bukkit.getServer().getOnlinePlayers().toArray(players);
             for (int i = 0; i < players.length; i++) {
-                if (dmh.isPlayerDm(players[i].getName())) {
+                if (dmh.isPlayerDm(players[i].getUniqueId())) {
                     playerNames.add(players[i].getName());
                 }
-
             }
 
             return playerNames;

@@ -35,7 +35,7 @@ public class DmInteractChest implements Listener {
 
         final Player p = event.getPlayer();
 
-        if (dmh.isPlayerDm(p.getName()) && event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+        if (dmh.isPlayerDm(p.getUniqueId()) && event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             final Block block = event.getClickedBlock();
             Inventory inventory = null;
             final BlockState blockState = block.getState();
@@ -80,7 +80,7 @@ public class DmInteractChest implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         Player p = (Player) event.getWhoClicked();
-        if (dmh.isPlayerDm(p.getName())) {
+        if (dmh.isPlayerDm(p.getUniqueId())) {
             updateChest(p, event.getView(), event.getInventory());
         }
     }
@@ -88,7 +88,7 @@ public class DmInteractChest implements Listener {
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event) {
         Player p = (Player) event.getPlayer();
-        if (dmh.isPlayerDm(p.getName())) {
+        if (dmh.isPlayerDm(p.getUniqueId())) {
             updateChest(p, event.getView(), event.getInventory());
 
             for (VirtualInventory vi : openChests) {
@@ -105,7 +105,7 @@ public class DmInteractChest implements Listener {
     @EventHandler
     public void onInventoryDrag(InventoryDragEvent event) {
         Player p = (Player) event.getWhoClicked();
-        if (dmh.isPlayerDm(p.getName())) {
+        if (dmh.isPlayerDm(p.getUniqueId())) {
             updateChest(p, event.getView(), event.getInventory());
         }
     }

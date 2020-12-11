@@ -1,6 +1,7 @@
 package io.github.johnytech6.Handler;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import io.github.johnytech6.dm.puppeter.Puppet;
 import io.github.johnytech6.dm.puppeter.Puppeter;
@@ -47,7 +48,7 @@ public class PuppeterHandler {
      * @param ep
      */
     public void Unmorph(Player ep) {
-        Puppet pu = GetMorphPuppeter(ep.getName()).getPuppet();
+        Puppet pu = GetMorphPuppeter(ep.getUniqueId()).getPuppet();
         Entity e = pu.getEntity();
         if (e instanceof ArmorStand) {
             UnmorphOfArmorStand(ep);
@@ -63,7 +64,7 @@ public class PuppeterHandler {
      */
     public void UnmorphMob(Player ep) {
 
-        Puppeter Morphedpuppeter = GetMorphPuppeter(ep.getName());
+        Puppeter Morphedpuppeter = GetMorphPuppeter(ep.getUniqueId());
         Player p = Morphedpuppeter.getPlayer();
         Puppet pu = Morphedpuppeter.getPuppet();
         Entity e = pu.getEntity();
@@ -93,16 +94,18 @@ public class PuppeterHandler {
 
         p.removePassenger(e);
 
+        UUID playerID = p.getUniqueId();
+
         if (Morphedpuppeter.wasInvisible()) {
-            dmh.getDm(p.getName()).setInvisibility(true);
+            dmh.getDm(playerID).setInvisibility(true);
         } else {
-            dmh.getDm(p.getName()).setInvisibility(false);
+            dmh.getDm(playerID).setInvisibility(false);
         }
 
         if (Morphedpuppeter.hadNightVision()) {
-            dmh.getDm(p.getName()).setNightVision(true);
+            dmh.getDm(playerID).setNightVision(true);
         } else {
-            dmh.getDm(p.getName()).setNightVision(false);
+            dmh.getDm(playerID).setNightVision(false);
         }
 
         RemoveMorphPlayer(Morphedpuppeter);
@@ -110,7 +113,7 @@ public class PuppeterHandler {
 
     public void UnmorphOfArmorStand(Player ep) {
 
-        Puppeter morphedpuppeter = GetMorphPuppeter(ep.getName());
+        Puppeter morphedpuppeter = GetMorphPuppeter(ep.getUniqueId());
         Puppet pu = morphedpuppeter.getPuppet();
         Entity e = pu.getEntity();
         EntityEquipment armorStandEquipement = ((ArmorStand) e).getEquipment();
@@ -124,7 +127,7 @@ public class PuppeterHandler {
         ep.getInventory().setBoots(armorStandEquipement.getBoots());
 
         if (morphedpuppeter.wasInvisible()) {
-            dmh.getDm(ep.getName()).setInvisibility(true);
+            dmh.getDm(ep.getUniqueId()).setInvisibility(true);
         }
 
         // give item to the entity
@@ -157,7 +160,7 @@ public class PuppeterHandler {
         EntityEquipment armorStandEquipement = armorStand.getEquipment();
         final ItemStack EEitemInMainHand = armorStandEquipement.getItemInMainHand();
 
-        Puppeter puppeter = getPuppeter(p.getName());
+        Puppeter puppeter = getPuppeter(p.getUniqueId());
         puppeter.setPuppet(new Puppet(armorStand));
 
         // Puppeter is in list of MorphedPlayer
@@ -166,9 +169,9 @@ public class PuppeterHandler {
         // teleport player to entity last location
         p.teleport(armorStand.getLocation());
 
-        puppeter.setInvisibilityState(dmh.getDm(p.getName()).isInvisible());
+        puppeter.setInvisibilityState(dmh.getDm(p.getUniqueId()).isInvisible());
         if (puppeter.wasInvisible()) {
-            dmh.getDm(p.getName()).setInvisibility(false);
+            dmh.getDm(p.getUniqueId()).setInvisibility(false);
         }
 
         // Set armor stand invisible incollidable and invulnerable
@@ -335,7 +338,7 @@ public class PuppeterHandler {
      */
     public void Morph(Player p, Entity e) {
 
-        Puppeter puppeter = getPuppeter(p.getName());
+        Puppeter puppeter = getPuppeter(p.getUniqueId());
         puppeter.setPuppet(new Puppet(e));
         Puppet pu = puppeter.getPuppet();
 
@@ -345,8 +348,8 @@ public class PuppeterHandler {
         // teleport player to entity last location
         p.teleport(e.getLocation());
 
-        puppeter.setInvisibilityState(dmh.getDm(p.getName()).isInvisible());
-        puppeter.setNightVisionState(dmh.getDm(p.getName()).hasNightVision());
+        puppeter.setInvisibilityState(dmh.getDm(p.getUniqueId()).isInvisible());
+        puppeter.setNightVisionState(dmh.getDm(p.getUniqueId()).hasNightVision());
 
         // make entity invincible, silent and invisible
         ((LivingEntity) e)
@@ -398,13 +401,15 @@ public class PuppeterHandler {
      */
     public boolean TogglePuppeterMode(Player player, boolean verbose) {
 
-        if (!isPlayerPuppeter(player.getName())) {
+        UUID playerID = player.getUniqueId();
+
+        if (!isPlayerPuppeter(playerID)) {
             AddPuppeter(new Puppeter(player));
-        } else if (isPlayerPuppeter(player.getName())) {
-            if (isPlayerMorph(player.getName())) {
+        } else if (isPlayerPuppeter(playerID)) {
+            if (isPlayerMorph(playerID)) {
                 Unmorph(player);
             }
-            RemovePuppeter(getPuppeter(player.getName()));
+            RemovePuppeter(getPuppeter(playerID));
         } else {
             return false;
         }
@@ -419,10 +424,10 @@ public class PuppeterHandler {
                 p.sendMessage("You have puppeter power.");
             }
         } else {
-            if (isPlayerMorph(p.getName())) {
+            if (isPlayerMorph(p.getUniqueId())) {
                 Unmorph(p);
             }
-            RemovePuppeter(getPuppeter(p.getName()));
+            RemovePuppeter(getPuppeter(p.getUniqueId()));
             if (verbose) {
                 p.sendMessage("You dont have puppeter power anymore");
             }
@@ -437,7 +442,7 @@ public class PuppeterHandler {
      */
     public void AddMorphPuppeter(Puppeter puppeter) {
 
-        if (!(isPlayerMorph(puppeter.getName()))) {
+        if (!(isPlayerMorph(puppeter.getUniqueId()))) {
             morphedPuppeters.add(puppeter);
         }
     }
@@ -452,10 +457,10 @@ public class PuppeterHandler {
     /*
      * Check if puppeter already morph
      */
-    public boolean isPlayerMorph(String name) {
+    public boolean isPlayerMorph(UUID id) {
         if (morphedPuppeters.size() > 0) {
             for (Puppeter pp : morphedPuppeters) {
-                if (pp.getName().equals(name)) {
+                if (pp.getUniqueId().equals(id)) {
                     return true;
                 }
             }
@@ -464,12 +469,12 @@ public class PuppeterHandler {
     }
 
     /*
-     * Get morphed puppeter reference with his name
+     * Get morphed puppeter reference with his id
      */
-    public Puppeter GetMorphPuppeter(String name) {
+    public Puppeter GetMorphPuppeter(UUID id) {
         if (morphedPuppeters.size() > 0) {
             for (Puppeter pp : morphedPuppeters) {
-                if (pp.getName().equals(name)) {
+                if (pp.getPlayer().getUniqueId().equals(id)) {
                     return pp;
                 }
             }
@@ -481,7 +486,7 @@ public class PuppeterHandler {
      * Add a puppeter
      */
     public void AddPuppeter(Puppeter pp) {
-        if (!(isPlayerPuppeter(pp.getName()))) {
+        if (!(isPlayerPuppeter(pp.getUniqueId()))) {
             puppeters.add(pp);
         }
     }
@@ -496,10 +501,10 @@ public class PuppeterHandler {
     /*
      * Check if the player is in the list of all the puppeters
      */
-    public boolean isPlayerPuppeter(String name) {
+    public boolean isPlayerPuppeter(UUID id) {
         if (puppeters.size() > 0) {
             for (Puppeter pp : puppeters) {
-                if (pp.getName().equals(name)) {
+                if (pp.getUniqueId().equals(id)) {
                     return true;
                 }
             }
@@ -508,12 +513,12 @@ public class PuppeterHandler {
     }
 
     /*
-     * Get puppeter reference with his name
+     * Get puppeter reference with his UUID
      */
-    public Puppeter getPuppeter(String name) {
+    public Puppeter getPuppeter(UUID id) {
         if (puppeters.size() > 0) {
             for (Puppeter pp : puppeters) {
-                if (pp.getName().equals(name)) {
+                if (pp.getUniqueId().equals(id)) {
                     return pp;
                 }
             }

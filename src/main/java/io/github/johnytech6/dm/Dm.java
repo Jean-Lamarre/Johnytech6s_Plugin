@@ -1,11 +1,12 @@
 package io.github.johnytech6.dm;
 
 import io.github.johnytech6.DndPlayer;
-import io.github.johnytech6.JohnytechPlugin;
-import io.github.johnytech6.Handler.PuppeterHandler;
 import io.github.johnytech6.Handler.HeroHandler;
+import io.github.johnytech6.Handler.PuppeterHandler;
 import io.github.johnytech6.Handler.TeftHandler;
+import io.github.johnytech6.JohnytechPlugin;
 import io.github.johnytech6.hero.Hero;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -33,38 +34,39 @@ public class Dm implements DndPlayer {
 
     private boolean isVerbose;
 
-    public Dm(Player p, boolean verbose) {
+    public Dm(Player playerRef, boolean verbose) {
         isVerbose = verbose;
-        if(isVerbose){
-            p.sendMessage("***You are now DM***");
+
+        if (isVerbose) {
+            playerRef.sendMessage("***You are now DM***");
         }
-        this.playerRef = p;
-        if (hh.isPlayerHero(p.getName())) {
-            hh.removeHero(hh.getHero(p.getName()));
+        if (hh.isPlayerHero(playerRef.getName())) {
+            hh.removeHero(hh.getHero(playerRef.getName()));
         }
-        p.setGameMode(GameMode.CREATIVE);
+        playerRef.setGameMode(GameMode.CREATIVE);
 
         isVerbose = true;
+
     }
 
-    public Dm(Hero oldHero, boolean verbose){
+    public Dm(Hero oldHero, boolean verbose) {
         isVerbose = verbose;
-        if(isVerbose){
+        if (isVerbose) {
             oldHero.sendMessage("***You are now DM***");
         }
         this.playerRef = oldHero.getPlayer();
 
         Location oldCheckpoint = oldHero.getCheckpoint();
-        if(oldCheckpoint != null){
+        if (oldCheckpoint != null) {
             setCheckpoint(oldCheckpoint);
         }
 
         Location oldChairPosition = oldHero.getChairPosition();
-        if(oldChairPosition !=null){
+        if (oldChairPosition != null) {
             setChairPosition(oldChairPosition);
         }
 
-        if(oldHero.isFrozen()){
+        if (oldHero.isFrozen()) {
             oldHero.setFrozenState(false);
         }
 
@@ -76,12 +78,12 @@ public class Dm implements DndPlayer {
     }
 
     @Override
-    public boolean isVerbose(){
+    public boolean isVerbose() {
         return isVerbose;
     }
 
     @Override
-    public void setVerbose(boolean state){
+    public void setVerbose(boolean state) {
         isVerbose = state;
     }
 
@@ -111,7 +113,7 @@ public class Dm implements DndPlayer {
 
     @Override
     public void setCheckpoint(Location checkpoint) {
-        if(checkpoint != null) {
+        if (checkpoint != null) {
             this.checkpoint = checkpoint;
             plugin.getConfig().set("Dnd_player.Dms." + playerRef.getName() + ".checkpoint", checkpoint);
             plugin.saveConfig();
@@ -130,9 +132,9 @@ public class Dm implements DndPlayer {
 
     @Override
     public void setChairPosition(Location chairPosition) {
-        if(chairPosition != null){
+        if (chairPosition != null) {
             this.chairPosition = chairPosition;
-            playerRef.sendMessage("Chair position set to : " + chairPosition.getX() +", "+chairPosition.getY()+", "+chairPosition.getZ());
+            playerRef.sendMessage("Chair position set to : " + chairPosition.getX() + ", " + chairPosition.getY() + ", " + chairPosition.getZ());
             plugin.getConfig().set("Dnd_player.Dms." + playerRef.getName() + ".chair_position", chairPosition);
             plugin.saveConfig();
         }

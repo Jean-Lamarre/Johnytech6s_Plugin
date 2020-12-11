@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class PuppeterMode_toggle extends SubCommand {
 
@@ -32,11 +33,12 @@ public class PuppeterMode_toggle extends SubCommand {
 
     @Override
     public void perform(Player p, String[] args) {
+        UUID playerID = p.getUniqueId();
 
-        if(dmh.isPlayerDm(p.getName()) && p.hasPermission("dm.mode.puppeter")) {
+        if(dmh.isPlayerDm(playerID) && p.hasPermission("dm.mode.puppeter")) {
             Dm targetDm;
             if(args.length == 2) {
-                targetDm = dmh.getDm(args[1]);
+                targetDm = dmh.getDm(UUID.fromString(args[1]));
                 ph.TogglePuppeterMode(targetDm.getPlayer(), true);
                 if(ph.isPlayerPuppeter(p.getName())){
                     p.sendMessage(args[1] + " has now puppeter's power.");
@@ -46,7 +48,7 @@ public class PuppeterMode_toggle extends SubCommand {
                 }
             }
             else{
-                targetDm = dmh.getDm(p.getName());
+                targetDm = dmh.getDm(playerID);
                 ph.TogglePuppeterMode(p, true);
             }
             targetDm.setPuppeterPower(!targetDm.hasPuppeterPower());

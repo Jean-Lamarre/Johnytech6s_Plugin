@@ -2,6 +2,8 @@ package io.github.johnytech6.dm.puppeter;
 
 import org.bukkit.entity.Player;
 
+import java.util.UUID;
+
 public class Puppeter {
 
     private final Player playerRef;
@@ -80,4 +82,9 @@ public class Puppeter {
     public boolean hadNightVision() {
         return hadNightVision;
     }
+
+    public UUID getUniqueId() {
+        return playerRef.getUniqueId();
+    }
+
 }

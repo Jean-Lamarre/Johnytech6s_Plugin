@@ -3,6 +3,7 @@ package io.github.johnytech6.dm.commands;
 import io.github.johnytech6.Handler.HeroHandler;
 import io.github.johnytech6.dm.commands.subcommands.*;
 import io.github.johnytech6.hero.Hero;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -12,6 +13,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 public class DmCommand implements TabExecutor {
 
@@ -29,29 +31,23 @@ public class DmCommand implements TabExecutor {
         subcommands.add(new TeftMode_toggle());
         subcommands.add(new FreezeHero());
         subcommands.add(new UnfreezeHero());
+        subcommands.add(new SetChair());
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         if (sender instanceof Player) {
-            Player p = (Player) sender;
+            UUID id = ((Player) sender).getUniqueId();
 
             if (args.length > 0) {
                 for (int i = 0; i < getSubCommands().size(); i++) {
                     if (args[0].equalsIgnoreCase(getSubCommands().get(i).getName())) {
-                        getSubCommands().get(i).perform(p, args);
+                        getSubCommands().get(i).perform(Bukkit.getPlayer(id), args);
                     }
                 }
             }
         }
-		/*---------------Logic for set room---------------
-		if(dmh.isPlayerDm(p.getName()) && sender.hasPermission("dm.mode")) {
-			p.sendMessage("Setting dnd room location to " + p.getName() + "position.");
-			return dmh.setDndRoomLocation(p.getLocation());
-		}else {
-			p.sendMessage("You need to be DM to set the DnD room.");
-			return true;
-		}*/
+
         return true;
     }
 
@@ -62,7 +58,7 @@ public class DmCommand implements TabExecutor {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String s, String[] args) {
 
-        if ((sender instanceof Player) && dmh.isPlayerDm(sender.getName())) {
+        if ((sender instanceof Player) && dmh.isPlayerDm(((Player) sender).getUniqueId())) {
             if (args.length == 1) {
                 ArrayList<String> subcommandsArguments = new ArrayList<>();
                 for (int i = 0; i < getSubCommands().size(); i++) {
