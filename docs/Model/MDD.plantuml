@@ -1,59 +1,55 @@
 @startuml MDD
 skinparam style strictuml
 skinparam defaultfontname Verdana
-left to right direction
 hide empty members
-'skinparam linetype ortho
-title Domain modle of Johnytech6's plugin
+left to right direction
+title Domain model of Johnytech6's plugin
 
-class Plugin{
-
-}
-
-class Server{
+class "PluginHandler" as ph{
 
 }
 
-class Player{
-
+class "DndPlayer" as dndP{
+playerReference :Player
+chair_location :Location
+checkpoint_location :Location
 }
 
-class OfflinePlayer{
-
+class "Dm" as dm{
+    isInvisible :boolean
+    hasNightVision :boolean
+    hasPuppeterPower :boolean
+    hasTeftPower :boolean
 }
 
-class DndPlayer{
-
+class "Hero" as h{
+    frozenState :boolean
 }
 
-class OfflineDndPlayer{
+class "Teft" as t
 
+class "Puppeter" as pupter{
+wasInvisible : boolean
+hasNightVision : boolean
 }
 
-class Dm{
-
+class "Puppet" as pup{
+entity_reference : Entity
 }
 
-class Hero{
+ph "1" -right- "1.*" dndP : save
 
-}
+dndP "1" -- "1" dm : is a <
+dndP "1" -- "1" h : is a <
 
-class Teft{
+dm "1" -- "1" pupter : can be a
 
-}
+dm "1" -- "1" t : can be a
 
-class Puppeter{
+pupter "1" -right- "1"  pup : control a
 
-}
-
-class Puppet{
-
-}
-
-class Mob{
-
-}
-
-
+right footer
+Made by Johnytech6
+end footer
 
 @enduml
