@@ -30,6 +30,10 @@ class "Hero" as h{
     frozenState :boolean
 }
 
+class "Session" as ses{
+    isStarted: boolean
+}
+
 class "Teft" as t
 
 class "Puppeter" as pupter{
@@ -47,12 +51,17 @@ ph "1" -- "1" hh
 
 ph "1" -- "1" puh
 
+ph "1" -- "1" ses : host
+
 ph "1" -right- "1.*" dndP : save
 
 dndP "1" -- "1" dm : is a <
 dndP "1" -- "1" h : is a <
 
 dm "1" -- "1" pupter : can be a
+
+dm  --  ses : "start"
+dm  --  ses : "end"
 
 dm "1" -- "1" t : can be a
 

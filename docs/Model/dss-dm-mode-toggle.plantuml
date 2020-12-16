@@ -1,0 +1,22 @@
+@startuml
+skinparam style strictuml
+skinparam defaultfontname Verdana
+skinparam sequence {
+    MessageAlign center
+}
+title DSS - DM mode Toggle
+actor ":DndPlayer" as dndP
+participant ":PluginHandler" as plugin
+
+dndP -> plugin : toggleDmMode()
+alt player is server operator
+alt player isn't a DM
+plugin --> dndP : player become a DM\n(night vision, invisibility, puppeter, teft)
+else player is a DM
+plugin --> dndP : player lose DM power and become a simple hero
+end alt
+else player isn't server operator
+plugin --> dndP : error message to player
+end
+
+@enduml

@@ -12,6 +12,26 @@ Made by: Jean Lamarre (Johnytech6)
 
 ![dcu-control-mobs](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Jean-Lamarre/Johnytech6s_Plugin/master/docs/Model/dcu-control-mobs.plantuml)
 
-## CU01 - Dm can control Mobs
 
-![dss-control-mobs](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Jean-Lamarre/Johnytech6s_Plugin/master/docs/Model/dss-control-mobs.plantuml)****
+## CU01 - TOGGLE DM MODE
+
+
+
+## CU02 - DM MODE
+
+## CU02a - Control Mobs
+
+![dss-control-mobs](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Jean-Lamarre/Johnytech6s_Plugin/master/docs/Model/dss-control-mobs.plantuml)
+
+### `operation(parametre: type)`
+
+**Contrat d'opération**
+
+**Postconditions**
+- ok
+
+**RDCU**
+
+## CU03 - HERO MODE
+
+
