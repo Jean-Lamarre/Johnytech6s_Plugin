@@ -5,9 +5,13 @@ hide empty members
 left to right direction
 title Domain model of Johnytech6's plugin
 
-class "PluginHandler" as ph{
+class "PluginHandler" as ph
 
-}
+class "DMHandler" as dmh
+
+class "HeroHandler" as hh
+
+class "PuppeterHandler" as puh
 
 class "DndPlayer" as dndP{
 playerReference :Player
@@ -36,6 +40,12 @@ hasNightVision : boolean
 class "Puppet" as pup{
 entity_reference : Entity
 }
+
+ph "1" -- "1" dmh
+
+ph "1" -- "1" hh
+
+ph "1" -- "1" puh
 
 ph "1" -right- "1.*" dndP : save
 
