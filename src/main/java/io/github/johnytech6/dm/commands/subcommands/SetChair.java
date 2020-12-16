@@ -33,7 +33,7 @@ public class SetChair extends SubCommand {
     @Override
     public void perform(Player p, String[] args) {
 
-        if (ph.isPlayerDndPlayer(p)) {
+        if (ph.isPlayerDndPlayer(p.getUniqueId())) {
             DndPlayer dndP = ph.getDndPlayer(p.getUniqueId());
             Location targetLocation;
             if (args.length == 4 && isDouble(args[1]) && isDouble(args[2]) && isDouble(args[3])) {

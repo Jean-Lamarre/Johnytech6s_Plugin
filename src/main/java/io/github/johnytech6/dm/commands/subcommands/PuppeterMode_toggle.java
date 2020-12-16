@@ -40,7 +40,7 @@ public class PuppeterMode_toggle extends SubCommand {
             if(args.length == 2) {
                 targetDm = dmh.getDm(UUID.fromString(args[1]));
                 ph.TogglePuppeterMode(targetDm.getPlayer(), true);
-                if(ph.isPlayerPuppeter(p.getName())){
+                if(ph.isPlayerPuppeter(p.getUniqueId())){
                     p.sendMessage(args[1] + " has now puppeter's power.");
                 }
                 else{

@@ -14,4 +14,4 @@ Made by: Jean Lamarre (Johnytech6)
 
 ## CU01 - Dm can control Mobs
 
-![dss-control-mobs](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Jean-Lamarre/Johnytech6s_Plugin/master/docs/Model/dss-control-mobs.plantuml)
+![dss-control-mobs](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Jean-Lamarre/Johnytech6s_Plugin/master/docs/Model/dss-control-mobs.plantuml)****

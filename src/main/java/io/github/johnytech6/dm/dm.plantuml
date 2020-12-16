@@ -49,12 +49,7 @@ title __DM's Class Diagram__\n
           + setVerbose()
           + teleport()
       }
-    }
-  }
-  
 
-  namespace io.github.johnytech6 {
-    namespace dm {
       class io.github.johnytech6.dm.VirtualInventory {
           - inventoryRef : Inventory
           - viewer : Player

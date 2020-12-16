@@ -103,4 +103,15 @@ public class HeroHandler {
     }
 
 
+    public UUID getHeroUUIDByName(String name) {
+        Iterator<Map.Entry<UUID, Hero>> heroEntries = heros.entrySet().iterator();
+        while (heroEntries.hasNext()) {
+            Hero nextHero = heroEntries.next().getValue();
+            if(nextHero.getName().equals(name)){
+                return nextHero.getUniqueId();
+            }
+        }
+
+        return null;
+    }
 }

@@ -10,10 +10,7 @@ import org.bukkit.command.TabExecutor;
 import io.github.johnytech6.Handler.DMHandler;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class DmCommand implements TabExecutor {
 
@@ -72,12 +69,13 @@ public class DmCommand implements TabExecutor {
                             subcommandsArguments.add(getSubCommands().get(i).getName());
                         }
                     } else if (subcommand instanceof UnfreezeHero) {
-                        ArrayList<Hero> heros = HeroHandler.getInstance().getHeros();
+                        HashMap<UUID, Hero> heros = HeroHandler.getInstance().getHeros();
 
                         boolean foundOneHeroFrozen = false;
-                        Iterator<Hero> heroI = heros.iterator();
+
+                        Iterator<Map.Entry<UUID, Hero>> heroI = heros.entrySet().iterator();
                         while (!foundOneHeroFrozen && heroI.hasNext()) {
-                            if (heroI.next().isFrozen()) {
+                            if (heroI.next().getValue().isFrozen()) {
                                 foundOneHeroFrozen = true;
                                 subcommandsArguments.add(getSubCommands().get(i).getName());
                             }

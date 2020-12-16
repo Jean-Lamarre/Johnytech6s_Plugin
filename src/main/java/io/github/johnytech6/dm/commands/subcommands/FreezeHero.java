@@ -37,8 +37,11 @@ public class FreezeHero extends SubCommand {
 
         if (DMHandler.getInstance().isPlayerDm(playerID) /*&& p.hasPermission("dm.*****")*/) {
             if (args.length == 2) {
-                if (hh.isPlayerHero(args[1])) {
-                    hh.getHero(args[1]).setFrozenState(true);
+
+                UUID targetUUID = hh.getHeroUUIDByName(args[1]);
+
+                if (hh.isPlayerHero(targetUUID)) {
+                    hh.getHero(targetUUID).setFrozenState(true);
                     p.sendMessage(args[1] + " is frozen.");
                 } else {
                     p.sendMessage("You only can freeze heros.");
@@ -61,8 +64,8 @@ public class FreezeHero extends SubCommand {
             Bukkit.getServer().getOnlinePlayers().toArray(players);
             for (int i = 0; i < players.length; i++) {
                 Player current_player = players[i];
-                if(hh.isPlayerHero(current_player.getName())){
-                    Hero current_hero = hh.getHero(current_player.getName());
+                if(hh.isPlayerHero(current_player.getUniqueId())){
+                    Hero current_hero = hh.getHero(current_player.getUniqueId());
                     if(!(current_hero.isFrozen())){
                         playerNames.add(current_player.getName());
                     }

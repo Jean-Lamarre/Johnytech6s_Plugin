@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class UnfreezeHero extends SubCommand {
 
@@ -34,8 +35,10 @@ public class UnfreezeHero extends SubCommand {
         //TODO
         if (DMHandler.getInstance().isPlayerDm(p.getUniqueId()) /*&& p.hasPermission("dm.*****")*/) {
             if (args.length == 2) {
-                if (hh.isPlayerHero(args[1])) {
-                    hh.getHero(args[1]).setFrozenState(false);
+                UUID targetUUID = hh.getHeroUUIDByName(args[1]);
+
+                if (hh.isPlayerHero(targetUUID)) {
+                    hh.getHero(targetUUID).setFrozenState(false);
                     p.sendMessage(args[1] + " is unfrozen.");
                 } else {
                     p.sendMessage("A dm can never be frozen.");
@@ -58,8 +61,8 @@ public class UnfreezeHero extends SubCommand {
             Bukkit.getServer().getOnlinePlayers().toArray(players);
             for (int i = 0; i < players.length; i++) {
                 Player current_player = players[i];
-                if(hh.isPlayerHero(current_player.getName())){
-                    Hero current_hero = hh.getHero(current_player.getName());
+                if(hh.isPlayerHero(current_player.getUniqueId())){
+                    Hero current_hero = hh.getHero(current_player.getUniqueId());
                     if(current_hero.isFrozen()){
                         playerNames.add(current_player.getName());
                     }
