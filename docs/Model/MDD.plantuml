@@ -15,12 +15,14 @@ class "HeroHandler" as hh
 
 class "PuppeterHandler" as puh
 
-
-
 class "DndPlayer" as dndP{
 playerReference :Player
 chair_location :Location
 checkpoint_location :Location
+}
+
+class "OfflineDndPlayer" as OdndP{
+offlinePlayerRef :OfflinePlayer
 }
 
 class "Dm" as dm{
@@ -78,6 +80,7 @@ ph "1" -- "1" puh
 ph "1" -- "1" ses : host
 
 ph "1" -right- "1.*" dndP : save
+ph "1" -right- "1.*" OdndP : save
 
 dndP "1" -- "1" dm : is a <
 dndP "1" -- "1" h : is a <

@@ -23,10 +23,16 @@ Made by: Jean Lamarre (Johnytech6)
 
 **Postconditions**
 - Player has DM power active
-- PLayer is register as a DM
+- Player is register as a DM
+
+OR
+
+- Player lose DM power
+- Player is register as a Hero
 
 **RDCU**
 
+![rdcu-toggleDmMode](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Jean-Lamarre/Johnytech6s_Plugin/master/docs/Model/rdcu-toggleDmMode.plantuml)
 
 
 ## CU02 - DM MODE
