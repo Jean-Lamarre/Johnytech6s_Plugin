@@ -1,0 +1,48 @@
+@startuml
+skinparam style strictuml
+skinparam defaultfontname Verdana
+title RDCU for OnPlayerJoin(PlayerJoinEvent event)
+
+participant ":JohnytechPlugin" as jtp
+participant ":PlayerJoinListener" as pjl
+participant "joinEvent:PlayerJoinEvent" as je 
+participant ":PluginHandler" as ph 
+participant "dndPlayer:DndPlayer" as dndP
+participant "offlineDndPlayer:OfflineDndPlayer" as OdndP
+
+-> jtp : player join
+
+jtp -> pjl : OnPlayerJoin(joinEvent)
+pjl -> je : player = getPlayer()
+pjl -> pjl : id = player.getUniqueId()
+
+pjl -> ph : isOfflinePlayer = isOfflineDndPlayers(id)
+
+alt !isOfflinePlayer
+    pjl -> ph : isDndPlayer = isDndPlayers(id)
+    alt isDndPlayer
+        pjl -> ph : dndPlayer = getDndPlayer(id)
+        pjl -> dndP : loadConfig
+    else !isDndPlayer
+        pjl -> ph : dndPlayer = dndPlayer.add(new DndPlayer(player))
+    end
+
+else isOfflinePlayer
+pjl -> ph : offlineDndPlayer = getOfflineDndPlayer(id)
+pjl -> ph : dndPlayer = dndPlayer.add(new DndPlayer(player))
+pjl -> ph : config = getConfig(config)
+pjl -> OdndP : wasDm = wasDm(config)
+alt wasDm
+    pjl -> dndP : setAsDm()
+else !wasDm
+    pjl -> dndP : setAsHero()
+end
+pjl -> dndP : loadConfig
+pjl -> ph : removeOfflinePlayer(player)
+ph -> OdndP !! : <<delete>>
+end
+
+pjl -> dndP : sendMessage(WelcomeMessage)
+
+
+@enduml

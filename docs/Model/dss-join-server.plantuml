@@ -8,7 +8,7 @@ title DSS - Join server
 actor ":Player" as dndP
 participant ":JohnytechPlugin" as plugin
 
-dndP -> plugin : PlayerJoinEvent
+dndP -> plugin : OnPlayerJoin(PlayerJoinEvent event)
 alt player never joined server
 plugin --> dndP : message saying welcome to the new Hero
 else player joined before
