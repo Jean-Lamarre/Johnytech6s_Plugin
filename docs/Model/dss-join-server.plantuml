@@ -1,0 +1,22 @@
+@startuml
+skinparam style strictuml
+skinparam defaultfontname Verdana
+skinparam sequence {
+    MessageAlign center
+}
+title DSS - Join server
+actor ":Player" as dndP
+participant ":JohnytechPlugin" as plugin
+
+dndP -> plugin : PlayerJoinEvent
+alt player never joined server
+plugin --> dndP : message saying welcome to the new Hero
+else player joined before
+alt dndPlayer was a Dm
+plugin --> dndP : message saying welcome to the old Dm
+else dndPlayer was Hero
+plugin --> dndP : message saying welcome to the old Hero
+end
+end
+
+@enduml
