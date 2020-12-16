@@ -15,6 +15,18 @@ Made by: Jean Lamarre (Johnytech6)
 
 ## CU01 - TOGGLE DM MODE
 
+![dss-dm-mode-toogle](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Jean-Lamarre/Johnytech6s_Plugin/master/docs/Model/dss-dm-mode-toggle.plantuml)
+
+### `toggleDmMode()`
+
+**Contrat d'opération**
+
+**Postconditions**
+- Player has DM power active
+- PLayer is register as a DM
+
+**RDCU**
+
 
 
 ## CU02 - DM MODE
