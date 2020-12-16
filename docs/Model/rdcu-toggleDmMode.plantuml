@@ -1,0 +1,27 @@
+@startuml
+skinparam style strictuml
+skinparam defaultfontname Verdana
+title RDCU for toggleDmMode()
+
+participant ":JohnytechPlugin" as jtp
+participant ":DmCommand" as dmC
+participant "dndPlayer:DndPlayer" as dndP 
+participant ":Mode_toggleDm" as mtD 
+participant ":PluginHandler" as ph
+
+
+-> jtp : toggleDmMode()
+note right :by Controler
+
+jtp -> dmC : OnCommand(dndPlayer, \ncommand, label, args)
+
+dmC -> dndP : id = getUniqueId()
+
+dmC -> mtD : perform(id)
+
+mtD -> ph : dm = getDndPlayer(id)
+
+mtD -> dndP : toggleMode()
+
+
+@enduml

@@ -6,7 +6,7 @@ skinparam sequence {
 }
 title DSS - DM mode Toggle
 actor ":DndPlayer" as dndP
-participant ":PluginHandler" as plugin
+participant ":JohnytechPlugin" as plugin
 
 dndP -> plugin : toggleDmMode()
 alt player is server operator
