@@ -5,6 +5,8 @@ hide empty members
 left to right direction
 title Domain model of Johnytech6's plugin
 
+class "JohnytechPlugin" as jp
+
 class "PluginHandler" as ph
 
 class "DMHandler" as dmh
@@ -12,6 +14,8 @@ class "DMHandler" as dmh
 class "HeroHandler" as hh
 
 class "PuppeterHandler" as puh
+
+
 
 class "DndPlayer" as dndP{
 playerReference :Player
@@ -44,6 +48,26 @@ hasNightVision : boolean
 class "Puppet" as pup{
 entity_reference : Entity
 }
+
+package "Listener" as l #PowderBlue{
+class "ClickEntityListener"
+class "DmInteractChest"
+class "PlayerInteractArmorStandArmor"
+class "PlayerJoinListener"
+class "PlayerLeaveListener"
+class "PlayerToggleSneakListener"
+}
+
+package "TabExecutor" as tabE #PowderBlue{
+    class "DmCommand" as dmC
+    class "HeroCommand" as hC
+}
+
+jp -- ph
+
+jp -left- tabE : execute
+
+jp -right- l : execute
 
 ph "1" -- "1" dmh
 
