@@ -38,7 +38,7 @@ public class Mode_toggleDm extends SubCommand {
 
             DndPlayer p = PluginHandler.getInstance().getDndPlayer(playerID);
 
-            if (dmh.isPlayerDm(playerID)/*p.hasPermission("dm.mode")*/) {
+            if (p.getPlayer().hasPermission("dm.mode")) {
                 if (args.length == 2) {
                     UUID targetPlayerID = UUID.fromString(args[1]);
 
