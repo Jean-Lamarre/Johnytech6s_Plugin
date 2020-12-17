@@ -77,6 +77,7 @@ public class DMHandler {
      * Add a Dm
      */
     public void addDm(Dm newDm) {
+
         dms.put(newDm.getUniqueId(), newDm);
         ph.addDndPlayer(newDm);
 

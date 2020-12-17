@@ -6,6 +6,7 @@ import io.github.johnytech6.OfflineDndPlayer;
 import io.github.johnytech6.Handler.PluginHandler;
 import io.github.johnytech6.dm.Dm;
 import io.github.johnytech6.hero.Hero;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -28,8 +29,23 @@ public class PlayerJoinListener implements Listener {
         //TODO remove after updated on Alec's server 2020-12-15
         p.setInvulnerable(false);
 
+        if (ph.isOfflineDndPlayers(p.getUniqueId())) { //if player have been on the server before (first join since plugin reloaded)
+            OfflineDndPlayer offlineDndPlayer = ph.getOfflineDndPlayer(p.getUniqueId());
 
-        if (!(ph.isOfflineDndPlayers(p.getUniqueId()))) {
+            DndPlayer dndPlayer;
+            if (offlineDndPlayer.wasDm(JohnytechPlugin.getPlugin().getConfig())) {
+                dndPlayer = new Dm(p, false);
+
+                dmh.addDm((Dm) dndPlayer);
+                p.sendMessage(JohnytechPlugin.getPlugin().getConfig().getString("dm_welcome_message"));
+            } else {
+                dndPlayer = new Hero(p);
+                hh.addHero((Hero) dndPlayer);
+                p.sendMessage(JohnytechPlugin.getPlugin().getConfig().getString("hero_welcome_message"));
+            }
+            dndPlayer.loadConfig(p);
+            ph.removeOfflineDndPlayers(offlineDndPlayer);
+        } else {
             if (dmh.isPlayerDm(p.getUniqueId())) { //if player DM
                 dmh.getDm(p.getUniqueId()).loadConfig(p);
                 p.sendMessage(JohnytechPlugin.getPlugin().getConfig().getString("dm_welcome_message"));
@@ -40,21 +56,6 @@ public class PlayerJoinListener implements Listener {
                 p.sendMessage(JohnytechPlugin.getPlugin().getConfig().getString("default_welcome_message"));
                 hh.addHero(new Hero(event.getPlayer()));
             }
-        } else { //if player have been on the server before (first join since plugin reloaded)
-            OfflineDndPlayer offlineDndPlayer = ph.getOfflineDndPlayer(p.getUniqueId());
-
-            DndPlayer dndPlayer;
-            if (offlineDndPlayer.wasDm(JohnytechPlugin.getPlugin().getConfig())) {
-                dndPlayer = new Dm(p, false);
-                dmh.addDm((Dm) dndPlayer);
-                p.sendMessage(JohnytechPlugin.getPlugin().getConfig().getString("dm_welcome_message"));
-            } else {
-                dndPlayer = new Hero(p);
-                hh.addHero((Hero) dndPlayer);
-                p.sendMessage(JohnytechPlugin.getPlugin().getConfig().getString("hero_welcome_message"));
-            }
-            dndPlayer.loadConfig(p);
-            ph.removeOfflineDndPlayers(offlineDndPlayer);
         }
     }
 }

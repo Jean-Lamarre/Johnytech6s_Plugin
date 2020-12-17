@@ -227,4 +227,8 @@ public class Hero implements DndPlayer {
     public void setWalkSpeed(float f) {
         playerRef.setWalkSpeed(f);
     }
+
+    public String toString(){
+        return ("Hero: " + playerRef.getName());
+    }
 }
