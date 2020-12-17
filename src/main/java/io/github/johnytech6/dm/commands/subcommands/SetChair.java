@@ -6,10 +6,12 @@ import io.github.johnytech6.Handler.HeroHandler;
 import io.github.johnytech6.Handler.PluginHandler;
 import io.github.johnytech6.dm.commands.SubCommand;
 import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class SetChair extends SubCommand {
 
@@ -31,20 +33,25 @@ public class SetChair extends SubCommand {
     }
 
     @Override
-    public void perform(Player p, String[] args) {
+    public void perform(CommandSender sender, String[] args) {
+        if (sender instanceof Player) {
+            UUID playerID = ((Player) sender).getUniqueId();
 
-        if (ph.isPlayerDndPlayer(p.getUniqueId())) {
-            DndPlayer dndP = ph.getDndPlayer(p.getUniqueId());
-            Location targetLocation;
-            if (args.length == 4 && isDouble(args[1]) && isDouble(args[2]) && isDouble(args[3])) {
-                targetLocation = new Location(p.getWorld(), Double.parseDouble(args[1]), Double.parseDouble(args[2]), Double.parseDouble(args[3]));
+            DndPlayer p = PluginHandler.getInstance().getDndPlayer(playerID);
+
+            if (ph.isPlayerDndPlayer(p.getUniqueId())) {
+                DndPlayer dndP = ph.getDndPlayer(p.getUniqueId());
+                Location targetLocation;
+                if (args.length == 4 && isDouble(args[1]) && isDouble(args[2]) && isDouble(args[3])) {
+                    targetLocation = new Location(p.getPlayer().getWorld(), Double.parseDouble(args[1]), Double.parseDouble(args[2]), Double.parseDouble(args[3]));
+                } else {
+                    targetLocation = p.getLocation();
+                }
+                dndP.setChairPosition(targetLocation);
+
             } else {
-                targetLocation = p.getLocation();
+                p.sendMessage("You are not a DndPlayer ask Jean for help.");
             }
-            dndP.setChairPosition(targetLocation);
-
-        } else {
-            p.sendMessage("You are not a DndPlayer ask Jean for help.");
         }
     }
 

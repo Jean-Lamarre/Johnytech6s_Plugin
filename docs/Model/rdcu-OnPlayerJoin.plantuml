@@ -5,10 +5,10 @@ title RDCU for OnPlayerJoin(PlayerJoinEvent event)
 
 participant ":JohnytechPlugin" as jtp
 participant ":PlayerJoinListener" as pjl
-participant "joinEvent:PlayerJoinEvent" as je 
 participant ":PluginHandler" as ph 
 participant "dndPlayer:DndPlayer" as dndP
 participant "offlineDndPlayer:OfflineDndPlayer" as OdndP
+participant "joinEvent:PlayerJoinEvent" as je 
 
 -> jtp : player join
 
@@ -24,12 +24,12 @@ alt !isOfflinePlayer
         pjl -> ph : dndPlayer = getDndPlayer(id)
         pjl -> dndP : loadConfig
     else !isDndPlayer
-        pjl -> ph : dndPlayer = dndPlayer.add(new DndPlayer(player))
+        pjl -> ph : dndPlayer = add(new DndPlayer(player))
     end
 
 else isOfflinePlayer
 pjl -> ph : offlineDndPlayer = getOfflineDndPlayer(id)
-pjl -> ph : dndPlayer = dndPlayer.add(new DndPlayer(player))
+pjl -> ph : dndPlayer = add(new DndPlayer(player))
 pjl -> ph : config = getConfig(config)
 pjl -> OdndP : wasDm = wasDm(config)
 alt wasDm

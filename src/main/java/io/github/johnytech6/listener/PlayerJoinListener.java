@@ -25,36 +25,36 @@ public class PlayerJoinListener implements Listener {
 
         Player p = event.getPlayer();
 
-        //TODO remove after updated on Alec's server
+        //TODO remove after updated on Alec's server 2020-12-15
         p.setInvulnerable(false);
 
-        if (ph.isOfflineDndPlayers(p.getUniqueId())) {
+
+        if (!(ph.isOfflineDndPlayers(p.getUniqueId()))) {
+            if (dmh.isPlayerDm(p.getUniqueId())) { //if player DM
+                dmh.getDm(p.getUniqueId()).loadConfig(p);
+                p.sendMessage(JohnytechPlugin.getPlugin().getConfig().getString("dm_welcome_message"));
+            } else if (hh.isPlayerHero(p.getUniqueId())) { //if player Hero
+                hh.getHero(p.getUniqueId()).loadConfig(p);
+                p.sendMessage(JohnytechPlugin.getPlugin().getConfig().getString("hero_welcome_message"));
+            } else { //if player never join
+                p.sendMessage(JohnytechPlugin.getPlugin().getConfig().getString("default_welcome_message"));
+                hh.addHero(new Hero(event.getPlayer()));
+            }
+        } else { //if player have been on the server before (first join since plugin reloaded)
             OfflineDndPlayer offlineDndPlayer = ph.getOfflineDndPlayer(p.getUniqueId());
 
             DndPlayer dndPlayer;
             if (offlineDndPlayer.wasDm(JohnytechPlugin.getPlugin().getConfig())) {
                 dndPlayer = new Dm(p, false);
-                dmh.addDm((Dm)dndPlayer);
+                dmh.addDm((Dm) dndPlayer);
                 p.sendMessage(JohnytechPlugin.getPlugin().getConfig().getString("dm_welcome_message"));
             } else {
                 dndPlayer = new Hero(p);
-                hh.addHero((Hero)dndPlayer);
+                hh.addHero((Hero) dndPlayer);
                 p.sendMessage(JohnytechPlugin.getPlugin().getConfig().getString("hero_welcome_message"));
             }
             dndPlayer.loadConfig(p);
             ph.removeOfflineDndPlayers(offlineDndPlayer);
-
-        } else {
-            if (dmh.isPlayerDm(p.getUniqueId())) {
-                dmh.getDm(p.getUniqueId()).loadConfig(p);
-                p.sendMessage(JohnytechPlugin.getPlugin().getConfig().getString("dm_welcome_message"));
-            } else if (hh.isPlayerHero(p.getUniqueId())) {
-                hh.getHero(p.getUniqueId()).loadConfig(p);
-                p.sendMessage(JohnytechPlugin.getPlugin().getConfig().getString("hero_welcome_message"));
-            } else {
-                p.sendMessage(JohnytechPlugin.getPlugin().getConfig().getString("default_welcome_message"));
-                hh.addHero(new Hero(event.getPlayer()));
-            }
         }
     }
 }

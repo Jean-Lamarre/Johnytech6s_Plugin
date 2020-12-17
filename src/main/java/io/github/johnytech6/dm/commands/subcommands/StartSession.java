@@ -1,7 +1,10 @@
 package io.github.johnytech6.dm.commands.subcommands;
 
+import io.github.johnytech6.DndPlayer;
 import io.github.johnytech6.Handler.DMHandler;
+import io.github.johnytech6.Handler.PluginHandler;
 import io.github.johnytech6.dm.commands.SubCommand;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -27,19 +30,21 @@ public class StartSession extends SubCommand {
     }
 
     @Override
-    public void perform(Player p, String[] args) {
-        //TODO
-        UUID playerID = p.getUniqueId();
+    public void perform(CommandSender sender, String[] args) {
+        if (sender instanceof Player) {
+            UUID playerID = ((Player) sender).getUniqueId();
 
-        if (dmh.isPlayerDm(playerID) /*&& p.hasPermission("dm.*****")*/) {
-            if(dmh.isSessionStarted()){
-                p.sendMessage("The session is already started ");
+            DndPlayer p = PluginHandler.getInstance().getDndPlayer(playerID);
+
+            if (dmh.isPlayerDm(playerID) /*&& p.hasPermission("dm.*****")*/) {
+                if (dmh.isSessionStarted()) {
+                    p.sendMessage("The session is already started ");
+                } else {
+                    dmh.startSession(dmh.getDm(playerID));
+                }
+            } else {
+                p.sendMessage("You need to be DM to start session.");
             }
-            else{
-                dmh.startSession(dmh.getDm(playerID));
-            }
-        } else {
-            p.sendMessage("You need to be DM to start session.");
         }
     }
 

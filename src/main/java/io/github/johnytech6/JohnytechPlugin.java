@@ -21,7 +21,9 @@ public class JohnytechPlugin extends JavaPlugin{
 
 	@Override
     public void onEnable() {
-    	
+
+		//TODO put most of stuff here in PLuginHandler
+
     	pluginInstance = this;
 
 		FileConfiguration config = getConfig();

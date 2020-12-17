@@ -1,10 +1,13 @@
 package io.github.johnytech6.dm.commands.subcommands;
 
+import io.github.johnytech6.DndPlayer;
 import io.github.johnytech6.Handler.HeroHandler;
 import io.github.johnytech6.Handler.DMHandler;
+import io.github.johnytech6.Handler.PluginHandler;
 import io.github.johnytech6.dm.commands.SubCommand;
 import io.github.johnytech6.hero.Hero;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -31,24 +34,29 @@ public class UnfreezeHero extends SubCommand {
     }
 
     @Override
-    public void perform(Player p, String[] args) {
-        //TODO
-        if (DMHandler.getInstance().isPlayerDm(p.getUniqueId()) /*&& p.hasPermission("dm.*****")*/) {
-            if (args.length == 2) {
-                UUID targetUUID = hh.getHeroUUIDByName(args[1]);
+    public void perform(CommandSender sender, String[] args) {
+        if (sender instanceof Player) {
+            UUID playerID = ((Player) sender).getUniqueId();
 
-                if (hh.isPlayerHero(targetUUID)) {
-                    hh.getHero(targetUUID).setFrozenState(false);
-                    p.sendMessage(args[1] + " is unfrozen.");
+            DndPlayer p = PluginHandler.getInstance().getDndPlayer(playerID);
+            //TODO
+            if (DMHandler.getInstance().isPlayerDm(p.getUniqueId()) /*&& p.hasPermission("dm.*****")*/) {
+                if (args.length == 2) {
+                    UUID targetUUID = hh.getHeroUUIDByName(args[1]);
+
+                    if (hh.isPlayerHero(targetUUID)) {
+                        hh.getHero(targetUUID).setFrozenState(false);
+                        p.sendMessage(args[1] + " is unfrozen.");
+                    } else {
+                        p.sendMessage("A dm can never be frozen.");
+                    }
                 } else {
-                    p.sendMessage("A dm can never be frozen.");
+                    hh.unfreezeAllHeros();
+                    p.sendMessage("All heros are unfrozen.");
                 }
             } else {
-                hh.unfreezeAllHeros();
-                p.sendMessage("All heros are unfrozen.");
+                p.sendMessage("You need to be DM to unfreeze hero(s).");
             }
-        } else {
-            p.sendMessage("You need to be DM to unfreeze hero(s).");
         }
     }
 

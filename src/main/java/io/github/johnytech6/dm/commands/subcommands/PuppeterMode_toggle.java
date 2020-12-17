@@ -1,10 +1,13 @@
 package io.github.johnytech6.dm.commands.subcommands;
 
+import io.github.johnytech6.DndPlayer;
 import io.github.johnytech6.Handler.DMHandler;
+import io.github.johnytech6.Handler.PluginHandler;
 import io.github.johnytech6.dm.Dm;
 import io.github.johnytech6.dm.commands.SubCommand;
 import io.github.johnytech6.Handler.PuppeterHandler;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -32,29 +35,31 @@ public class PuppeterMode_toggle extends SubCommand {
     }
 
     @Override
-    public void perform(Player p, String[] args) {
-        UUID playerID = p.getUniqueId();
+    public void perform(CommandSender sender, String[] args) {
+        if (sender instanceof Player) {
+            UUID playerID = ((Player) sender).getUniqueId();
 
-        if(dmh.isPlayerDm(playerID) && p.hasPermission("dm.mode.puppeter")) {
-            Dm targetDm;
-            if(args.length == 2) {
-                targetDm = dmh.getDm(UUID.fromString(args[1]));
-                ph.TogglePuppeterMode(targetDm.getPlayer(), true);
-                if(ph.isPlayerPuppeter(p.getUniqueId())){
-                    p.sendMessage(args[1] + " has now puppeter's power.");
-                }
-                else{
-                    p.sendMessage(args[1] + " lost puppeter's power.");
-                }
-            }
-            else{
-                targetDm = dmh.getDm(playerID);
-                ph.TogglePuppeterMode(p, true);
-            }
-            targetDm.setPuppeterPower(!targetDm.hasPuppeterPower());
+            DndPlayer p = PluginHandler.getInstance().getDndPlayer(playerID);
 
-        }else {
-            p.sendMessage("You need to be DM to toggle puppeterMode.");
+            if (dmh.isPlayerDm(playerID) /*&& p.hasPermission("dm.mode.puppeter")*/) {
+                Dm targetDm;
+                if (args.length == 2) {
+                    targetDm = dmh.getDm(UUID.fromString(args[1]));
+                    ph.TogglePuppeterMode(targetDm.getPlayer(), true);
+                    if (ph.isPlayerPuppeter(p.getUniqueId())) {
+                        p.sendMessage(args[1] + " has now puppeter's power.");
+                    } else {
+                        p.sendMessage(args[1] + " lost puppeter's power.");
+                    }
+                } else {
+                    targetDm = dmh.getDm(playerID);
+                    ph.TogglePuppeterMode(p.getPlayer(), true);
+                }
+                targetDm.setPuppeterPower(!targetDm.hasPuppeterPower());
+
+            } else {
+                p.sendMessage("You need to be DM to toggle puppeterMode.");
+            }
         }
     }
 

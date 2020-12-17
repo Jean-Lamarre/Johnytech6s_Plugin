@@ -1,9 +1,12 @@
 package io.github.johnytech6.dm.commands.subcommands;
 
+import io.github.johnytech6.DndPlayer;
 import io.github.johnytech6.Handler.DMHandler;
+import io.github.johnytech6.Handler.PluginHandler;
 import io.github.johnytech6.dm.Dm;
 import io.github.johnytech6.dm.commands.SubCommand;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -30,26 +33,30 @@ public class Invisibility_toggle extends SubCommand {
     }
 
     @Override
-    public void perform(Player p, String[] args) {
-        UUID playerID = p.getUniqueId();
+    public void perform(CommandSender sender, String[] args) {
+        if (sender instanceof Player) {
+            UUID playerID = ((Player) sender).getUniqueId();
 
-        if (dmh.isPlayerDm(playerID) && p.hasPermission("dm.mode.invisibility")) {
-            Dm targetDm;
-            if (args.length == 2) {
-                UUID targetPlayerID = UUID.fromString(args[1]);
-                if (dmh.isPlayerDm(targetPlayerID)){
-                    targetDm = dmh.getDm(targetPlayerID);
-                    targetDm.invisibilityToggle();
-                    p.sendMessage("Invisibility state of " + args[1] + " : " + targetDm.isInvisible());
+            DndPlayer p = PluginHandler.getInstance().getDndPlayer(playerID);
+
+            if (dmh.isPlayerDm(playerID) /* && p.hasPermission("dm.mode.invisibility")*/) {
+                Dm targetDm;
+                if (args.length == 2) {
+                    UUID targetPlayerID = UUID.fromString(args[1]);
+                    if (dmh.isPlayerDm(targetPlayerID)) {
+                        targetDm = dmh.getDm(targetPlayerID);
+                        targetDm.invisibilityToggle();
+                        p.sendMessage("Invisibility state of " + args[1] + " : " + targetDm.isInvisible());
+                    } else {
+                        p.sendMessage("Only dm can toggle invisibilty.");
+                    }
                 } else {
-                    p.sendMessage("Only dm can toggle invisibilty.");
+                    targetDm = dmh.getDm(playerID);
+                    targetDm.invisibilityToggle();
                 }
             } else {
-                targetDm = dmh.getDm(playerID);
-                targetDm.invisibilityToggle();
+                p.sendMessage("You need to be DM to toggle invisibility.");
             }
-        } else {
-            p.sendMessage("You need to be DM to toggle invisibility.");
         }
     }
 

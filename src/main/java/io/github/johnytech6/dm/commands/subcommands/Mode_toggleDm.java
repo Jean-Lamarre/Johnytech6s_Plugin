@@ -1,8 +1,11 @@
 package io.github.johnytech6.dm.commands.subcommands;
 
+import io.github.johnytech6.DndPlayer;
 import io.github.johnytech6.Handler.DMHandler;
+import io.github.johnytech6.Handler.PluginHandler;
 import io.github.johnytech6.dm.commands.SubCommand;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -29,23 +32,26 @@ public class Mode_toggleDm extends SubCommand {
     }
 
     @Override
-    public void perform(Player p, String[] args) {
+    public void perform(CommandSender sender, String[] args) {
+        if (sender instanceof Player) {
+            UUID playerID = ((Player) sender).getUniqueId();
 
-        if (p.hasPermission("dm.mode")) {
-            if(args.length == 2){
-                UUID targetPlayerID = UUID.fromString(args[1]);
+            DndPlayer p = PluginHandler.getInstance().getDndPlayer(playerID);
 
-                dmh.ToggleDmMode(targetPlayerID, true);
+            if (dmh.isPlayerDm(playerID)/*p.hasPermission("dm.mode")*/) {
+                if (args.length == 2) {
+                    UUID targetPlayerID = UUID.fromString(args[1]);
 
-                if(dmh.isPlayerDm(targetPlayerID)){
-                    p.sendMessage(args[1] + " is now DM.");
+                    dmh.ToggleDmMode(targetPlayerID, true);
+
+                    if (dmh.isPlayerDm(targetPlayerID)) {
+                        p.sendMessage(args[1] + " is now DM.");
+                    } else {
+                        p.sendMessage(args[1] + " is now a hero.");
+                    }
+                } else {
+                    dmh.ToggleDmMode(p.getUniqueId(), true);
                 }
-                else{
-                    p.sendMessage(args[1] + " is now a hero.");
-                }
-            }
-            else{
-                dmh.ToggleDmMode(p.getUniqueId(), true);
             }
         }
     }

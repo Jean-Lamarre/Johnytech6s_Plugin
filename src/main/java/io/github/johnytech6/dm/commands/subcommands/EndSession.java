@@ -1,8 +1,10 @@
 package io.github.johnytech6.dm.commands.subcommands;
 
+import io.github.johnytech6.DndPlayer;
 import io.github.johnytech6.Handler.DMHandler;
+import io.github.johnytech6.Handler.PluginHandler;
 import io.github.johnytech6.dm.commands.SubCommand;
-import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -28,18 +30,21 @@ public class EndSession extends SubCommand {
     }
 
     @Override
-    public void perform(Player p, String[] args) {
-        UUID playerID = p.getUniqueId();
+    public void perform(CommandSender sender, String[] args) {
+        if(sender instanceof Player) {
+            UUID playerID = ((Player) sender).getUniqueId();
 
-        if (DMHandler.getInstance().isPlayerDm(playerID) /*&& p.hasPermission("dm.*****")*/) {
-            if(!(dmh.isSessionStarted())){
-                p.sendMessage("The session need to be started to end it.");
+            DndPlayer p = PluginHandler.getInstance().getDndPlayer(playerID);
+
+            if (dmh.isPlayerDm(playerID)) {
+                if (!(dmh.isSessionStarted())) {
+                    p.sendMessage("The session need to be started to end it.");
+                } else {
+                    dmh.endSession(dmh.getDm(playerID));
+                }
+            } else {
+                p.sendMessage("You need to be DM to end session.");
             }
-            else{
-                dmh.endSession(dmh.getDm(playerID));
-            }
-        } else {
-            p.sendMessage("You need to be DM to end session.");
         }
     }
 

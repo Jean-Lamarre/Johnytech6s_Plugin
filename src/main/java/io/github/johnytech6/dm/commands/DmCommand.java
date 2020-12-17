@@ -37,9 +37,9 @@ public class DmCommand implements TabExecutor {
             UUID id = ((Player) sender).getUniqueId();
 
             if (args.length > 0) {
-                for (int i = 0; i < getSubCommands().size(); i++) {
-                    if (args[0].equalsIgnoreCase(getSubCommands().get(i).getName())) {
-                        getSubCommands().get(i).perform(Bukkit.getPlayer(id), args);
+                for (int i = 0; i < subcommands.size(); i++) {
+                    if (args[0].equalsIgnoreCase(subcommands.get(i).getName())) {
+                        subcommands.get(i).perform(Bukkit.getPlayer(id), args);
                     }
                 }
             }
@@ -47,10 +47,7 @@ public class DmCommand implements TabExecutor {
 
         return true;
     }
-
-    public ArrayList<SubCommand> getSubCommands() {
-        return subcommands;
-    }
+    
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String s, String[] args) {
@@ -58,15 +55,15 @@ public class DmCommand implements TabExecutor {
         if ((sender instanceof Player) && dmh.isPlayerDm(((Player) sender).getUniqueId())) {
             if (args.length == 1) {
                 ArrayList<String> subcommandsArguments = new ArrayList<>();
-                for (int i = 0; i < getSubCommands().size(); i++) {
-                    SubCommand subcommand = getSubCommands().get(i);
+                for (int i = 0; i < subcommands.size(); i++) {
+                    SubCommand subcommand = subcommands.get(i);
                     if (subcommand instanceof EndSession) {
                         if (dmh.isSessionStarted()) {
-                            subcommandsArguments.add(getSubCommands().get(i).getName());
+                            subcommandsArguments.add(subcommands.get(i).getName());
                         }
                     } else if (subcommand instanceof StartSession) {
                         if (!dmh.isSessionStarted()) {
-                            subcommandsArguments.add(getSubCommands().get(i).getName());
+                            subcommandsArguments.add(subcommands.get(i).getName());
                         }
                     } else if (subcommand instanceof UnfreezeHero) {
                         HashMap<UUID, Hero> heros = HeroHandler.getInstance().getHeros();
@@ -77,18 +74,18 @@ public class DmCommand implements TabExecutor {
                         while (!foundOneHeroFrozen && heroI.hasNext()) {
                             if (heroI.next().getValue().isFrozen()) {
                                 foundOneHeroFrozen = true;
-                                subcommandsArguments.add(getSubCommands().get(i).getName());
+                                subcommandsArguments.add(subcommands.get(i).getName());
                             }
                         }
                     } else {
-                        subcommandsArguments.add(getSubCommands().get(i).getName());
+                        subcommandsArguments.add(subcommands.get(i).getName());
                     }
                 }
                 return subcommandsArguments;
             } else if (args.length >= 2) {
-                for (int i = 0; i < getSubCommands().size(); i++) {
-                    if (args[0].equalsIgnoreCase(getSubCommands().get(i).getName())) {
-                        return getSubCommands().get(i).getSubcommandArguments((Player) sender, args);
+                for (int i = 0; i < subcommands.size(); i++) {
+                    if (args[0].equalsIgnoreCase(subcommands.get(i).getName())) {
+                        return subcommands.get(i).getSubcommandArguments((Player) sender, args);
                     }
                 }
             }

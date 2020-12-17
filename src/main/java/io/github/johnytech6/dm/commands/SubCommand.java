@@ -1,5 +1,6 @@
 package io.github.johnytech6.dm.commands;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -23,10 +24,10 @@ public abstract class SubCommand {
 
     /**
      * Perfom the subcommand.
-     * @param player The player that send the subcommand
+     * @param sender The player that send the subcommand
      * @param args Arguments after the command
      */
-    public abstract void perform(Player player, String[] args);
+    public abstract void perform(CommandSender sender, String[] args);
 
     /**
      * Gets the possible arguments of this subcommand.

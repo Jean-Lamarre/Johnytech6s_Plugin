@@ -1,10 +1,13 @@
 package io.github.johnytech6.dm.commands.subcommands;
 
+import io.github.johnytech6.DndPlayer;
 import io.github.johnytech6.Handler.HeroHandler;
 import io.github.johnytech6.Handler.DMHandler;
+import io.github.johnytech6.Handler.PluginHandler;
 import io.github.johnytech6.dm.commands.SubCommand;
 import io.github.johnytech6.hero.Hero;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -31,27 +34,31 @@ public class FreezeHero extends SubCommand {
     }
 
     @Override
-    public void perform(Player p, String[] args) {
+    public void perform(CommandSender sender, String[] args) {
         //TODO
-        UUID playerID = p.getUniqueId();
+        if (sender instanceof Player) {
+            UUID playerID = ((Player) sender).getUniqueId();
 
-        if (DMHandler.getInstance().isPlayerDm(playerID) /*&& p.hasPermission("dm.*****")*/) {
-            if (args.length == 2) {
+            DndPlayer p = PluginHandler.getInstance().getDndPlayer(playerID);
 
-                UUID targetUUID = hh.getHeroUUIDByName(args[1]);
+            if (DMHandler.getInstance().isPlayerDm(playerID) /*&& p.hasPermission("dm.*****")*/) {
+                if (args.length == 2) {
 
-                if (hh.isPlayerHero(targetUUID)) {
-                    hh.getHero(targetUUID).setFrozenState(true);
-                    p.sendMessage(args[1] + " is frozen.");
+                    UUID targetUUID = hh.getHeroUUIDByName(args[1]);
+
+                    if (hh.isPlayerHero(targetUUID)) {
+                        hh.getHero(targetUUID).setFrozenState(true);
+                        p.sendMessage(args[1] + " is frozen.");
+                    } else {
+                        p.sendMessage("You only can freeze heros.");
+                    }
                 } else {
-                    p.sendMessage("You only can freeze heros.");
+                    hh.freezeAllHeros();
+                    p.sendMessage("All heros are frozen.");
                 }
             } else {
-                hh.freezeAllHeros();
-                p.sendMessage("All heros are frozen.");
+                p.sendMessage("You need to be DM to freeze hero(s).");
             }
-        } else {
-            p.sendMessage("You need to be DM to freeze hero(s).");
         }
     }
 
@@ -64,9 +71,9 @@ public class FreezeHero extends SubCommand {
             Bukkit.getServer().getOnlinePlayers().toArray(players);
             for (int i = 0; i < players.length; i++) {
                 Player current_player = players[i];
-                if(hh.isPlayerHero(current_player.getUniqueId())){
+                if (hh.isPlayerHero(current_player.getUniqueId())) {
                     Hero current_hero = hh.getHero(current_player.getUniqueId());
-                    if(!(current_hero.isFrozen())){
+                    if (!(current_hero.isFrozen())) {
                         playerNames.add(current_player.getName());
                     }
                 }

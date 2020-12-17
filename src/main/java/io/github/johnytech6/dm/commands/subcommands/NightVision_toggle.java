@@ -1,9 +1,12 @@
 package io.github.johnytech6.dm.commands.subcommands;
 
+import io.github.johnytech6.DndPlayer;
 import io.github.johnytech6.Handler.DMHandler;
+import io.github.johnytech6.Handler.PluginHandler;
 import io.github.johnytech6.dm.Dm;
 import io.github.johnytech6.dm.commands.SubCommand;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -30,20 +33,24 @@ public class NightVision_toggle extends SubCommand {
     }
 
     @Override
-    public void perform(Player p, String[] args) {
-        UUID playerID = p.getUniqueId();
+    public void perform(CommandSender sender, String[] args) {
+        if (sender instanceof Player) {
+            UUID playerID = ((Player) sender).getUniqueId();
 
-        if (DMHandler.getInstance().isPlayerDm(playerID) && p.hasPermission("dm.mode.vision")) {
-            Dm targetDm;
-            if (args.length == 2) {
-                targetDm = dmh.getDm(UUID.fromString(args[1]));
-                p.sendMessage("Night vision state of "+args[1] + " : " + targetDm.hasNightVision());
+            DndPlayer p = PluginHandler.getInstance().getDndPlayer(playerID);
+
+            if (DMHandler.getInstance().isPlayerDm(playerID) /*&& p.hasPermission("dm.mode.vision")*/) {
+                Dm targetDm;
+                if (args.length == 2) {
+                    targetDm = dmh.getDm(UUID.fromString(args[1]));
+                    p.sendMessage("Night vision state of " + args[1] + " : " + targetDm.hasNightVision());
+                } else {
+                    targetDm = dmh.getDm(playerID);
+                }
+                targetDm.nightVisionToggle();
             } else {
-                targetDm = dmh.getDm(playerID);
+                p.sendMessage("You need to be DM to toggle night vision.");
             }
-            targetDm.nightVisionToggle();
-        } else {
-            p.sendMessage("You need to be DM to toggle night vision.");
         }
     }
 
