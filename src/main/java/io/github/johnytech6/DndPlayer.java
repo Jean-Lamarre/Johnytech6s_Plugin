@@ -49,4 +49,6 @@ public interface DndPlayer {
     void loadConfig(Player player);
 
     void setGameMode(GameMode gameMode);
+
+    String toString();
 }

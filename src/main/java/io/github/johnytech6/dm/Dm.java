@@ -35,6 +35,8 @@ public class Dm implements DndPlayer {
     private boolean isVerbose;
 
     public Dm(Player playerRef, boolean verbose) {
+        this.playerRef = playerRef;
+
         isVerbose = verbose;
 
         if (isVerbose) {
@@ -46,7 +48,6 @@ public class Dm implements DndPlayer {
         playerRef.setGameMode(GameMode.CREATIVE);
 
         isVerbose = true;
-
     }
 
     public Dm(Hero oldHero, boolean verbose) {
@@ -279,5 +280,9 @@ public class Dm implements DndPlayer {
     @Override
     public boolean hasPotionEffect(PotionEffectType potionEffect) {
         return playerRef.hasPotionEffect(potionEffect);
+    }
+
+    public String toString(){
+        return ("DM: " +playerRef.getName());
     }
 }
