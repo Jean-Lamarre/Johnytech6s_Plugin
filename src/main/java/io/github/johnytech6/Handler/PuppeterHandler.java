@@ -27,13 +27,15 @@ public class PuppeterHandler {
     private PluginHandler pluginHandler;
 
     // list of morphed puppeter
-    private HashMap<UUID, Puppeter> puppeters = new HashMap<UUID, Puppeter>();
+    private HashMap<UUID, Puppeter> puppeters;
     // list of puppeter
-    private HashMap<UUID, Puppeter> morphedPuppeters = new HashMap<UUID, Puppeter>();
+    private HashMap<UUID, Puppeter> morphedPuppeters;
 
     public PuppeterHandler(PluginHandler pluginHandler) {
-        pluginHandler = pluginHandler;
+        this.pluginHandler = pluginHandler;
         dmh = pluginHandler.getDmHandler();
+        puppeters = new HashMap<>();
+        morphedPuppeters = new HashMap<>();
     }
 
     /**
@@ -393,17 +395,9 @@ public class PuppeterHandler {
      * @return
      */
     public void TogglePuppeterMode(Dm dm, boolean verbose) {
-        UUID playerID = dm.getUniqueId();
-
-        if (!isPlayerPuppeter(playerID)) {
-            AddPuppeter(new Puppeter(dm.getPlayer()));
-        } else if (isPlayerPuppeter(playerID)) {
-            if (isPlayerMorph(playerID)) {
-                Unmorph(dm.getPlayer());
-            }
-            RemovePuppeter(getPuppeter(playerID));
-        }
         dm.setPuppeterPower(!dm.havePuppeterPower());
+        setPuppeterMode(dm.getPlayer(), dm.havePuppeterPower(), verbose);
+
         pluginHandler.savePuppeterPower(dm, dm.havePuppeterPower());
     }
 
@@ -418,6 +412,9 @@ public class PuppeterHandler {
             if (isPlayerMorph(p.getUniqueId())) {
                 Unmorph(p);
             }
+
+            Bukkit.broadcastMessage(puppeters.values().toString());
+
             RemovePuppeter(getPuppeter(p.getUniqueId()));
             if (verbose) {
                 p.sendMessage("You dont have puppeter power anymore");

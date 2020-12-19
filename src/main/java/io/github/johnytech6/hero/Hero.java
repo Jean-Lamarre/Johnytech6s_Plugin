@@ -73,6 +73,7 @@ public class Hero implements DndPlayer {
     }
 
     // Right click with saddle
+    //TODO for DM to
     public void rideHero(Entity e) {
         e.addPassenger(Objects.requireNonNull(playerRef.getPlayer()));
         if (e instanceof Player) {

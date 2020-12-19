@@ -15,6 +15,7 @@ public class ClickEntityListener implements Listener {
     PuppeterHandler ph;
     HeroHandler hh;
     DMHandler dmh;
+    PluginHandler pluginHandler;
 
     public ClickEntityListener(PluginHandler pluginHandler){
         hh = pluginHandler.getHeroHandler();
@@ -57,6 +58,7 @@ public class ClickEntityListener implements Listener {
                     }
                 }
             }
+
         }
     }
 }

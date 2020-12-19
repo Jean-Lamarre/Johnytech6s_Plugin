@@ -45,6 +45,8 @@ public class DMHandler {
                 newDm = new Dm(p, verbose);
             }
             newDm.setAllPower(true);
+            ph.getPuppeterHandler().setPuppeterMode(newDm.getPlayer(), newDm.havePuppeterPower(), true);
+
             ph.saveAllDmPower(newDm, true);
 
             addDm(newDm);
@@ -54,6 +56,9 @@ public class DMHandler {
                 p.sendMessage("***You are not the DM anymore***");
             }
             dm.setAllPower(false);
+            ph.getPuppeterHandler().setPuppeterMode(dm.getPlayer(), dm.havePuppeterPower(), true);
+
+
             ph.saveAllDmPower(dm, false);
             removeDm(dm);
 

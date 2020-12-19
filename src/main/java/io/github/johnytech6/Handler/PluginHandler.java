@@ -74,7 +74,7 @@ public class PluginHandler {
     }
 
     public void savePuppeterPower(Dm dm, Boolean state) {
-        config.set("Dnd_player.Dms." + dm.getName() + ".hasNightVision", state);
+        config.set("Dnd_player.Dms." + dm.getName() + ".hasPuppeterPower", state);
         plugin.saveConfig();
     }
 
@@ -163,7 +163,9 @@ public class PluginHandler {
             dndPlayer.setInvisibility(config.getBoolean("Dnd_player." + dndPlayer.getRole() + "." + dndPlayer.getName() + ".isInvisible"));
             if (dndPlayer instanceof Dm) {
                 ((Dm) dndPlayer).setPuppeterPower(config.getBoolean("Dnd_player.Dms." + dndPlayer.getName() + ".hasPuppeterPower"));
+                puppeterHandler.setPuppeterMode(dndPlayer.getPlayer(), ((Dm)dndPlayer).havePuppeterPower(), false);
                 ((Dm) dndPlayer).setTeftPower(config.getBoolean("Dnd_player.Dms." + dndPlayer.getName() + ".hasTeftPower"));
+                //TODO SET TEFT POWER
             }else if(dndPlayer instanceof Hero){
                 ((Hero) dndPlayer).setFrozenState(config.getBoolean("Dnd_player.Heros." + dndPlayer.getName() + ".frozen_state"));
             }

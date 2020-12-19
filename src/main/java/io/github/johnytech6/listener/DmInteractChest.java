@@ -3,6 +3,7 @@ package io.github.johnytech6.listener;
 import io.github.johnytech6.Handler.DMHandler;
 import io.github.johnytech6.Handler.PluginHandler;
 import io.github.johnytech6.JohnytechPlugin;
+import io.github.johnytech6.dm.Dm;
 import io.github.johnytech6.dm.VirtualInventory;
 import org.bukkit.Bukkit;
 import org.bukkit.block.*;
@@ -18,8 +19,7 @@ import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class DmInteractChest implements Listener {
 
@@ -29,11 +29,13 @@ public class DmInteractChest implements Listener {
 
     Plugin plugin;
 
-    ArrayList<VirtualInventory> openChests = new ArrayList<VirtualInventory>();
+
+    HashMap<UUID, VirtualInventory> openChests;
 
     public DmInteractChest(PluginHandler pluginHandler){
         dmh = pluginHandler.getDmHandler();
         plugin = pluginHandler.getPlugin();
+        openChests = new HashMap<>();
     }
 
     @EventHandler
@@ -41,45 +43,49 @@ public class DmInteractChest implements Listener {
 
         final Player p = event.getPlayer();
 
-        if (dmh.isPlayerDm(p.getUniqueId()) && event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            final Block block = event.getClickedBlock();
-            Inventory inventory = null;
-            final BlockState blockState = block.getState();
+        UUID id = p.getUniqueId();
 
-            switch (block.getType()) {
-                case CHEST:
-                    final Chest chest = (Chest) blockState;
-                    inventory = plugin.getServer().createInventory(p, chest.getInventory().getSize(), INVENTORY_TITLE + " - Chest");
-                    inventory.setContents(chest.getInventory().getContents());
-                    event.setCancelled(true);
-                    p.openInventory(inventory);
-                    openChests.add(new VirtualInventory(chest.getInventory(), inventory, p));
-                    break;
-                case DISPENSER:
-                    inventory = ((Dispenser) blockState).getInventory();
-                    event.setCancelled(true);
-                    p.openInventory(inventory);
-                    break;
-                case HOPPER:
-                    inventory = ((Hopper) blockState).getInventory();
-                    event.setCancelled(true);
-                    p.openInventory(inventory);
-                    break;
-                case DROPPER:
-                    inventory = ((Dropper) blockState).getInventory();
-                    event.setCancelled(true);
-                    p.openInventory(inventory);
-                    break;
-                case BARREL:
-                    final Barrel barrel = (Barrel) blockState;
-                    inventory = plugin.getServer().createInventory(p, barrel.getInventory().getSize(), INVENTORY_TITLE + " - Barrel");
-                    inventory.setContents(barrel.getInventory().getContents());
-                    event.setCancelled(true);
-                    p.openInventory(inventory);
-                    openChests.add(new VirtualInventory(barrel.getInventory(), inventory, p));
-                    break;
+        if (dmh.isPlayerDm(id) && event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            Dm dm = dmh.getDm(id);
+            if(dm.haveTeftPower()) {
+                final Block block = event.getClickedBlock();
+                Inventory inventory = null;
+                final BlockState blockState = block.getState();
+
+                switch (block.getType()) {
+                    case CHEST:
+                        final Chest chest = (Chest) blockState;
+                        inventory = plugin.getServer().createInventory(p, chest.getInventory().getSize(), INVENTORY_TITLE + " - Chest");
+                        inventory.setContents(chest.getInventory().getContents());
+                        event.setCancelled(true);
+                        p.openInventory(inventory);
+                        openChests.put(id, new VirtualInventory(chest.getInventory(), inventory, p));
+                        break;
+                    case DISPENSER:
+                        inventory = ((Dispenser) blockState).getInventory();
+                        event.setCancelled(true);
+                        p.openInventory(inventory);
+                        break;
+                    case HOPPER:
+                        inventory = ((Hopper) blockState).getInventory();
+                        event.setCancelled(true);
+                        p.openInventory(inventory);
+                        break;
+                    case DROPPER:
+                        inventory = ((Dropper) blockState).getInventory();
+                        event.setCancelled(true);
+                        p.openInventory(inventory);
+                        break;
+                    case BARREL:
+                        final Barrel barrel = (Barrel) blockState;
+                        inventory = plugin.getServer().createInventory(p, barrel.getInventory().getSize(), INVENTORY_TITLE + " - Barrel");
+                        inventory.setContents(barrel.getInventory().getContents());
+                        event.setCancelled(true);
+                        p.openInventory(inventory);
+                        openChests.put(id, new VirtualInventory(barrel.getInventory(), inventory, p));
+                        break;
+                }
             }
-
         }
     }
 
@@ -87,7 +93,10 @@ public class DmInteractChest implements Listener {
     public void onInventoryClick(InventoryClickEvent event) {
         Player p = (Player) event.getWhoClicked();
         if (dmh.isPlayerDm(p.getUniqueId())) {
-            updateChest(p, event.getView(), event.getInventory());
+            Dm dm = dmh.getDm(p.getUniqueId());
+            if(dm.haveTeftPower()) {
+                updateChest(p, event.getView(), event.getInventory());
+            }
         }
     }
 
@@ -95,30 +104,32 @@ public class DmInteractChest implements Listener {
     public void onInventoryClose(InventoryCloseEvent event) {
         Player p = (Player) event.getPlayer();
         if (dmh.isPlayerDm(p.getUniqueId())) {
-            updateChest(p, event.getView(), event.getInventory());
-
-            for (VirtualInventory vi : openChests) {
-                if(vi.getViewer().equals(p)){
-                    openChests.remove(vi);
-                    continue;
-                }
+            Dm dm = dmh.getDm(p.getUniqueId());
+            if(dm.haveTeftPower()) {
+                updateChest(p, event.getView(), event.getInventory());
             }
-            Bukkit.broadcastMessage(openChests.toString());
+            openChests.remove(p.getUniqueId());
         }
-
     }
 
     @EventHandler
     public void onInventoryDrag(InventoryDragEvent event) {
         Player p = (Player) event.getWhoClicked();
         if (dmh.isPlayerDm(p.getUniqueId())) {
-            updateChest(p, event.getView(), event.getInventory());
+            Dm dm = dmh.getDm(p.getUniqueId());
+            if(dm.haveTeftPower()) {
+                updateChest(p, event.getView(), event.getInventory());
+            }
         }
     }
 
     private boolean updateChest(Player p, InventoryView iv, Inventory i) {
         if (iv.getTitle().contains(INVENTORY_TITLE)) {
-            for (VirtualInventory vi : openChests) {
+            Iterator<Map.Entry<UUID, VirtualInventory>> iterator = openChests.entrySet().iterator();
+            while (iterator.hasNext()) {
+                HashMap.Entry<UUID, VirtualInventory> entry = iterator.next();
+                VirtualInventory vi = entry.getValue();
+
                 List<HumanEntity> inventoryViewers = vi.getVirtualInventory().getViewers();
                 for (HumanEntity he : inventoryViewers) {
                     if (he.getName().equals(p.getName())) {
