@@ -7,113 +7,117 @@ title __HANDLER's Class Diagram__\n
       class io.github.johnytech6.Handler.DMHandler {
           - dms : HashMap<UUID, Dm>
           - isSessionStarted : boolean
-          {static} - ph : PluginHandler
           - plugin : Plugin
-          {static} - pph : PuppeterHandler
-          {static} - single_instance : DMHandler
-          {static} - th : TeftHandler
+          + DMHandler()
           + ToggleDmMode()
           + addDm()
           + endSession()
           + getDm()
           + getDms()
-          {static} + getInstance()
           + isPlayerDm()
           + isSessionStarted()
           + removeDm()
           + setDmMode()
           + startSession()
-          - DMHandler()
       }
+    }
+  }
+  
 
+  namespace io.github.johnytech6 {
+    namespace Handler {
       class io.github.johnytech6.Handler.HeroHandler {
           - heros : HashMap<UUID, Hero>
-          {static} - ph : PluginHandler
-          {static} - plugin : Plugin
-          {static} - single_instance : HeroHandler
+          - plugin : Plugin
+          + HeroHandler()
           + addHero()
           + freezeAllHeros()
           + getHero()
+          + getHeroUUIDByName()
           + getHeros()
-          {static} + getInstance()
           + isPlayerHero()
           + removeHero()
           + unfreezeAllHeros()
-          - HeroHandler()
       }
+    }
+  }
+  
 
+  namespace io.github.johnytech6 {
+    namespace Handler {
       class io.github.johnytech6.Handler.PluginHandler {
-          {static} - dmh : DMHandler
           - dndPlayers : HashMap<UUID, DndPlayer>
-          {static} - hh : HeroHandler
           - offlineDndPlayers : HashMap<UUID, OfflineDndPlayer>
-          {static} - pph : PuppeterHandler
-          {static} - single_instance : PluginHandler
-          {static} - th : TeftHandler
+          - plugin : Plugin
+          + PluginHandler()
           + addDndPlayer()
+          + getDmHandler()
           + getDndPlayer()
           + getDndPlayers()
-          {static} + getInstance()
+          + getHeroHandler()
           + getOfflineDndPlayer()
-          + getofflineDndPlayers()
+          + getPlugin()
+          + getPuppeterHandler()
           + isOfflineDndPlayers()
           + isPlayerDndPlayer()
           + johnytech6Stat()
-          + loadConfig()
+          + loadOfflinePlayer()
+          + loadPlayerConfig()
           + removeDndPlayer()
           + removeOfflineDndPlayers()
-          - PluginHandler()
+          + saveInvisbility()
+          + saveNightVision()
+          + savePlayerChairPosition()
+          + savePlayerCheckpoint()
+          + savePuppeterPower()
+          + saveTeftPower()
+          - getRole()
       }
+    }
+  }
+  
 
+  namespace io.github.johnytech6 {
+    namespace Handler {
       class io.github.johnytech6.Handler.PuppeterHandler {
-          {static} - dmh : DMHandler
           - morphedPuppeters : HashMap<UUID, Puppeter>
           - puppeters : HashMap<UUID, Puppeter>
-          {static} - single_instance : PuppeterHandler
           + AddMorphPuppeter()
           + AddPuppeter()
           + GetMorphPuppeter()
           + Morph()
           + MorphInArmorStand()
+          + PuppeterHandler()
           + RemoveMorphPlayer()
           + RemovePuppeter()
           + TogglePuppeterMode()
           + Unmorph()
           + UnmorphMob()
           + UnmorphOfArmorStand()
-          {static} + getInstance()
           + getMorphPlayers()
           + getPuppeter()
           + getPuppeters()
           + isPlayerMorph()
           + isPlayerPuppeter()
           + setPuppeterMode()
-          - PuppeterHandler()
           - giveArmorOfAT()
           - itemInHand()
           - removeEquipmentFromAS()
           - storeArmorStandEquipment()
-      }
-
-      class io.github.johnytech6.Handler.TeftHandler {
-          {static} - dmh : DMHandler
-          {static} - single_instance : TeftHandler
-          - tefts : HashMap<UUID, Teft>
-          + AddTeftPlayer()
-          + RemoveTeftPlayer()
-          + ToggleTeftMode()
-          {static} + getInstance()
-          + getTeft()
-          + getTeftPlayers()
-          + isPlayerTeft()
-          + setTeftMode()
-          - TeftHandler()
       }
     }
   }
   
 
   io.github.johnytech6.Handler.DMHandler o-- io.github.johnytech6.Handler.HeroHandler : hh
+  io.github.johnytech6.Handler.DMHandler o-- io.github.johnytech6.Handler.PluginHandler : ph
+  io.github.johnytech6.Handler.DMHandler o-- io.github.johnytech6.Handler.PuppeterHandler : pph
+  io.github.johnytech6.Handler.HeroHandler o-- io.github.johnytech6.Handler.PluginHandler : ph
+  io.github.johnytech6.Handler.PluginHandler o-- io.github.johnytech6.Handler.DMHandler : dmHandler
+  io.github.johnytech6.Handler.PluginHandler o-- io.github.johnytech6.Handler.HeroHandler : heroHandler
+  io.github.johnytech6.Handler.PluginHandler o-- io.github.johnytech6.Handler.PuppeterHandler : puppeterHandler
+  io.github.johnytech6.Handler.PuppeterHandler o-- io.github.johnytech6.Handler.DMHandler : dmh
+  io.github.johnytech6.Handler.PuppeterHandler o-- io.github.johnytech6.Handler.PluginHandler : pluginHandler
 
 
 right footer

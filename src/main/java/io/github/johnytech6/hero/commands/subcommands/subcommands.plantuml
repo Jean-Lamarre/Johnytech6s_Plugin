@@ -7,6 +7,7 @@ title __SUBCOMMANDS's Class Diagram__\n
       namespace commands {
         namespace subcommands {
           class io.github.johnytech6.hero.commands.subcommands.SetChair {
+              + SetChair()
               + getDescription()
               + getName()
               + getSubcommandArguments()

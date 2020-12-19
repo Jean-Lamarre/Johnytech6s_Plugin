@@ -1,6 +1,7 @@
 package io.github.johnytech6.dm.commands;
 
 import io.github.johnytech6.Handler.HeroHandler;
+import io.github.johnytech6.Handler.PluginHandler;
 import io.github.johnytech6.dm.commands.subcommands.*;
 import io.github.johnytech6.hero.Hero;
 import org.bukkit.Bukkit;
@@ -14,21 +15,25 @@ import java.util.*;
 
 public class DmCommand implements TabExecutor {
 
-    DMHandler dmh = DMHandler.getInstance();
+    DMHandler dmh;
+    HeroHandler hh;
 
     private ArrayList<SubCommand> subcommands = new ArrayList<>();
 
-    public DmCommand() {
-        subcommands.add(new Mode_toggleDm());
-        subcommands.add(new StartSession());
-        subcommands.add(new EndSession());
-        subcommands.add(new Invisibility_toggle());
-        subcommands.add(new NightVision_toggle());
-        subcommands.add(new PuppeterMode_toggle());
-        subcommands.add(new TeftMode_toggle());
-        subcommands.add(new FreezeHero());
-        subcommands.add(new UnfreezeHero());
-        subcommands.add(new SetChair());
+    public DmCommand(PluginHandler pluginHandler) {
+        subcommands.add(new Mode_toggleDm(pluginHandler));
+        subcommands.add(new StartSession(pluginHandler));
+        subcommands.add(new EndSession(pluginHandler));
+        subcommands.add(new Invisibility_toggle(pluginHandler));
+        subcommands.add(new NightVision_toggle(pluginHandler));
+        subcommands.add(new PuppeterMode_toggle(pluginHandler));
+        subcommands.add(new TeftMode_toggle(pluginHandler));
+        subcommands.add(new FreezeHero(pluginHandler));
+        subcommands.add(new UnfreezeHero(pluginHandler));
+        subcommands.add(new SetChair(pluginHandler));
+
+        dmh = pluginHandler.getDmHandler();
+        hh = pluginHandler.getHeroHandler();
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -66,7 +71,7 @@ public class DmCommand implements TabExecutor {
                             subcommandsArguments.add(subcommands.get(i).getName());
                         }
                     } else if (subcommand instanceof UnfreezeHero) {
-                        HashMap<UUID, Hero> heros = HeroHandler.getInstance().getHeros();
+                        HashMap<UUID, Hero> heros = hh.getHeros();
 
                         boolean foundOneHeroFrozen = false;
 

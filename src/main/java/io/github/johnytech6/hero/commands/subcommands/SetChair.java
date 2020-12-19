@@ -13,7 +13,11 @@ import java.util.UUID;
 
 public class SetChair extends SubCommand {
 
-    PluginHandler ph = PluginHandler.getInstance();
+    PluginHandler ph;
+
+    public SetChair(PluginHandler pluginHandler) {
+        ph = pluginHandler;
+    }
 
     @Override
     public String getName() {
@@ -35,7 +39,7 @@ public class SetChair extends SubCommand {
         if (sender instanceof Player) {
             UUID playerID = ((Player) sender).getUniqueId();
 
-            DndPlayer p = PluginHandler.getInstance().getDndPlayer(playerID);
+            DndPlayer p = ph.getDndPlayer(playerID);
 
             if (ph.isPlayerDndPlayer(p.getUniqueId())) {
                 DndPlayer dndP = ph.getDndPlayer(p.getUniqueId());
@@ -45,7 +49,11 @@ public class SetChair extends SubCommand {
                 } else {
                     targetLocation = p.getLocation();
                 }
+
                 dndP.setChairPosition(targetLocation);
+
+                ph.savePlayerChairPosition(dndP, dndP.getLocation());
+
 
             } else {
                 p.sendMessage("You are not a DndPlayer ask Jean for help.");

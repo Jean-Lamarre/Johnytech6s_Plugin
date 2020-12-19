@@ -1,6 +1,7 @@
 package io.github.johnytech6.hero.commands;
 
 import io.github.johnytech6.Handler.DMHandler;
+import io.github.johnytech6.Handler.PluginHandler;
 import io.github.johnytech6.dm.commands.SubCommand;
 import io.github.johnytech6.hero.commands.subcommands.SetChair;
 import org.bukkit.command.Command;
@@ -13,13 +14,13 @@ import java.util.List;
 
 public class HeroCommand implements TabExecutor {
 
-    DMHandler dmh = DMHandler.getInstance();
+    DMHandler dmh;
 
     private ArrayList<SubCommand> subcommands = new ArrayList<>();
 
-    public HeroCommand() {
-        subcommands.add(new SetChair());
-
+    public HeroCommand(PluginHandler pluginHandler) {
+        subcommands.add(new SetChair(pluginHandler));
+        dmh = pluginHandler.getDmHandler();
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

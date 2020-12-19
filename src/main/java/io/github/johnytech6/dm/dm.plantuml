@@ -10,11 +10,9 @@ title __DM's Class Diagram__\n
           - hasNightVision : boolean
           - hasPuppeterPower : boolean
           - hasTeftPower : boolean
-          {static} - hh : HeroHandler
           - isInvisible : boolean
           - isVerbose : boolean
           - playerRef : Player
-          {static} - plugin : Plugin
           + Dm()
           + Dm()
           + addPotionEffect()
@@ -28,12 +26,11 @@ title __DM's Class Diagram__\n
           + hasCheckpoint()
           + hasNightVision()
           + hasPotionEffect()
-          + hasPuppeterPower()
-          + hasTeftPower()
+          + havePuppeterPower()
+          + haveTeftPower()
           + invisibilityToggle()
           + isInvisible()
           + isVerbose()
-          + loadConfig()
           + nightVisionToggle()
           + removePotionEffect()
           + sendMessage()
@@ -48,8 +45,14 @@ title __DM's Class Diagram__\n
           + setTeftPower()
           + setVerbose()
           + teleport()
+          + toString()
       }
+    }
+  }
+  
 
+  namespace io.github.johnytech6 {
+    namespace dm {
       class io.github.johnytech6.dm.VirtualInventory {
           - inventoryRef : Inventory
           - viewer : Player

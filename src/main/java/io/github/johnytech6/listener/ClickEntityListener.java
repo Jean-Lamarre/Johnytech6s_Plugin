@@ -1,5 +1,6 @@
 package io.github.johnytech6.listener;
 
+import io.github.johnytech6.Handler.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
@@ -9,17 +10,17 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
-import io.github.johnytech6.Handler.HeroHandler;
-import io.github.johnytech6.Handler.DMHandler;
-import io.github.johnytech6.Handler.PuppeterHandler;
-import io.github.johnytech6.Handler.TeftHandler;
-
 public class ClickEntityListener implements Listener {
 
-    PuppeterHandler ph = PuppeterHandler.getInstance();
-    HeroHandler hh = HeroHandler.getInstance();
-    DMHandler dmh = DMHandler.getInstance();
-    TeftHandler th = TeftHandler.getInstance();
+    PuppeterHandler ph;
+    HeroHandler hh;
+    DMHandler dmh;
+
+    public ClickEntityListener(PluginHandler pluginHandler){
+        hh = pluginHandler.getHeroHandler();
+        dmh = pluginHandler.getDmHandler();
+        ph = pluginHandler.getPuppeterHandler();
+    }
 
     @EventHandler
     public void onPlayerClickEntity(PlayerInteractAtEntityEvent event) {
@@ -36,14 +37,16 @@ public class ClickEntityListener implements Listener {
             }
 
             //----------Right Click for control Inventory--------------
-            else if (e instanceof Player && dmh.isPlayerDm(p.getUniqueId()) && th.isPlayerTeft(p.getUniqueId())) {
-                String playerName = e.getName();
-                Player otherPlayer = Bukkit.getServer().getPlayerExact(playerName);
-                if (otherPlayer == null) {
-                    p.sendMessage(ChatColor.RED + "Error: Player name (" + playerName + ") is invalid! Is the player online?");
+            else if (e instanceof Player && dmh.isPlayerDm(p.getUniqueId())) {
+                if(dmh.getDm(e.getUniqueId()).haveTeftPower()) {
+                    String playerName = e.getName();
+                    Player otherPlayer = Bukkit.getServer().getPlayerExact(playerName);
+                    if (otherPlayer == null) {
+                        p.sendMessage(ChatColor.RED + "Error: Player name (" + playerName + ") is invalid! Is the player online?");
+                    }
+                    assert otherPlayer != null;
+                    p.openInventory(otherPlayer.getInventory());
                 }
-                assert otherPlayer != null;
-                p.openInventory(otherPlayer.getInventory());
             }
 
             //-------Right click Listener for saddle on player or Villager-------

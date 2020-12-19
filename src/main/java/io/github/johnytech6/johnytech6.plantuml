@@ -15,7 +15,6 @@ title __JOHNYTECH6's Class Diagram__\n
         {abstract} + hasCheckpoint()
         {abstract} + hasPotionEffect()
         {abstract} + isVerbose()
-        {abstract} + loadConfig()
         {abstract} + removePotionEffect()
         {abstract} + sendMessage()
         {abstract} + sendTitle()
@@ -24,6 +23,7 @@ title __JOHNYTECH6's Class Diagram__\n
         {abstract} + setGameMode()
         {abstract} + setVerbose()
         {abstract} + teleport()
+        {abstract} + toString()
     }
   }
   
@@ -31,9 +31,10 @@ title __JOHNYTECH6's Class Diagram__\n
   namespace io.github.johnytech6 {
     class io.github.johnytech6.JohnytechPlugin {
         {static} - pluginInstance : Plugin
-        {static} + getPlugin()
         + onDisable()
         + onEnable()
+        - registerCommand()
+        - registerListener()
     }
   }
   
@@ -50,6 +51,7 @@ title __JOHNYTECH6's Class Diagram__\n
   
 
   io.github.johnytech6.JohnytechPlugin -up-|> org.bukkit.plugin.java.JavaPlugin
+  io.github.johnytech6.JohnytechPlugin o-- io.github.johnytech6.Handler.PluginHandler : pluginHandler
 
 
 right footer

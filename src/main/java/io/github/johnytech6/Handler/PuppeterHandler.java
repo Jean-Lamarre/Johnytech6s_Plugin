@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
+import io.github.johnytech6.DndPlayer;
+import io.github.johnytech6.dm.Dm;
 import io.github.johnytech6.dm.puppeter.Puppet;
 import io.github.johnytech6.dm.puppeter.Puppeter;
 import org.bukkit.Bukkit;
@@ -21,29 +23,18 @@ import io.github.johnytech6.JohnytechPlugin;
 
 public class PuppeterHandler {
 
-    // ---------------------------SINGLETON
-    // IMPLEMENTATION-------------------------------------------
-    // static variable single_instance of type Singleton
-    private static PuppeterHandler single_instance = null;
-
-    // private constructor restricted to this class itself
-    private PuppeterHandler() {
-    }
-
-    public static PuppeterHandler getInstance() {
-        if (single_instance == null)
-            single_instance = new PuppeterHandler();
-
-        return single_instance;
-    }
-    // --------------------------------------------------------------------------------------------
-
-    private static DMHandler dmh = DMHandler.getInstance();
+    private DMHandler dmh;
+    private PluginHandler pluginHandler;
 
     // list of morphed puppeter
     private HashMap<UUID, Puppeter> puppeters = new HashMap<UUID, Puppeter>();
     // list of puppeter
     private HashMap<UUID, Puppeter> morphedPuppeters = new HashMap<UUID, Puppeter>();
+
+    public PuppeterHandler(PluginHandler pluginHandler) {
+        pluginHandler = pluginHandler;
+        dmh = pluginHandler.getDmHandler();
+    }
 
     /**
      * @param ep
@@ -96,18 +87,15 @@ public class PuppeterHandler {
         p.removePassenger(e);
 
         UUID playerID = p.getUniqueId();
+        Dm dm = dmh.getDm(playerID);
 
-        if (Morphedpuppeter.wasInvisible()) {
-            dmh.getDm(playerID).setInvisibility(true);
-        } else {
-            dmh.getDm(playerID).setInvisibility(false);
-        }
+        Boolean invisibleState = Morphedpuppeter.wasInvisible();
+        pluginHandler.saveInvisbility(dm, invisibleState);
+        dm.setInvisibility(invisibleState);
 
-        if (Morphedpuppeter.hadNightVision()) {
-            dmh.getDm(playerID).setNightVision(true);
-        } else {
-            dmh.getDm(playerID).setNightVision(false);
-        }
+        Boolean nightVisionState = Morphedpuppeter.hadNightVision();
+        pluginHandler.saveNightVision(dm, nightVisionState);
+        dm.setNightVision(nightVisionState);
 
         RemoveMorphPlayer(Morphedpuppeter);
     }
@@ -128,7 +116,9 @@ public class PuppeterHandler {
         ep.getInventory().setBoots(armorStandEquipement.getBoots());
 
         if (morphedpuppeter.wasInvisible()) {
-            dmh.getDm(ep.getUniqueId()).setInvisibility(true);
+            Dm dm = dmh.getDm(ep.getUniqueId());
+            pluginHandler.saveInvisbility(dm, true);
+            dm.setInvisibility(true);
         }
 
         // give item to the entity
@@ -172,7 +162,9 @@ public class PuppeterHandler {
 
         puppeter.setInvisibilityState(dmh.getDm(p.getUniqueId()).isInvisible());
         if (puppeter.wasInvisible()) {
-            dmh.getDm(p.getUniqueId()).setInvisibility(false);
+            Dm dm = dmh.getDm(p.getUniqueId());
+            pluginHandler.saveInvisbility(dm, false);
+            dm.setInvisibility(false);
         }
 
         // Set armor stand invisible incollidable and invulnerable
@@ -186,7 +178,7 @@ public class PuppeterHandler {
 
         removeEquipmentFromAS(armorStandEquipement);
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(JohnytechPlugin.getPlugin(), new Runnable() {
+        Bukkit.getScheduler().scheduleSyncDelayedTask(pluginHandler.getPlugin(), new Runnable() {
             public void run() {
                 itemInHand(p, EEitemInMainHand);
             }
@@ -397,24 +389,22 @@ public class PuppeterHandler {
     /**
      * Toggle Puppeter Mode(call by dm only)
      *
-     * @param player
+     * @param dm
      * @return
      */
-    public boolean TogglePuppeterMode(Player player, boolean verbose) {
-
-        UUID playerID = player.getUniqueId();
+    public void TogglePuppeterMode(Dm dm, boolean verbose) {
+        UUID playerID = dm.getUniqueId();
 
         if (!isPlayerPuppeter(playerID)) {
-            AddPuppeter(new Puppeter(player));
+            AddPuppeter(new Puppeter(dm.getPlayer()));
         } else if (isPlayerPuppeter(playerID)) {
             if (isPlayerMorph(playerID)) {
-                Unmorph(player);
+                Unmorph(dm.getPlayer());
             }
             RemovePuppeter(getPuppeter(playerID));
-        } else {
-            return false;
         }
-        return true;
+        dm.setPuppeterPower(!dm.havePuppeterPower());
+        pluginHandler.savePuppeterPower(dm, dm.havePuppeterPower());
     }
 
     public boolean setPuppeterMode(Player p, boolean hasPuppeterPower, boolean verbose) {
@@ -508,14 +498,14 @@ public class PuppeterHandler {
     /*
      * Get reference of the list of all morphed puppeter
      */
-    public HashMap<UUID,Puppeter> getMorphPlayers() {
+    public HashMap<UUID, Puppeter> getMorphPlayers() {
         return morphedPuppeters;
     }
 
     /*
      * Get reference of the list of all puppeters
      */
-    public HashMap<UUID,Puppeter> getPuppeters() {
+    public HashMap<UUID, Puppeter> getPuppeters() {
         return puppeters;
     }
 }

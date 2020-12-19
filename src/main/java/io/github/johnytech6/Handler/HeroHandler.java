@@ -1,37 +1,18 @@
 package io.github.johnytech6.Handler;
 
 import java.util.*;
-
-import io.github.johnytech6.JohnytechPlugin;
-import io.github.johnytech6.dm.Dm;
 import io.github.johnytech6.hero.Hero;
-import org.bukkit.plugin.Plugin;
 
 public class HeroHandler {
 
-    // ---------------------------SINGLETON
-    // IMPLEMENTATION-------------------------------------------
-    // static variable single_instance of type Singleton
-    private static HeroHandler single_instance = null;
+    private PluginHandler ph;
 
-    // private constructor restricted to this class itself
-    private HeroHandler() {
+    // map of Hero (all player by default)
+    private HashMap<UUID, Hero> heros = new HashMap<>();
+
+    public HeroHandler(PluginHandler pluginHandler){
+        ph = pluginHandler;
     }
-
-    public static HeroHandler getInstance() {
-        if (single_instance == null)
-            single_instance = new HeroHandler();
-
-        return single_instance;
-    }
-    // --------------------------------------------------------------------------------------------
-
-    private static PluginHandler ph = PluginHandler.getInstance();
-
-    private static Plugin plugin = JohnytechPlugin.getPlugin();
-
-    // amp of Hero (all player by default)
-    private HashMap<UUID, Hero> heros = new HashMap<UUID, Hero>();
 
     /*
      * Add a Hero
@@ -40,8 +21,8 @@ public class HeroHandler {
         heros.put(h.getUniqueId(), h);
         ph.addDndPlayer(h);
 
-        plugin.getConfig().set("Dnd_player.Heros." + h.getName() + ".PlayerUUID", h.getUniqueId().toString());
-        plugin.saveConfig();
+        ph.getConfig().set("Dnd_player.Heros." + h.getName() + ".PlayerUUID", h.getUniqueId().toString());
+        ph.getPlugin().saveConfig();
     }
 
     /*
@@ -51,8 +32,8 @@ public class HeroHandler {
         heros.remove(h);
         ph.removeDndPlayer(h);
 
-        plugin.getConfig().set("Dnd_player.Heros." + h.getName(), null);
-        plugin.saveConfig();
+        ph.getConfig().set("Dnd_player.Heros." + h.getName(), null);
+        ph.getPlugin().saveConfig();
     }
 
     public boolean isPlayerHero(UUID id) {
@@ -88,6 +69,7 @@ public class HeroHandler {
         while (heroEntries.hasNext()) {
             HashMap.Entry<UUID, Hero> entry = heroEntries.next();
             entry.getValue().setFrozenState(true);
+            ph.saveFrozenState(entry.getValue(), true);
         }
     }
 
@@ -99,6 +81,7 @@ public class HeroHandler {
         while (heroEntries.hasNext()) {
             HashMap.Entry<UUID, Hero> entry = heroEntries.next();
             entry.getValue().setFrozenState(false);
+            ph.saveFrozenState(entry.getValue(), false);
         }
     }
 

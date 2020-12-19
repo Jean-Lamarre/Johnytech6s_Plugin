@@ -12,7 +12,13 @@ import java.util.UUID;
 
 public class EndSession extends SubCommand {
 
-    private static DMHandler dmh = DMHandler.getInstance();
+    private PluginHandler pluginHandler;
+    private DMHandler dmh;
+
+    public EndSession(PluginHandler pluginHandler){
+        this.pluginHandler = pluginHandler;
+        dmh = pluginHandler.getDmHandler();
+    }
 
     @Override
     public String getName() {
@@ -34,7 +40,7 @@ public class EndSession extends SubCommand {
         if(sender instanceof Player) {
             UUID playerID = ((Player) sender).getUniqueId();
 
-            DndPlayer p = PluginHandler.getInstance().getDndPlayer(playerID);
+            DndPlayer p = pluginHandler.getDndPlayer(playerID);
 
             if (dmh.isPlayerDm(playerID)) {
                 if (!(dmh.isSessionStarted())) {

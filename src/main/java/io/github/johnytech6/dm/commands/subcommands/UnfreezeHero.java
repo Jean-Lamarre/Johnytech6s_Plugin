@@ -16,7 +16,13 @@ import java.util.UUID;
 
 public class UnfreezeHero extends SubCommand {
 
-    private static HeroHandler hh = HeroHandler.getInstance();
+    private PluginHandler ph;
+    private HeroHandler hh;
+
+    public UnfreezeHero(PluginHandler pluginHandler){
+        ph = pluginHandler;
+        hh = pluginHandler.getHeroHandler();
+    }
 
     @Override
     public String getName() {
@@ -38,14 +44,16 @@ public class UnfreezeHero extends SubCommand {
         if (sender instanceof Player) {
             UUID playerID = ((Player) sender).getUniqueId();
 
-            DndPlayer p = PluginHandler.getInstance().getDndPlayer(playerID);
-            //TODO
-            if (DMHandler.getInstance().isPlayerDm(p.getUniqueId()) /*&& p.hasPermission("dm.*****")*/) {
+            DndPlayer p = ph.getDndPlayer(playerID);
+
+            if (ph.getDmHandler().isPlayerDm(p.getUniqueId()) /*&& p.hasPermission("dm.*****")*/) {
                 if (args.length == 2) {
                     UUID targetUUID = hh.getHeroUUIDByName(args[1]);
 
                     if (hh.isPlayerHero(targetUUID)) {
-                        hh.getHero(targetUUID).setFrozenState(false);
+                        Hero targetHero = hh.getHero(targetUUID);
+                        targetHero.setFrozenState(false);
+                        ph.saveFrozenState(targetHero, false);
                         p.sendMessage(args[1] + " is unfrozen.");
                     } else {
                         p.sendMessage("A dm can never be frozen.");

@@ -14,7 +14,14 @@ import java.util.UUID;
 
 public class Mode_toggleDm extends SubCommand {
 
-    private static DMHandler dmh = DMHandler.getInstance();
+    private DMHandler dmh;
+
+    private PluginHandler pluginHandler;
+
+    public Mode_toggleDm(PluginHandler pluginHandler) {
+        this.pluginHandler = pluginHandler;
+        dmh = pluginHandler.getDmHandler();
+    }
 
     @Override
     public String getName() {
@@ -36,22 +43,21 @@ public class Mode_toggleDm extends SubCommand {
         if (sender instanceof Player) {
             UUID playerID = ((Player) sender).getUniqueId();
 
-            DndPlayer p = PluginHandler.getInstance().getDndPlayer(playerID);
+            DndPlayer p = pluginHandler.getDndPlayer(playerID);
 
             if (p.getPlayer().hasPermission("dm.mode")) {
+                UUID targetPlayerID;
                 if (args.length == 2) {
-                    UUID targetPlayerID = UUID.fromString(args[1]);
-
-                    dmh.ToggleDmMode(targetPlayerID, true);
-
+                    targetPlayerID = UUID.fromString(args[1]);
                     if (dmh.isPlayerDm(targetPlayerID)) {
                         p.sendMessage(args[1] + " is now DM.");
                     } else {
                         p.sendMessage(args[1] + " is now a hero.");
                     }
                 } else {
-                    dmh.ToggleDmMode(p.getUniqueId(), true);
+                    targetPlayerID = p.getUniqueId();
                 }
+                dmh.setDmMode(targetPlayerID,!(dmh.isPlayerDm(targetPlayerID)), true);
             }
         }
     }

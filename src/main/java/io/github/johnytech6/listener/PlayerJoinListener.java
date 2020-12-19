@@ -6,7 +6,6 @@ import io.github.johnytech6.OfflineDndPlayer;
 import io.github.johnytech6.Handler.PluginHandler;
 import io.github.johnytech6.dm.Dm;
 import io.github.johnytech6.hero.Hero;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,12 +13,22 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import io.github.johnytech6.Handler.HeroHandler;
 import io.github.johnytech6.Handler.DMHandler;
+import org.bukkit.plugin.Plugin;
 
 public class PlayerJoinListener implements Listener {
 
-    private static final DMHandler dmh = DMHandler.getInstance();
-    private static final HeroHandler hh = HeroHandler.getInstance();
-    private static final PluginHandler ph = PluginHandler.getInstance();
+    private DMHandler dmh;
+    private HeroHandler hh;
+
+    private PluginHandler ph;
+    private Plugin plugin;
+
+    public PlayerJoinListener(PluginHandler pluginHandler){
+        ph= pluginHandler;
+        hh= pluginHandler.getHeroHandler();
+        dmh = pluginHandler.getDmHandler();
+        plugin = pluginHandler.getPlugin();
+    }
 
     @EventHandler
     public void OnPlayerJoin(PlayerJoinEvent event) {
@@ -33,27 +42,32 @@ public class PlayerJoinListener implements Listener {
             OfflineDndPlayer offlineDndPlayer = ph.getOfflineDndPlayer(p.getUniqueId());
 
             DndPlayer dndPlayer;
-            if (offlineDndPlayer.wasDm(JohnytechPlugin.getPlugin().getConfig())) {
+            if (offlineDndPlayer.wasDm(plugin.getConfig())) {
                 dndPlayer = new Dm(p, false);
 
                 dmh.addDm((Dm) dndPlayer);
-                p.sendMessage(JohnytechPlugin.getPlugin().getConfig().getString("dm_welcome_message"));
+                p.sendMessage(plugin.getConfig().getString("dm_welcome_message"));
             } else {
                 dndPlayer = new Hero(p);
                 hh.addHero((Hero) dndPlayer);
-                p.sendMessage(JohnytechPlugin.getPlugin().getConfig().getString("hero_welcome_message"));
+                p.sendMessage(plugin.getConfig().getString("hero_welcome_message"));
             }
-            dndPlayer.loadConfig(p);
+            ph.loadPlayerConfig(dndPlayer);
+
             ph.removeOfflineDndPlayers(offlineDndPlayer);
         } else {
             if (dmh.isPlayerDm(p.getUniqueId())) { //if player DM
-                dmh.getDm(p.getUniqueId()).loadConfig(p);
-                p.sendMessage(JohnytechPlugin.getPlugin().getConfig().getString("dm_welcome_message"));
+
+                ph.loadPlayerConfig(dmh.getDm(p.getUniqueId()));
+
+                p.sendMessage(plugin.getConfig().getString("dm_welcome_message"));
             } else if (hh.isPlayerHero(p.getUniqueId())) { //if player Hero
-                hh.getHero(p.getUniqueId()).loadConfig(p);
-                p.sendMessage(JohnytechPlugin.getPlugin().getConfig().getString("hero_welcome_message"));
+
+                ph.loadPlayerConfig(hh.getHero(p.getUniqueId()));
+
+                p.sendMessage(plugin.getConfig().getString("hero_welcome_message"));
             } else { //if player never join
-                p.sendMessage(JohnytechPlugin.getPlugin().getConfig().getString("default_welcome_message"));
+                p.sendMessage(plugin.getConfig().getString("default_welcome_message"));
                 hh.addHero(new Hero(event.getPlayer()));
             }
         }

@@ -1,17 +1,10 @@
 package io.github.johnytech6.dm;
 
 import io.github.johnytech6.DndPlayer;
-import io.github.johnytech6.Handler.HeroHandler;
-import io.github.johnytech6.Handler.PuppeterHandler;
-import io.github.johnytech6.Handler.TeftHandler;
-import io.github.johnytech6.JohnytechPlugin;
 import io.github.johnytech6.hero.Hero;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -19,8 +12,8 @@ import java.util.UUID;
 
 public class Dm implements DndPlayer {
 
-    private static final Plugin plugin = JohnytechPlugin.getPlugin();
-    private static final HeroHandler hh = HeroHandler.getInstance();
+    //private static final Plugin plugin = JohnytechPlugin.getPlugin();
+    //private HeroHandler hh = HeroHandler.getInstance();
 
     private Player playerRef;
 
@@ -42,9 +35,7 @@ public class Dm implements DndPlayer {
         if (isVerbose) {
             playerRef.sendMessage("***You are now DM***");
         }
-        if (hh.isPlayerHero(playerRef.getUniqueId())) {
-            hh.removeHero(hh.getHero(playerRef.getUniqueId()));
-        }
+
         playerRef.setGameMode(GameMode.CREATIVE);
 
         isVerbose = true;
@@ -71,8 +62,6 @@ public class Dm implements DndPlayer {
             oldHero.setFrozenState(false);
         }
 
-        hh.removeHero(oldHero);
-
         playerRef.setGameMode(GameMode.CREATIVE);
 
         isVerbose = true;
@@ -89,20 +78,6 @@ public class Dm implements DndPlayer {
     }
 
     @Override
-    public void loadConfig(Player p) {
-        this.playerRef = p;
-        FileConfiguration config = plugin.getConfig();
-        isVerbose = false;
-        setCheckpoint(config.getLocation("Dnd_player.Dms." + playerRef.getName() + ".checkpoint"));
-        setChairPosition(config.getLocation("Dnd_player.Dms." + playerRef.getName() + ".chair_position"));
-        setInvisibility(config.getBoolean("Dnd_player.Dms." + playerRef.getName() + ".isInvisible"));
-        setPuppeterPower(config.getBoolean("Dnd_player.Dms." + playerRef.getName() + ".hasPuppeterPower"));
-        setTeftPower(config.getBoolean("Dnd_player.Dms." + playerRef.getName() + ".hasTeftPower"));
-        setNightVision(config.getBoolean("Dnd_player.Dms." + playerRef.getName() + ".hasNightVision"));
-        isVerbose = true;
-    }
-
-    @Override
     public void setGameMode(GameMode gameMode) {
         playerRef.setGameMode(gameMode);
     }
@@ -116,8 +91,6 @@ public class Dm implements DndPlayer {
     public void setCheckpoint(Location checkpoint) {
         if (checkpoint != null) {
             this.checkpoint = checkpoint;
-            plugin.getConfig().set("Dnd_player.Dms." + playerRef.getName() + ".checkpoint", checkpoint);
-            plugin.saveConfig();
         }
     }
 
@@ -136,8 +109,6 @@ public class Dm implements DndPlayer {
         if (chairPosition != null) {
             this.chairPosition = chairPosition;
             playerRef.sendMessage("Chair position set to : " + chairPosition.getX() + ", " + chairPosition.getY() + ", " + chairPosition.getZ());
-            plugin.getConfig().set("Dnd_player.Dms." + playerRef.getName() + ".chair_position", chairPosition);
-            plugin.saveConfig();
         }
     }
 
@@ -146,49 +117,40 @@ public class Dm implements DndPlayer {
         return chairPosition != null;
     }
 
+    @Override
+    public void updatePlayerReference(Player player) {
+        this.playerRef = player;
+    }
+
     public boolean isInvisible() {
         return isInvisible;
     }
 
-    /*
-     * Toggle Dm invisibility
-     */
-    public void invisibilityToggle() {
-        setInvisibility(!(playerRef.hasPotionEffect(PotionEffectType.INVISIBILITY)));
-    }
-
     public void setInvisibility(boolean state) {
         isInvisible = state;
-        plugin.getConfig().set("Dnd_player.Dms." + playerRef.getName() + ".isInvisible", state);
-        plugin.saveConfig();
+
         if (state) {
             playerRef.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 1, false, false, true));
             if (isVerbose) {
                 playerRef.sendMessage("You are now invisible");
             }
         } else {
-            removePotionEffect(PotionEffectType.INVISIBILITY);
+            playerRef.removePotionEffect(PotionEffectType.INVISIBILITY);
             if (isVerbose) {
                 playerRef.sendMessage("You are not invisible anymore");
             }
         }
+
+        //update state just to be sure
+        isInvisible = playerRef.hasPotionEffect(PotionEffectType.INVISIBILITY);
     }
 
     public boolean hasNightVision() {
         return hasNightVision;
     }
 
-    /**
-     * Toggle Dm night vision
-     */
-    public void nightVisionToggle() {
-        setNightVision(!(playerRef.hasPotionEffect(PotionEffectType.NIGHT_VISION)));
-    }
-
     public void setNightVision(boolean state) {
         hasNightVision = state;
-        plugin.getConfig().set("Dnd_player.Dms." + playerRef.getName() + ".hasNightVision", state);
-        plugin.saveConfig();
         if (state) {
             playerRef.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 1, false, false, true));
             if (isVerbose) {
@@ -200,29 +162,25 @@ public class Dm implements DndPlayer {
                 playerRef.sendMessage("You lost night vision");
             }
         }
+
+        //update state just to be sure
+        hasNightVision = playerRef.hasPotionEffect(PotionEffectType.NIGHT_VISION);
     }
 
-
-    public boolean hasPuppeterPower() {
+    public boolean havePuppeterPower() {
         return hasPuppeterPower;
     }
 
     public void setPuppeterPower(boolean state) {
-        PuppeterHandler.getInstance().setPuppeterMode(playerRef, state, isVerbose);
         hasPuppeterPower = state;
-        plugin.getConfig().set("Dnd_player.Dms." + playerRef.getName() + ".hasPuppeterPower", state);
-        plugin.saveConfig();
     }
 
-    public boolean hasTeftPower() {
+    public boolean haveTeftPower() {
         return hasTeftPower;
     }
 
     public void setTeftPower(boolean state) {
-        TeftHandler.getInstance().setTeftMode(playerRef, state, isVerbose);
         hasTeftPower = state;
-        plugin.getConfig().set("Dnd_player.Dms." + playerRef.getName() + ".hasTeftPower", state);
-        plugin.saveConfig();
     }
 
     public void setAllPower(boolean state) {
@@ -230,6 +188,11 @@ public class Dm implements DndPlayer {
         setNightVision(state);
         setPuppeterPower(state);
         setTeftPower(state);
+    }
+
+    @Override
+    public String getRole() throws Exception {
+        return "Dms";
     }
 
     @Override

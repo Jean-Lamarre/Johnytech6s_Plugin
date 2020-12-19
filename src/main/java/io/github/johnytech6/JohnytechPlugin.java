@@ -6,8 +6,10 @@ import io.github.johnytech6.dm.commands.GetPlayerPosition;
 import io.github.johnytech6.dm.commands.StatJohnytech;
 import io.github.johnytech6.hero.commands.HeroCommand;
 import io.github.johnytech6.listener.*;
+import io.github.johnytech6.util.PluginStat;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 //
@@ -17,49 +19,50 @@ import org.bukkit.plugin.java.JavaPlugin;
 //
 public class JohnytechPlugin extends JavaPlugin{
 	
-	private static Plugin pluginInstance;
+	private Plugin pluginInstance;
+
+	private PluginHandler pluginHandler;
+	private PluginStat pluginStat;
 
 	@Override
     public void onEnable() {
 
-		//TODO put most of stuff here in PLuginHandler
-
     	pluginInstance = this;
 
 		FileConfiguration config = getConfig();
-
 		config.options().copyDefaults(true);
 		saveConfig();
 
-		PluginHandler.getInstance().loadConfig(config);
+		pluginHandler = new PluginHandler(pluginInstance, config);
 
-    	//Register all Events
-    	getServer().getPluginManager().registerEvents(new ClickEntityListener(), this);
-    	getServer().getPluginManager().registerEvents(new PlayerToggleSneakListener(), this);
-    	getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
-    	getServer().getPluginManager().registerEvents(new PlayerInteractArmorStandArmor(), this);
-    	getServer().getPluginManager().registerEvents(new PlayerLeaveListener(), this);
-    	getServer().getPluginManager().registerEvents(new DmInteractChest(), this);
+		pluginHandler.loadOfflinePlayer(config);
 
-    	
-    	//Set all commands
-		this.getCommand("dm").setExecutor(new DmCommand());
-		this.getCommand("hero").setExecutor(new HeroCommand());
-		this.getCommand("getPlayerPosition").setExecutor(new GetPlayerPosition());
-    	this.getCommand("stat_Johnytech6Plugin").setExecutor(new StatJohnytech());
+		pluginStat = new PluginStat(pluginHandler);
 
+    	registerListener(this.getServer().getPluginManager());
+		registerCommand();
     }
     
     // Fired when plugin is disabled
     @Override
     public void onDisable() {
+		//save config?
 		getLogger().info("Johnytech6's plugin has been disabled.");
     }
 
-    public static Plugin getPlugin() {
-    	return pluginInstance;
-    }
+    private void registerListener(PluginManager pluginManager){
+		pluginManager.registerEvents(new ClickEntityListener(pluginHandler), this);
+		pluginManager.registerEvents(new PlayerToggleSneakListener(pluginHandler), this);
+		pluginManager.registerEvents(new PlayerJoinListener(pluginHandler), this);
+		pluginManager.registerEvents(new PlayerInteractArmorStandArmor(pluginHandler), this);
+		pluginManager.registerEvents(new DmInteractChest(pluginHandler), this);
+	}
 
-
+	private void registerCommand(){
+		this.getCommand("dm").setExecutor(new DmCommand(pluginHandler));
+		this.getCommand("hero").setExecutor(new HeroCommand(pluginHandler));
+		this.getCommand("getPlayerPosition").setExecutor(new GetPlayerPosition());
+		this.getCommand("stat_Johnytech6Plugin").setExecutor(new StatJohnytech(pluginStat));
+	}
 
 }

@@ -1,30 +1,29 @@
 package io.github.johnytech6.hero;
 
 import io.github.johnytech6.DndPlayer;
-import io.github.johnytech6.Handler.DMHandler;
-import io.github.johnytech6.JohnytechPlugin;
 import io.github.johnytech6.dm.Dm;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 import java.util.Objects;
 import java.util.UUID;
 
 public class Hero implements DndPlayer {
 
-    private static final Plugin plugin = JohnytechPlugin.getPlugin();
-
     private Player playerRef;
 
     private Location checkpoint;
     private Location chairPosition;
     private boolean frozenState;
+    private boolean nightVisionState;
     private boolean isVerbose;
+    private boolean isInvisible;
+    private boolean hasNightVision;
 
     /**
      * Contructor of the dnd hero with the player reference.
@@ -52,8 +51,6 @@ public class Hero implements DndPlayer {
         if (oldChairPosition != null) {
             setChairPosition(oldChairPosition);
         }
-
-        DMHandler.getInstance().removeDm(oldDm);
     }
 
     /**
@@ -68,6 +65,11 @@ public class Hero implements DndPlayer {
     @Override
     public void setVerbose(boolean state) {
         isVerbose = state;
+    }
+
+    @Override
+    public void updatePlayerReference(Player player) {
+        this.playerRef = player;
     }
 
     // Right click with saddle
@@ -88,6 +90,7 @@ public class Hero implements DndPlayer {
         if (!frozenState) {
             playerRef.setWalkSpeed(0);
             playerRef.setFlySpeed(0);
+            playerRef.setVelocity(new Vector(0,0,0));
             playerRef.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 128, false, false, true));
             playerRef.sendMessage("You cannot move anymore.");
         }
@@ -112,20 +115,10 @@ public class Hero implements DndPlayer {
             unfreezeHero();
         }
         frozenState = state;
-        plugin.getConfig().set("Dnd_player.Heros." + playerRef.getName() + ".frozen_state", frozenState);
-        plugin.saveConfig();
     }
 
     public boolean isFrozen() {
         return frozenState;
-    }
-
-    @Override
-    public void loadConfig(Player p) {
-        this.playerRef = p;
-        setCheckpoint(plugin.getConfig().getLocation("Dnd_player.Heros." + playerRef.getName() + ".checkpoint"));
-        setChairPosition(plugin.getConfig().getLocation("Dnd_player.Heros." + playerRef.getName() + ".chair_position"));
-        setFrozenState(plugin.getConfig().getBoolean("Dnd_player.Heros." + playerRef.getName() + ".frozen_state"));
     }
 
     @Override
@@ -141,8 +134,6 @@ public class Hero implements DndPlayer {
     @Override
     public void setCheckpoint(Location checkpoint) {
         this.checkpoint = checkpoint;
-        plugin.getConfig().set("Dnd_player.Heros." + playerRef.getName() + ".checkpoint", checkpoint);
-        plugin.saveConfig();
     }
 
     @Override
@@ -160,14 +151,60 @@ public class Hero implements DndPlayer {
         if (chairPosition != null) {
             this.chairPosition = chairPosition;
             playerRef.sendMessage("Chair position set to : " + chairPosition.getX() + ", " + chairPosition.getY() + ", " + chairPosition.getZ());
-            plugin.getConfig().set("Dnd_player.Heros." + playerRef.getName() + ".chair_position", chairPosition);
-            plugin.saveConfig();
         }
+    }
+
+    @Override
+    public String getRole() throws Exception {
+        return "Heros";
     }
 
     @Override
     public boolean hasChair() {
         return chairPosition != null;
+    }
+
+    @Override
+    public void setNightVision(boolean state) {
+        hasNightVision = state;
+        if (state) {
+            playerRef.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 1, false, false, true));
+            if (isVerbose) {
+                playerRef.sendMessage("You have night vision");
+            }
+        } else {
+            playerRef.removePotionEffect(PotionEffectType.NIGHT_VISION);
+            if (isVerbose) {
+                playerRef.sendMessage("You lost night vision");
+            }
+        }
+    }
+
+    @Override
+    public boolean hasNightVision() {
+        return nightVisionState;
+    }
+
+    @Override
+    public void setInvisibility(boolean state) {
+        isInvisible = state;
+
+        if (state) {
+            playerRef.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 1, false, false, true));
+            if (isVerbose) {
+                playerRef.sendMessage("You are now invisible");
+            }
+        } else {
+            removePotionEffect(PotionEffectType.INVISIBILITY);
+            if (isVerbose) {
+                playerRef.sendMessage("You are not invisible anymore");
+            }
+        }
+    }
+
+    @Override
+    public boolean isInvisible() {
+        return false;
     }
 
     @Override
@@ -218,14 +255,6 @@ public class Hero implements DndPlayer {
     @Override
     public boolean hasPotionEffect(PotionEffectType potionEffect) {
         return playerRef.hasPotionEffect(potionEffect);
-    }
-
-    public float getWalkSpeed() {
-        return playerRef.getWalkSpeed();
-    }
-
-    public void setWalkSpeed(float f) {
-        playerRef.setWalkSpeed(f);
     }
 
     public String toString(){

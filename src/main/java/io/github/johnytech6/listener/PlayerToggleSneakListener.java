@@ -1,5 +1,6 @@
 package io.github.johnytech6.listener;
 
+import io.github.johnytech6.Handler.PluginHandler;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,8 +11,13 @@ import io.github.johnytech6.Handler.PuppeterHandler;
 
 public class PlayerToggleSneakListener implements Listener {
 
-	PuppeterHandler ph = PuppeterHandler.getInstance();
-	DMHandler dmh = DMHandler.getInstance();
+	PuppeterHandler ph;
+	DMHandler dmh;
+
+	public PlayerToggleSneakListener(PluginHandler pluginHandler){
+		dmh = pluginHandler.getDmHandler();
+		ph = pluginHandler.getPuppeterHandler();
+	}
 
 	@EventHandler
 	public void OnPlayerToggleSneak(PlayerToggleSneakEvent event) {

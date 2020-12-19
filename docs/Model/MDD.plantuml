@@ -77,18 +77,20 @@ ph "1" -- "1" hh
 
 ph "1" -- "1" puh
 
-ph "1" -- "1" ses : host
+puh -- pupter
 
 ph "1" -right- "1.*" dndP : save
 ph "1" -right- "1.*" OdndP : save
 
 dndP "1" -- "1" dm : is a <
-dndP "1" -- "1" h : is a <
+dndP "1" -right- "1" h : is a <
 
 dm "1" -- "1" pupter : can be a
 
-dm  --  ses : "start"
-dm  --  ses : "end"
+ses  --  dm : start <
+ses  --  dm : end <
+
+ph "1" -right- "1" ses : host
 
 dm "1" -- "1" t : can be a
 

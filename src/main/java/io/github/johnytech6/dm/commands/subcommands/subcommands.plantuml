@@ -7,7 +7,7 @@ title __SUBCOMMANDS's Class Diagram__\n
       namespace commands {
         namespace subcommands {
           class io.github.johnytech6.dm.commands.subcommands.EndSession {
-              {static} - dmh : DMHandler
+              + EndSession()
               + getDescription()
               + getName()
               + getSubcommandArguments()
@@ -25,7 +25,7 @@ title __SUBCOMMANDS's Class Diagram__\n
       namespace commands {
         namespace subcommands {
           class io.github.johnytech6.dm.commands.subcommands.FreezeHero {
-              {static} - hh : HeroHandler
+              + FreezeHero()
               + getDescription()
               + getName()
               + getSubcommandArguments()
@@ -43,7 +43,7 @@ title __SUBCOMMANDS's Class Diagram__\n
       namespace commands {
         namespace subcommands {
           class io.github.johnytech6.dm.commands.subcommands.Invisibility_toggle {
-              {static} - dmh : DMHandler
+              + Invisibility_toggle()
               + getDescription()
               + getName()
               + getSubcommandArguments()
@@ -61,7 +61,7 @@ title __SUBCOMMANDS's Class Diagram__\n
       namespace commands {
         namespace subcommands {
           class io.github.johnytech6.dm.commands.subcommands.Mode_toggleDm {
-              {static} - dmh : DMHandler
+              + Mode_toggleDm()
               + getDescription()
               + getName()
               + getSubcommandArguments()
@@ -79,7 +79,7 @@ title __SUBCOMMANDS's Class Diagram__\n
       namespace commands {
         namespace subcommands {
           class io.github.johnytech6.dm.commands.subcommands.NightVision_toggle {
-              {static} - dmh : DMHandler
+              + NightVision_toggle()
               + getDescription()
               + getName()
               + getSubcommandArguments()
@@ -97,8 +97,8 @@ title __SUBCOMMANDS's Class Diagram__\n
       namespace commands {
         namespace subcommands {
           class io.github.johnytech6.dm.commands.subcommands.PuppeterMode_toggle {
-              {static} - dmh : DMHandler
               {static} - ph : PuppeterHandler
+              + PuppeterMode_toggle()
               + getDescription()
               + getName()
               + getSubcommandArguments()
@@ -116,6 +116,7 @@ title __SUBCOMMANDS's Class Diagram__\n
       namespace commands {
         namespace subcommands {
           class io.github.johnytech6.dm.commands.subcommands.SetChair {
+              + SetChair()
               + getDescription()
               + getName()
               + getSubcommandArguments()
@@ -133,7 +134,7 @@ title __SUBCOMMANDS's Class Diagram__\n
       namespace commands {
         namespace subcommands {
           class io.github.johnytech6.dm.commands.subcommands.StartSession {
-              {static} - dmh : DMHandler
+              + StartSession()
               + getDescription()
               + getName()
               + getSubcommandArguments()
@@ -151,8 +152,7 @@ title __SUBCOMMANDS's Class Diagram__\n
       namespace commands {
         namespace subcommands {
           class io.github.johnytech6.dm.commands.subcommands.TeftMode_toggle {
-              {static} - dmh : DMHandler
-              {static} - th : TeftHandler
+              + TeftMode_toggle()
               + getDescription()
               + getName()
               + getSubcommandArguments()
@@ -170,7 +170,7 @@ title __SUBCOMMANDS's Class Diagram__\n
       namespace commands {
         namespace subcommands {
           class io.github.johnytech6.dm.commands.subcommands.UnfreezeHero {
-              {static} - hh : HeroHandler
+              + UnfreezeHero()
               + getDescription()
               + getName()
               + getSubcommandArguments()
@@ -184,16 +184,35 @@ title __SUBCOMMANDS's Class Diagram__\n
   
 
   io.github.johnytech6.dm.commands.subcommands.EndSession -up-|> io.github.johnytech6.dm.commands.SubCommand
+  io.github.johnytech6.dm.commands.subcommands.EndSession o-- io.github.johnytech6.Handler.DMHandler : dmh
+  io.github.johnytech6.dm.commands.subcommands.EndSession o-- io.github.johnytech6.Handler.PluginHandler : pluginHandler
   io.github.johnytech6.dm.commands.subcommands.FreezeHero -up-|> io.github.johnytech6.dm.commands.SubCommand
+  io.github.johnytech6.dm.commands.subcommands.FreezeHero o-- io.github.johnytech6.Handler.DMHandler : dmh
+  io.github.johnytech6.dm.commands.subcommands.FreezeHero o-- io.github.johnytech6.Handler.HeroHandler : hh
+  io.github.johnytech6.dm.commands.subcommands.FreezeHero o-- io.github.johnytech6.Handler.PluginHandler : pluginHandler
   io.github.johnytech6.dm.commands.subcommands.Invisibility_toggle -up-|> io.github.johnytech6.dm.commands.SubCommand
+  io.github.johnytech6.dm.commands.subcommands.Invisibility_toggle o-- io.github.johnytech6.Handler.DMHandler : dmh
+  io.github.johnytech6.dm.commands.subcommands.Invisibility_toggle o-- io.github.johnytech6.Handler.PluginHandler : pluginHandler
   io.github.johnytech6.dm.commands.subcommands.Mode_toggleDm -up-|> io.github.johnytech6.dm.commands.SubCommand
+  io.github.johnytech6.dm.commands.subcommands.Mode_toggleDm o-- io.github.johnytech6.Handler.DMHandler : dmh
+  io.github.johnytech6.dm.commands.subcommands.Mode_toggleDm o-- io.github.johnytech6.Handler.PluginHandler : pluginHandler
   io.github.johnytech6.dm.commands.subcommands.NightVision_toggle -up-|> io.github.johnytech6.dm.commands.SubCommand
+  io.github.johnytech6.dm.commands.subcommands.NightVision_toggle o-- io.github.johnytech6.Handler.DMHandler : dmh
+  io.github.johnytech6.dm.commands.subcommands.NightVision_toggle o-- io.github.johnytech6.Handler.PluginHandler : pluginHandler
   io.github.johnytech6.dm.commands.subcommands.PuppeterMode_toggle -up-|> io.github.johnytech6.dm.commands.SubCommand
+  io.github.johnytech6.dm.commands.subcommands.PuppeterMode_toggle o-- io.github.johnytech6.Handler.DMHandler : dmh
+  io.github.johnytech6.dm.commands.subcommands.PuppeterMode_toggle o-- io.github.johnytech6.Handler.PluginHandler : pluginHandler
   io.github.johnytech6.dm.commands.subcommands.SetChair -up-|> io.github.johnytech6.dm.commands.SubCommand
   io.github.johnytech6.dm.commands.subcommands.SetChair o-- io.github.johnytech6.Handler.PluginHandler : ph
   io.github.johnytech6.dm.commands.subcommands.StartSession -up-|> io.github.johnytech6.dm.commands.SubCommand
+  io.github.johnytech6.dm.commands.subcommands.StartSession o-- io.github.johnytech6.Handler.DMHandler : dmh
+  io.github.johnytech6.dm.commands.subcommands.StartSession o-- io.github.johnytech6.Handler.PluginHandler : pluginHandler
   io.github.johnytech6.dm.commands.subcommands.TeftMode_toggle -up-|> io.github.johnytech6.dm.commands.SubCommand
+  io.github.johnytech6.dm.commands.subcommands.TeftMode_toggle o-- io.github.johnytech6.Handler.DMHandler : dmh
+  io.github.johnytech6.dm.commands.subcommands.TeftMode_toggle o-- io.github.johnytech6.Handler.PluginHandler : ph
   io.github.johnytech6.dm.commands.subcommands.UnfreezeHero -up-|> io.github.johnytech6.dm.commands.SubCommand
+  io.github.johnytech6.dm.commands.subcommands.UnfreezeHero o-- io.github.johnytech6.Handler.HeroHandler : hh
+  io.github.johnytech6.dm.commands.subcommands.UnfreezeHero o-- io.github.johnytech6.Handler.PluginHandler : ph
 
 
 right footer

@@ -8,7 +8,6 @@ title __COMMANDS's Class Diagram__\n
         class io.github.johnytech6.dm.commands.DmCommand {
             - subcommands : ArrayList<SubCommand>
             + DmCommand()
-            + getSubCommands()
             + onCommand()
             + onTabComplete()
         }
@@ -33,6 +32,7 @@ title __COMMANDS's Class Diagram__\n
     namespace dm {
       namespace commands {
         class io.github.johnytech6.dm.commands.StatJohnytech {
+            + StatJohnytech()
             + onCommand()
         }
       }
@@ -58,6 +58,7 @@ title __COMMANDS's Class Diagram__\n
 
   io.github.johnytech6.dm.commands.DmCommand .up.|> org.bukkit.command.TabExecutor
   io.github.johnytech6.dm.commands.DmCommand o-- io.github.johnytech6.Handler.DMHandler : dmh
+  io.github.johnytech6.dm.commands.DmCommand o-- io.github.johnytech6.Handler.HeroHandler : hh
   io.github.johnytech6.dm.commands.GetPlayerPosition .up.|> org.bukkit.command.TabExecutor
   io.github.johnytech6.dm.commands.StatJohnytech .up.|> org.bukkit.command.CommandExecutor
   io.github.johnytech6.dm.commands.StatJohnytech o-- io.github.johnytech6.Handler.PluginHandler : ph

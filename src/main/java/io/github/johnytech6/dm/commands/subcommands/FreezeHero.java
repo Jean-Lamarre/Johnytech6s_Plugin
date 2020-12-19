@@ -16,7 +16,14 @@ import java.util.UUID;
 
 public class FreezeHero extends SubCommand {
 
-    private static HeroHandler hh = HeroHandler.getInstance();
+    private PluginHandler pluginHandler;
+    private DMHandler dmh;
+    private HeroHandler hh;
+
+    public FreezeHero(PluginHandler pluginHandler){
+        hh = pluginHandler.getHeroHandler();
+        dmh= pluginHandler.getDmHandler();
+    }
 
     @Override
     public String getName() {
@@ -35,19 +42,20 @@ public class FreezeHero extends SubCommand {
 
     @Override
     public void perform(CommandSender sender, String[] args) {
-        //TODO
         if (sender instanceof Player) {
             UUID playerID = ((Player) sender).getUniqueId();
 
-            DndPlayer p = PluginHandler.getInstance().getDndPlayer(playerID);
+            DndPlayer p = pluginHandler.getDndPlayer(playerID);
 
-            if (DMHandler.getInstance().isPlayerDm(playerID) /*&& p.hasPermission("dm.*****")*/) {
+            if (dmh.isPlayerDm(playerID) /*&& p.hasPermission("dm.*****")*/) {
                 if (args.length == 2) {
 
                     UUID targetUUID = hh.getHeroUUIDByName(args[1]);
 
                     if (hh.isPlayerHero(targetUUID)) {
-                        hh.getHero(targetUUID).setFrozenState(true);
+                        Hero targetHero = hh.getHero(targetUUID);
+                        targetHero.setFrozenState(true);
+                        pluginHandler.saveFrozenState(targetHero, true);
                         p.sendMessage(args[1] + " is frozen.");
                     } else {
                         p.sendMessage("You only can freeze heros.");

@@ -15,7 +15,13 @@ import java.util.UUID;
 
 public class Invisibility_toggle extends SubCommand {
 
-    private static DMHandler dmh = DMHandler.getInstance();
+    private PluginHandler pluginHandler;
+    private DMHandler dmh;
+
+    public Invisibility_toggle(PluginHandler pluginHandler){
+        this.pluginHandler = pluginHandler;
+        dmh = pluginHandler.getDmHandler();
+    }
 
     @Override
     public String getName() {
@@ -37,7 +43,7 @@ public class Invisibility_toggle extends SubCommand {
         if (sender instanceof Player) {
             UUID playerID = ((Player) sender).getUniqueId();
 
-            DndPlayer p = PluginHandler.getInstance().getDndPlayer(playerID);
+            DndPlayer p = pluginHandler.getDndPlayer(playerID);
 
             if (dmh.isPlayerDm(playerID) /* && p.hasPermission("dm.mode.invisibility")*/) {
                 Dm targetDm;
@@ -45,14 +51,18 @@ public class Invisibility_toggle extends SubCommand {
                     UUID targetPlayerID = UUID.fromString(args[1]);
                     if (dmh.isPlayerDm(targetPlayerID)) {
                         targetDm = dmh.getDm(targetPlayerID);
-                        targetDm.invisibilityToggle();
+
+                        targetDm.setInvisibility(!targetDm.isInvisible());
+                        pluginHandler.saveInvisbility(targetDm, targetDm.isInvisible());
+
                         p.sendMessage("Invisibility state of " + args[1] + " : " + targetDm.isInvisible());
                     } else {
                         p.sendMessage("Only dm can toggle invisibilty.");
                     }
                 } else {
                     targetDm = dmh.getDm(playerID);
-                    targetDm.invisibilityToggle();
+                    targetDm.setInvisibility(!targetDm.isInvisible());
+                    pluginHandler.saveInvisbility(targetDm, targetDm.isInvisible());
                 }
             } else {
                 p.sendMessage("You need to be DM to toggle invisibility.");

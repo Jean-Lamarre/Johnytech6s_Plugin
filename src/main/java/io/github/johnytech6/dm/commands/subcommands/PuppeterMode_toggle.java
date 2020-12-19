@@ -16,8 +16,15 @@ import java.util.UUID;
 
 public class PuppeterMode_toggle extends SubCommand {
 
-    private static PuppeterHandler ph = PuppeterHandler.getInstance();
-    private static DMHandler dmh = DMHandler.getInstance();
+    private static PuppeterHandler ph;
+    private DMHandler dmh;
+    private PluginHandler pluginHandler;
+
+    public PuppeterMode_toggle(PluginHandler pluginHandler){
+        this.pluginHandler = pluginHandler;
+        dmh = pluginHandler.getDmHandler();
+        ph = pluginHandler.getPuppeterHandler();
+    }
 
     @Override
     public String getName() {
@@ -39,13 +46,13 @@ public class PuppeterMode_toggle extends SubCommand {
         if (sender instanceof Player) {
             UUID playerID = ((Player) sender).getUniqueId();
 
-            DndPlayer p = PluginHandler.getInstance().getDndPlayer(playerID);
+            DndPlayer p = pluginHandler.getDndPlayer(playerID);
 
             if (dmh.isPlayerDm(playerID) /*&& p.hasPermission("dm.mode.puppeter")*/) {
                 Dm targetDm;
                 if (args.length == 2) {
                     targetDm = dmh.getDm(UUID.fromString(args[1]));
-                    ph.TogglePuppeterMode(targetDm.getPlayer(), true);
+                    ph.TogglePuppeterMode(targetDm, true);
                     if (ph.isPlayerPuppeter(p.getUniqueId())) {
                         p.sendMessage(args[1] + " has now puppeter's power.");
                     } else {
@@ -53,9 +60,9 @@ public class PuppeterMode_toggle extends SubCommand {
                     }
                 } else {
                     targetDm = dmh.getDm(playerID);
-                    ph.TogglePuppeterMode(p.getPlayer(), true);
+                    ph.TogglePuppeterMode(targetDm, true);
                 }
-                targetDm.setPuppeterPower(!targetDm.hasPuppeterPower());
+
 
             } else {
                 p.sendMessage("You need to be DM to toggle puppeterMode.");

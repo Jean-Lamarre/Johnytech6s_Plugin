@@ -15,7 +15,13 @@ import java.util.UUID;
 
 public class NightVision_toggle extends SubCommand {
 
-    private static DMHandler dmh = DMHandler.getInstance();
+    private PluginHandler pluginHandler;
+    private DMHandler dmh;
+
+    public NightVision_toggle(PluginHandler pluginHandler){
+        this.pluginHandler = pluginHandler;
+        dmh = pluginHandler.getDmHandler();
+    }
 
     @Override
     public String getName() {
@@ -37,9 +43,9 @@ public class NightVision_toggle extends SubCommand {
         if (sender instanceof Player) {
             UUID playerID = ((Player) sender).getUniqueId();
 
-            DndPlayer p = PluginHandler.getInstance().getDndPlayer(playerID);
+            DndPlayer p = pluginHandler.getDndPlayer(playerID);
 
-            if (DMHandler.getInstance().isPlayerDm(playerID) /*&& p.hasPermission("dm.mode.vision")*/) {
+            if (dmh.isPlayerDm(playerID) /*&& p.hasPermission("dm.mode.vision")*/) {
                 Dm targetDm;
                 if (args.length == 2) {
                     targetDm = dmh.getDm(UUID.fromString(args[1]));
@@ -47,7 +53,8 @@ public class NightVision_toggle extends SubCommand {
                 } else {
                     targetDm = dmh.getDm(playerID);
                 }
-                targetDm.nightVisionToggle();
+                targetDm.setNightVision(!targetDm.hasNightVision());
+                pluginHandler.saveNightVision(targetDm, targetDm.hasNightVision());
             } else {
                 p.sendMessage("You need to be DM to toggle night vision.");
             }

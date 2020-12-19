@@ -10,7 +10,6 @@ title __HERO's Class Diagram__\n
           - frozenState : boolean
           - isVerbose : boolean
           - playerRef : Player
-          {static} - plugin : Plugin
           + Hero()
           + Hero()
           + addPotionEffect()
@@ -20,13 +19,11 @@ title __HERO's Class Diagram__\n
           + getName()
           + getPlayer()
           + getUniqueId()
-          + getWalkSpeed()
           + hasChair()
           + hasCheckpoint()
           + hasPotionEffect()
           + isFrozen()
           + isVerbose()
-          + loadConfig()
           + removePotionEffect()
           + rideHero()
           + sendMessage()
@@ -36,8 +33,8 @@ title __HERO's Class Diagram__\n
           + setFrozenState()
           + setGameMode()
           + setVerbose()
-          + setWalkSpeed()
           + teleport()
+          + toString()
           - freezeHero()
           - unfreezeHero()
       }

@@ -5,7 +5,6 @@ import io.github.johnytech6.Handler.DMHandler;
 import io.github.johnytech6.Handler.PluginHandler;
 import io.github.johnytech6.dm.Dm;
 import io.github.johnytech6.dm.commands.SubCommand;
-import io.github.johnytech6.Handler.TeftHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -16,8 +15,13 @@ import java.util.UUID;
 
 public class TeftMode_toggle extends SubCommand {
 
-    private static DMHandler dmh = DMHandler.getInstance();
-    private static TeftHandler th = TeftHandler.getInstance();
+    private PluginHandler ph;
+    private DMHandler dmh;
+
+    public TeftMode_toggle(PluginHandler pluginHandler){
+        ph= pluginHandler;
+        dmh = pluginHandler.getDmHandler();
+    }
 
     @Override
     public String getName() {
@@ -39,19 +43,21 @@ public class TeftMode_toggle extends SubCommand {
         if (sender instanceof Player) {
             UUID playerID = ((Player) sender).getUniqueId();
 
-            DndPlayer p = PluginHandler.getInstance().getDndPlayer(playerID);
+            DndPlayer p = ph.getDndPlayer(playerID);
 
             if (dmh.isPlayerDm(playerID) /* && p.hasPermission("dm.mode.teft")*/) {
                 Dm targetDm;
                 if (args.length == 2) {
                     targetDm = dmh.getDm(UUID.fromString(args[1]));
-                    th.ToggleTeftMode(targetDm.getPlayer(), true);
-                    p.sendMessage("Teft power state of " + args[1] + " : " + targetDm.hasTeftPower());
+
+                    p.sendMessage("Teft power state of " + args[1] + " : " + targetDm.haveTeftPower());
                 } else {
                     targetDm = dmh.getDm(playerID);
-                    th.ToggleTeftMode(p.getPlayer(), true);
+                    p.sendMessage("Teft power : "+ !targetDm.haveTeftPower());
                 }
-                targetDm.setTeftPower(!targetDm.hasTeftPower());
+                targetDm.setTeftPower(!targetDm.haveTeftPower());
+                ph.saveTeftPower(targetDm, targetDm.haveTeftPower());
+
             } else {
                 p.sendMessage("You need to be DM to toggle teft power.");
             }

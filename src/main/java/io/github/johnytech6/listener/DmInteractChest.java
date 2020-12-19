@@ -1,6 +1,7 @@
 package io.github.johnytech6.listener;
 
 import io.github.johnytech6.Handler.DMHandler;
+import io.github.johnytech6.Handler.PluginHandler;
 import io.github.johnytech6.JohnytechPlugin;
 import io.github.johnytech6.dm.VirtualInventory;
 import org.bukkit.Bukkit;
@@ -24,11 +25,16 @@ public class DmInteractChest implements Listener {
 
     static final String INVENTORY_TITLE = "Dm";
 
-    DMHandler dmh = DMHandler.getInstance();
+    DMHandler dmh;
 
-    Plugin plugin = JohnytechPlugin.getPlugin();
+    Plugin plugin;
 
     ArrayList<VirtualInventory> openChests = new ArrayList<VirtualInventory>();
+
+    public DmInteractChest(PluginHandler pluginHandler){
+        dmh = pluginHandler.getDmHandler();
+        plugin = pluginHandler.getPlugin();
+    }
 
     @EventHandler
     public void OnPlayerInteract(final PlayerInteractEvent event) {

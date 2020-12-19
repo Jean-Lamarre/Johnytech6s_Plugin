@@ -1,8 +1,6 @@
 package io.github.johnytech6.dm.commands.subcommands;
 
 import io.github.johnytech6.DndPlayer;
-import io.github.johnytech6.Handler.DMHandler;
-import io.github.johnytech6.Handler.HeroHandler;
 import io.github.johnytech6.Handler.PluginHandler;
 import io.github.johnytech6.dm.commands.SubCommand;
 import org.bukkit.Location;
@@ -15,7 +13,11 @@ import java.util.UUID;
 
 public class SetChair extends SubCommand {
 
-    PluginHandler ph = PluginHandler.getInstance();
+    private PluginHandler ph;
+
+    public SetChair(PluginHandler pluginHandler) {
+        ph = pluginHandler;
+    }
 
     @Override
     public String getName() {
@@ -37,7 +39,7 @@ public class SetChair extends SubCommand {
         if (sender instanceof Player) {
             UUID playerID = ((Player) sender).getUniqueId();
 
-            DndPlayer p = PluginHandler.getInstance().getDndPlayer(playerID);
+            DndPlayer p = ph.getDndPlayer(playerID);
 
             if (ph.isPlayerDndPlayer(p.getUniqueId())) {
                 DndPlayer dndP = ph.getDndPlayer(p.getUniqueId());
@@ -47,7 +49,11 @@ public class SetChair extends SubCommand {
                 } else {
                     targetLocation = p.getLocation();
                 }
+
                 dndP.setChairPosition(targetLocation);
+
+                ph.savePlayerChairPosition(p, targetLocation);
+
 
             } else {
                 p.sendMessage("You are not a DndPlayer ask Jean for help.");

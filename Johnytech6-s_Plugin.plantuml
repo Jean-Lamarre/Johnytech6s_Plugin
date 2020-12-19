@@ -41,14 +41,6 @@ title __JOHNYTECH6-S_PLUGIN's Class Diagram__\n
   
 
   namespace io.github.johnytech6 {
-    namespace Handler {
-      class io.github.johnytech6.Handler.TeftHandler {
-      }
-    }
-  }
-  
-
-  namespace io.github.johnytech6 {
     class io.github.johnytech6.JohnytechPlugin {
     }
   }
@@ -257,16 +249,6 @@ title __JOHNYTECH6-S_PLUGIN's Class Diagram__\n
   
 
   namespace io.github.johnytech6 {
-    namespace dm {
-      namespace theft {
-        class io.github.johnytech6.dm.theft.Teft {
-        }
-      }
-    }
-  }
-  
-
-  namespace io.github.johnytech6 {
     namespace hero {
       class io.github.johnytech6.hero.Hero {
       }
@@ -345,24 +327,53 @@ title __JOHNYTECH6-S_PLUGIN's Class Diagram__\n
   
 
   io.github.johnytech6.Handler.DMHandler o-- io.github.johnytech6.Handler.HeroHandler : hh
+  io.github.johnytech6.Handler.DMHandler o-- io.github.johnytech6.Handler.PluginHandler : ph
+  io.github.johnytech6.Handler.DMHandler o-- io.github.johnytech6.Handler.PuppeterHandler : pph
+  io.github.johnytech6.Handler.HeroHandler o-- io.github.johnytech6.Handler.PluginHandler : ph
+  io.github.johnytech6.Handler.PluginHandler o-- io.github.johnytech6.Handler.DMHandler : dmHandler
+  io.github.johnytech6.Handler.PluginHandler o-- io.github.johnytech6.Handler.HeroHandler : heroHandler
+  io.github.johnytech6.Handler.PluginHandler o-- io.github.johnytech6.Handler.PuppeterHandler : puppeterHandler
+  io.github.johnytech6.Handler.PuppeterHandler o-- io.github.johnytech6.Handler.DMHandler : dmh
+  io.github.johnytech6.Handler.PuppeterHandler o-- io.github.johnytech6.Handler.PluginHandler : pluginHandler
   io.github.johnytech6.JohnytechPlugin -up-|> org.bukkit.plugin.java.JavaPlugin
+  io.github.johnytech6.JohnytechPlugin o-- io.github.johnytech6.Handler.PluginHandler : pluginHandler
   io.github.johnytech6.dm.Dm .up.|> io.github.johnytech6.DndPlayer
   io.github.johnytech6.dm.commands.DmCommand .up.|> org.bukkit.command.TabExecutor
   io.github.johnytech6.dm.commands.DmCommand o-- io.github.johnytech6.Handler.DMHandler : dmh
+  io.github.johnytech6.dm.commands.DmCommand o-- io.github.johnytech6.Handler.HeroHandler : hh
   io.github.johnytech6.dm.commands.GetPlayerPosition .up.|> org.bukkit.command.TabExecutor
   io.github.johnytech6.dm.commands.StatJohnytech .up.|> org.bukkit.command.CommandExecutor
   io.github.johnytech6.dm.commands.StatJohnytech o-- io.github.johnytech6.Handler.PluginHandler : ph
   io.github.johnytech6.dm.commands.subcommands.EndSession -up-|> io.github.johnytech6.dm.commands.SubCommand
+  io.github.johnytech6.dm.commands.subcommands.EndSession o-- io.github.johnytech6.Handler.DMHandler : dmh
+  io.github.johnytech6.dm.commands.subcommands.EndSession o-- io.github.johnytech6.Handler.PluginHandler : pluginHandler
   io.github.johnytech6.dm.commands.subcommands.FreezeHero -up-|> io.github.johnytech6.dm.commands.SubCommand
+  io.github.johnytech6.dm.commands.subcommands.FreezeHero o-- io.github.johnytech6.Handler.DMHandler : dmh
+  io.github.johnytech6.dm.commands.subcommands.FreezeHero o-- io.github.johnytech6.Handler.HeroHandler : hh
+  io.github.johnytech6.dm.commands.subcommands.FreezeHero o-- io.github.johnytech6.Handler.PluginHandler : pluginHandler
   io.github.johnytech6.dm.commands.subcommands.Invisibility_toggle -up-|> io.github.johnytech6.dm.commands.SubCommand
+  io.github.johnytech6.dm.commands.subcommands.Invisibility_toggle o-- io.github.johnytech6.Handler.DMHandler : dmh
+  io.github.johnytech6.dm.commands.subcommands.Invisibility_toggle o-- io.github.johnytech6.Handler.PluginHandler : pluginHandler
   io.github.johnytech6.dm.commands.subcommands.Mode_toggleDm -up-|> io.github.johnytech6.dm.commands.SubCommand
+  io.github.johnytech6.dm.commands.subcommands.Mode_toggleDm o-- io.github.johnytech6.Handler.DMHandler : dmh
+  io.github.johnytech6.dm.commands.subcommands.Mode_toggleDm o-- io.github.johnytech6.Handler.PluginHandler : pluginHandler
   io.github.johnytech6.dm.commands.subcommands.NightVision_toggle -up-|> io.github.johnytech6.dm.commands.SubCommand
+  io.github.johnytech6.dm.commands.subcommands.NightVision_toggle o-- io.github.johnytech6.Handler.DMHandler : dmh
+  io.github.johnytech6.dm.commands.subcommands.NightVision_toggle o-- io.github.johnytech6.Handler.PluginHandler : pluginHandler
   io.github.johnytech6.dm.commands.subcommands.PuppeterMode_toggle -up-|> io.github.johnytech6.dm.commands.SubCommand
+  io.github.johnytech6.dm.commands.subcommands.PuppeterMode_toggle o-- io.github.johnytech6.Handler.DMHandler : dmh
+  io.github.johnytech6.dm.commands.subcommands.PuppeterMode_toggle o-- io.github.johnytech6.Handler.PluginHandler : pluginHandler
   io.github.johnytech6.dm.commands.subcommands.SetChair -up-|> io.github.johnytech6.dm.commands.SubCommand
   io.github.johnytech6.dm.commands.subcommands.SetChair o-- io.github.johnytech6.Handler.PluginHandler : ph
   io.github.johnytech6.dm.commands.subcommands.StartSession -up-|> io.github.johnytech6.dm.commands.SubCommand
+  io.github.johnytech6.dm.commands.subcommands.StartSession o-- io.github.johnytech6.Handler.DMHandler : dmh
+  io.github.johnytech6.dm.commands.subcommands.StartSession o-- io.github.johnytech6.Handler.PluginHandler : pluginHandler
   io.github.johnytech6.dm.commands.subcommands.TeftMode_toggle -up-|> io.github.johnytech6.dm.commands.SubCommand
+  io.github.johnytech6.dm.commands.subcommands.TeftMode_toggle o-- io.github.johnytech6.Handler.DMHandler : dmh
+  io.github.johnytech6.dm.commands.subcommands.TeftMode_toggle o-- io.github.johnytech6.Handler.PluginHandler : ph
   io.github.johnytech6.dm.commands.subcommands.UnfreezeHero -up-|> io.github.johnytech6.dm.commands.SubCommand
+  io.github.johnytech6.dm.commands.subcommands.UnfreezeHero o-- io.github.johnytech6.Handler.HeroHandler : hh
+  io.github.johnytech6.dm.commands.subcommands.UnfreezeHero o-- io.github.johnytech6.Handler.PluginHandler : ph
   io.github.johnytech6.dm.puppeter.Puppeter o-- io.github.johnytech6.dm.puppeter.Puppet : puppet
   io.github.johnytech6.hero.Hero .up.|> io.github.johnytech6.DndPlayer
   io.github.johnytech6.hero.commands.HeroCommand .up.|> org.bukkit.command.TabExecutor
@@ -373,12 +384,14 @@ title __JOHNYTECH6-S_PLUGIN's Class Diagram__\n
   io.github.johnytech6.listener.ClickEntityListener o-- io.github.johnytech6.Handler.DMHandler : dmh
   io.github.johnytech6.listener.ClickEntityListener o-- io.github.johnytech6.Handler.HeroHandler : hh
   io.github.johnytech6.listener.ClickEntityListener o-- io.github.johnytech6.Handler.PuppeterHandler : ph
-  io.github.johnytech6.listener.ClickEntityListener o-- io.github.johnytech6.Handler.TeftHandler : th
   io.github.johnytech6.listener.DmInteractChest .up.|> org.bukkit.event.Listener
   io.github.johnytech6.listener.DmInteractChest o-- io.github.johnytech6.Handler.DMHandler : dmh
   io.github.johnytech6.listener.PlayerInteractArmorStandArmor .up.|> org.bukkit.event.Listener
   io.github.johnytech6.listener.PlayerInteractArmorStandArmor o-- io.github.johnytech6.Handler.PuppeterHandler : ph
   io.github.johnytech6.listener.PlayerJoinListener .up.|> org.bukkit.event.Listener
+  io.github.johnytech6.listener.PlayerJoinListener o-- io.github.johnytech6.Handler.DMHandler : dmh
+  io.github.johnytech6.listener.PlayerJoinListener o-- io.github.johnytech6.Handler.HeroHandler : hh
+  io.github.johnytech6.listener.PlayerJoinListener o-- io.github.johnytech6.Handler.PluginHandler : ph
   io.github.johnytech6.listener.PlayerLeaveListener .up.|> org.bukkit.event.Listener
   io.github.johnytech6.listener.PlayerToggleSneakListener .up.|> org.bukkit.event.Listener
   io.github.johnytech6.listener.PlayerToggleSneakListener o-- io.github.johnytech6.Handler.DMHandler : dmh

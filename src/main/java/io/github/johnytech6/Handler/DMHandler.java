@@ -7,46 +7,26 @@ import io.github.johnytech6.dm.Dm;
 import io.github.johnytech6.hero.Hero;
 import io.github.johnytech6.JohnytechPlugin;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 
 public class DMHandler {
 
-    HeroHandler hh = HeroHandler.getInstance();
-
-    // ---------------------------SINGLETON-IMPLEMENTATION-------------------------------------------
-    // static variable single_instance of type Singleton
-    private static DMHandler single_instance = null;
-
-    // private constructor restricted to this class itself
-    private DMHandler() {
-    }
-
-    public static DMHandler getInstance() {
-        if (single_instance == null)
-            single_instance = new DMHandler();
-
-        return single_instance;
-    }
-    // --------------------------------------------------------------------------------------------
-
-    private static PluginHandler ph = PluginHandler.getInstance();
-    private static PuppeterHandler pph = PuppeterHandler.getInstance();
-    private static TeftHandler th = TeftHandler.getInstance();
-
-    private Plugin plugin = JohnytechPlugin.getPlugin();
+    private HeroHandler hh;
+    private PluginHandler ph;
+    private PuppeterHandler pph;
 
     // list of Dm
-    private HashMap<UUID, Dm> dms = new HashMap<UUID, Dm>();
+    private HashMap<UUID, Dm> dms = new HashMap<>();
 
     private boolean isSessionStarted = false;
 
-    /*
-     * Toggle Dm mode
-     */
-    public boolean ToggleDmMode(UUID id, boolean verbose) {
-        return setDmMode(id, !(isPlayerDm(id)), verbose);
+    public DMHandler(PluginHandler pluginHandler) {
+        ph = pluginHandler;
+        hh = pluginHandler.getHeroHandler();
+        pph = pluginHandler.getPuppeterHandler();
     }
 
     public boolean setDmMode(UUID id, boolean beDm, boolean verbose) {
@@ -55,11 +35,18 @@ public class DMHandler {
         if (beDm) {
             Dm newDm;
             if (hh.isPlayerHero(p.getUniqueId())) {
-                newDm = new Dm(hh.getHero(p.getUniqueId()), verbose);
+                Hero oldHero = hh.getHero(p.getUniqueId());
+                newDm = new Dm(oldHero, verbose);
+                hh.removeHero(oldHero);
             } else {
+                if (hh.isPlayerHero(p.getUniqueId())) {
+                    hh.removeHero(hh.getHero(p.getUniqueId()));
+                }
                 newDm = new Dm(p, verbose);
             }
             newDm.setAllPower(true);
+            ph.saveAllDmPower(newDm, true);
+
             addDm(newDm);
         } else {
             Dm dm = getDm(id);
@@ -67,8 +54,12 @@ public class DMHandler {
                 p.sendMessage("***You are not the DM anymore***");
             }
             dm.setAllPower(false);
-            removeDm(getDm(id));
-            hh.addHero(new Hero(dm));
+            ph.saveAllDmPower(dm, false);
+            removeDm(dm);
+
+            Hero newHero = new Hero(dm);
+            hh.addHero(newHero);
+            newHero.getPlayer().setGameMode(GameMode.ADVENTURE);
         }
         return true;
     }
@@ -81,9 +72,8 @@ public class DMHandler {
         dms.put(newDm.getUniqueId(), newDm);
         ph.addDndPlayer(newDm);
 
-        plugin.getConfig().set("Dnd_player.Dms." + newDm.getName() + ".PlayerUUID", newDm.getUniqueId().toString());
-        plugin.saveConfig();
-
+        ph.getConfig().set("Dnd_player.Dms." + newDm.getName() + ".PlayerUUID", newDm.getUniqueId().toString());
+        ph.getPlugin().saveConfig();
     }
 
     /*
@@ -93,9 +83,8 @@ public class DMHandler {
 
         dms.remove(dm.getUniqueId());
         ph.removeDndPlayer(dm);
-        plugin.getConfig().set("Dnd_player.Dms." + dm.getName(), null);
-        plugin.saveConfig();
-
+        ph.getConfig().set("Dnd_player.Dms." + dm.getName(), null);
+        ph.getPlugin().saveConfig();
     }
 
     public boolean isPlayerDm(UUID id) {
@@ -119,7 +108,7 @@ public class DMHandler {
     /*
      * Get reference of the map of all the dms
      */
-    public HashMap<UUID,Dm> getDms() {
+    public HashMap<UUID, Dm> getDms() {
         return dms;
     }
 
@@ -130,7 +119,7 @@ public class DMHandler {
     public void startSession(Dm dmSender) {
         isSessionStarted = true;
 
-        HashMap<UUID, DndPlayer> dndPlayers = PluginHandler.getInstance().getDndPlayers();
+        HashMap<UUID, DndPlayer> dndPlayers = ph.getDndPlayers();
 
         //teleport if had checkpoint
         if (dmSender.hasCheckpoint()) {
@@ -148,7 +137,11 @@ public class DMHandler {
                 DndPlayer dndP = entry.getValue();
 
                 if (!(dndP.hasChair())) {
+
                     dndP.setChairPosition(dndP.getLocation());
+
+                    ph.savePlayerChairPosition(dndP, dndP.getLocation());
+
                     dndP.sendMessage("Chair location saved");
                 }
 
@@ -171,7 +164,11 @@ public class DMHandler {
 
                 dndP.sendTitle("Minecraft DnD", "The adventure may begin...", 10, 70, 20);
                 if (!(dndP.hasChair())) {
+
                     dndP.setChairPosition(dndP.getLocation());
+
+                    ph.savePlayerChairPosition(dndP, dndP.getLocation());
+
                 }
             }
         }
@@ -181,7 +178,7 @@ public class DMHandler {
     }
 
     public void endSession(Dm dmSender) {
-        HashMap<UUID, DndPlayer> dndPlayers = PluginHandler.getInstance().getDndPlayers();
+        HashMap<UUID, DndPlayer> dndPlayers = ph.getDndPlayers();
 
         Iterator<Map.Entry<UUID, DndPlayer>> allDndPlayer = dndPlayers.entrySet().iterator();
         while (allDndPlayer.hasNext()) {
@@ -189,7 +186,9 @@ public class DMHandler {
 
             DndPlayer dndP = entry.getValue();
 
+            ph.savePlayerCheckpoint(dndP, dndP.getLocation());
             dndP.setCheckpoint(dndP.getLocation());
+
             if (dndP.hasChair()) {
                 dndP.teleport(dndP.getChairPosition());
             }
