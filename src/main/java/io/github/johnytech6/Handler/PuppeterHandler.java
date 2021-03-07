@@ -333,6 +333,12 @@ public class PuppeterHandler {
      */
     public void Morph(Player p, Entity e) {
 
+        if(!(e instanceof LivingEntity) && !(e instanceof ArmorStand)){
+
+            p.sendMessage("This " + e.getType().toString() + " is not morphable");
+            return;
+        }
+
         Puppeter puppeter = getPuppeter(p.getUniqueId());
         puppeter.setPuppet(new Puppet(e));
         Puppet pu = puppeter.getPuppet();
@@ -346,7 +352,7 @@ public class PuppeterHandler {
         puppeter.setInvisibilityState(dmh.getDm(p.getUniqueId()).isInvisible());
         puppeter.setNightVisionState(dmh.getDm(p.getUniqueId()).hasNightVision());
 
-        // make entity invincible, silent and invisible
+        // make entity invinsible, silent and invisible
         ((LivingEntity) e)
                 .addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 10, false, false));
         e.setInvulnerable(true);
@@ -412,8 +418,6 @@ public class PuppeterHandler {
             if (isPlayerMorph(p.getUniqueId())) {
                 Unmorph(p);
             }
-
-            Bukkit.broadcastMessage(puppeters.values().toString());
 
             RemovePuppeter(getPuppeter(p.getUniqueId()));
             if (verbose) {
