@@ -210,4 +210,16 @@ public class DMHandler {
         isSessionStarted = false;
         dmSender.sendMessage("Session ended");
     }
+
+    public void sendAllDMessage(String message) {
+
+        Iterator<Map.Entry<UUID, Dm>> allDmPlayer = dms.entrySet().iterator();
+
+        while (allDmPlayer.hasNext()) {
+            HashMap.Entry<UUID, Dm> entry = allDmPlayer.next();
+
+            entry.getValue().sendMessage(message);
+        }
+    }
+
 }

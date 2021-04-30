@@ -47,9 +47,5 @@ public class PlayerRespawnListener implements Listener {
 				}
 			}
 		}, 1L);
-
-
-
-
 	}
 }

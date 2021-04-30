@@ -243,5 +243,13 @@ public class PluginHandler {
     }
 
 
-
+    public boolean teleportPlayerToCheckpoint(DndPlayer p) {
+        if(p.hasCheckpoint()){
+            p.teleport(p.getCheckpoint());
+            return true;
+        }else{
+            p.sendMessage("You don't have a checkpoint ask admin or dm for tp.");
+            return false;
+        }
+    }
 }

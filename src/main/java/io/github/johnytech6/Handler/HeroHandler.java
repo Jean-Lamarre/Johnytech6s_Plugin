@@ -1,7 +1,11 @@
 package io.github.johnytech6.Handler;
 
 import java.util.*;
+
+import io.github.johnytech6.dm.commands.StatJohnytech;
 import io.github.johnytech6.hero.Hero;
+import io.github.johnytech6.util.PluginStat;
+import org.bukkit.Bukkit;
 
 public class HeroHandler {
 
@@ -29,7 +33,7 @@ public class HeroHandler {
      * Remove Hero
      */
     public void removeHero(Hero h) {
-        heros.remove(h);
+        heros.remove(h.getUniqueId());
         ph.removeDndPlayer(h);
 
         ph.getConfig().set("Dnd_player.Heros." + h.getName(), null);
