@@ -56,6 +56,7 @@ public class JohnytechPlugin extends JavaPlugin{
 		pluginManager.registerEvents(new PlayerJoinListener(pluginHandler), this);
 		pluginManager.registerEvents(new PlayerInteractArmorStandArmor(pluginHandler), this);
 		pluginManager.registerEvents(new DmInteractChest(pluginHandler), this);
+		pluginManager.registerEvents(new PlayerRespawnListener(pluginHandler), this);
 	}
 
 	private void registerCommand(){
